@@ -2914,6 +2914,9 @@ let cur = null, HERO = 700, mobile = false, stopsY = [], ticking = false;
 
 function build(page){
   $('#exp').classList.toggle('is-h', !!page.horizontal);
+  // 앞 여행이 남긴 크기·위치(세로 높이, 가로 폭, 이동값)를 먼저 깨끗이 지워요.
+  // (남아 있으면 줌 여행의 화면이 수만 px 높이로 늘어나 내용이 화면 밖으로 밀려나요)
+  $('#track').removeAttribute('style'); $('#hspacer').style.height = '0px';
   $('#exp').classList.toggle('is-z', !!page.zoom);
   if (page.zoom){ $('#hspacer').style.height='0px'; return buildZ(page); }
   if (page.horizontal) return buildH(page);
