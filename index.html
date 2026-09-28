@@ -2296,13 +2296,16 @@ function renderZ(P){
 function updateZ(){
   Z.goal = scrollY / Z.STEP;
   if (Z.pos == null || RMZ()) { Z.pos = Z.goal; renderZ(Z.pos); return; }
-  if (!Z.anim) Z.anim = requestAnimationFrame(zTick);
+  if (!Z.anim){ Z.lastT = performance.now() - 16.7; Z.anim = requestAnimationFrame(zTick); }
 }
 const RMZ = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
 function zTick(){
   Z.anim = 0; if (!cur || !cur.zoom) return;
   const d = Z.goal - Z.pos;
-  Z.pos = Math.abs(d) < 0.0008 ? Z.goal : Z.pos + d*(Math.abs(d) > 1.5 ? 0.22 : 0.12);
+  // 화면이 느리게 그려지는 기기(초당 프레임이 적은 휴대폰 등)에서도 같은 시간 안에 따라붙도록, 지난 시간만큼 움직여요
+  const now = performance.now(), dt = Math.min(250, now - (Z.lastT || now - 16.7)); Z.lastT = now;
+  const k = 1 - Math.pow(1 - (Math.abs(d) > 1.5 ? 0.22 : 0.12), dt/16.7);
+  Z.pos = Math.abs(d) < 0.0008 ? Z.goal : Z.pos + d*k;
   renderZ(Z.pos);
   if (Z.pos !== Z.goal) Z.anim = requestAnimationFrame(zTick);
 }
