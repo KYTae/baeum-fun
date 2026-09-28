@@ -1,0 +1,658 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>배움 운동장 | 배움.fun</title>
+<meta name="description" content="지금 접속한 사람들의 커서가 한곳에 모이는 넓은 운동장이에요. 같이 퀴즈를 풀고, 피아노와 종을 치고, 한반도 지도에 모여요.">
+<meta property="og:type" content="website"><meta property="og:site_name" content="배움.fun">
+<meta property="og:title" content="배움 운동장 | 배움.fun">
+<meta property="og:description" content="지금 접속한 사람들의 커서가 한곳에 모여요. 같이 퀴즈 풀고, 피아노 치고, 한반도 지도에 모여요.">
+<meta property="og:url" content="https://fun.equald.kr/camp/"><meta property="og:image" content="https://fun.equald.kr/og-image.png">
+<meta name="twitter:card" content="summary_large_image"><meta name="theme-color" content="#7CC06A">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Gowun+Dodum&family=Noto+Sans+KR:wght@500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{--display:"Black Han Sans","Noto Sans KR",sans-serif;--ui:"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;--body:"Gowun Dodum","Noto Sans KR",sans-serif;--ink:#1D1B3A;box-sizing:border-box}
+*,*::before,*::after{box-sizing:inherit}
+html,body{margin:0;height:100%;overflow:hidden;background:#79B95C;font-family:var(--body);color:var(--ink);-webkit-font-smoothing:antialiased;touch-action:none;overscroll-behavior:none}
+#view{position:fixed;inset:0;overflow:hidden}
+#world{position:absolute;left:0;top:0;width:3200px;height:2000px;transform-origin:0 0;cursor:none;user-select:none;-webkit-user-select:none;will-change:transform}
+#view.drag #world{cursor:grabbing}
+.layer{position:absolute;inset:0;pointer-events:none}
+svg{display:block}
+/* 표지판 */
+.sign{position:absolute;transform:translate(-50%,-100%);pointer-events:none;display:flex;flex-direction:column;align-items:center}
+.sign .board{background:#FFF8E6;border:5px solid #8B5A2B;border-radius:16px;padding:8px 18px 9px;text-align:center;box-shadow:0 5px 0 rgba(0,0,0,.18)}
+.sign .t{font-family:var(--display);font-size:34px;line-height:1.1;color:#4A2E14;white-space:nowrap}
+.sign .d{font-family:var(--ui);font-weight:700;font-size:17px;color:#7A5A3A;margin-top:3px;white-space:nowrap}
+.sign .post{width:12px;height:34px;background:#8B5A2B;border-radius:0 0 4px 4px}
+.tree{position:absolute;transform-origin:50% 100%;animation:sway 6s ease-in-out infinite}
+@keyframes sway{0%,100%{transform:rotate(-1.4deg)}50%{transform:rotate(1.4deg)}}
+.flame{transform-box:fill-box;transform-origin:50% 100%;animation:flick .35s ease-in-out infinite alternate}
+.flame.b{animation-duration:.5s}.flame.c{animation-duration:.27s}
+@keyframes flick{from{transform:scale(1,1)}to{transform:scale(.88,1.14)}}
+.wave{animation:wave 7s ease-in-out infinite}.wave.b{animation-delay:-2.3s}.wave.c{animation-delay:-4.6s}
+@keyframes wave{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+.foam{animation:foam 7s ease-in-out infinite}
+@keyframes foam{0%,100%{opacity:.5;transform:translateY(0)}50%{opacity:1;transform:translateY(-18px)}}
+.flow{stroke-dasharray:18 26;animation:flow 1.6s linear infinite}
+@keyframes flow{to{stroke-dashoffset:-44}}
+.key{transition:fill .08s}.key.on{fill:var(--kc,#FFD84D)!important}
+.bellG{transform-box:fill-box;transform-origin:50% 0}
+.bellG.ring{animation:ring 1.2s ease-out}
+@keyframes ring{0%{transform:rotate(0)}15%{transform:rotate(14deg)}35%{transform:rotate(-10deg)}55%{transform:rotate(6deg)}75%{transform:rotate(-3deg)}100%{transform:rotate(0)}}
+.balloon{position:absolute;width:84px;height:118px;transition:opacity .2s}
+.balloon.pop{opacity:0}
+.portal{position:absolute;width:110px;height:150px;transform:translateX(-50%)}
+.portal .ring{position:absolute;left:5px;top:0;width:100px;height:100px;border-radius:50%;border:8px solid #fff;box-shadow:0 0 0 4px rgba(0,0,0,.12), inset 0 0 20px rgba(255,255,255,.6);overflow:hidden}
+.portal .ring svg{width:100%;height:100%}
+.portal .lb{position:absolute;left:50%;top:108px;transform:translateX(-50%);background:#fff;border-radius:10px;padding:3px 9px;font-family:var(--ui);font-weight:900;font-size:15px;white-space:nowrap;box-shadow:0 2px 0 rgba(0,0,0,.15)}
+.portal.hot .ring{animation:spin 1.4s linear infinite;border-color:#FFD84D}
+@keyframes spin{to{transform:rotate(360deg)}}
+#mapTip{position:absolute;padding:6px 14px;border-radius:12px;background:#fff;font-family:var(--ui);font-weight:900;font-size:22px;pointer-events:none;white-space:nowrap;transform:translate(-50%,-160%);box-shadow:0 3px 10px rgba(0,0,0,.2);display:none}
+/* 퀴즈 */
+#quizBoard{position:absolute;left:1180px;top:110px;width:840px;height:170px;border-radius:24px;background:#28493A;color:#fff;border:10px solid #8B5A2B;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:6px 26px;box-shadow:0 8px 0 rgba(0,0,0,.2)}
+#quizBoard .qn{font-family:var(--ui);font-weight:900;font-size:21px;color:#FFE27A}
+#quizBoard .qq{font-family:var(--ui);font-weight:900;font-size:34px;line-height:1.25;margin:4px 0}
+#quizBoard .qa{font-family:var(--ui);font-weight:500;font-size:21px;color:#DFF3E4}
+.oxZone{position:absolute;top:330px;width:330px;height:240px;border-radius:32px;border:7px dashed rgba(255,255,255,.9);display:flex;align-items:center;justify-content:center;font-family:var(--display);font-size:140px;color:#fff;transition:transform .3s, box-shadow .3s;text-shadow:0 4px 0 rgba(0,0,0,.15)}
+#zoneO{left:1250px;background:rgba(51,85,255,.4)}#zoneX{left:1620px;background:rgba(216,69,43,.4)}
+.oxZone.win{transform:scale(1.06);box-shadow:0 0 0 12px #FFD84D}
+.oxZone .cnt{position:absolute;bottom:12px;font-family:var(--ui);font-weight:900;font-size:24px;text-shadow:none}
+/* 오늘의 상식 */
+#fact{position:absolute;left:2170px;top:110px;width:500px;min-height:200px;background:#FFF8E6;border:8px solid #8B5A2B;border-radius:22px;padding:18px 24px;box-shadow:0 8px 0 rgba(0,0,0,.18)}
+#fact .h{font-family:var(--display);font-size:30px;color:#C8356E}
+#fact .q{font-family:var(--ui);font-weight:900;font-size:26px;margin:6px 0 4px}
+#fact .a{font-family:var(--ui);font-weight:500;font-size:20px;line-height:1.5;color:#4A4870}
+/* 커서 */
+.cur{position:absolute;left:0;top:0;pointer-events:none;will-change:transform}
+.cur svg{width:36px;height:40px;filter:drop-shadow(0 2px 2px rgba(0,0,0,.3))}
+.cur .nm{position:absolute;left:26px;top:30px;padding:3px 10px;border-radius:10px;font-family:var(--ui);font-weight:900;font-size:17px;color:#fff;white-space:nowrap;box-shadow:0 2px 0 rgba(0,0,0,.2)}
+.cur .emo{position:absolute;left:18px;top:-56px;font-size:44px;animation:emo 2.2s ease-out forwards}
+@keyframes emo{0%{transform:translateY(12px) scale(.3);opacity:0}15%{transform:translateY(0) scale(1.15);opacity:1}80%{opacity:1}100%{transform:translateY(-30px);opacity:0}}
+.me .nm{outline:3px solid #fff}
+/* 화면 위 단추 */
+.ui{position:fixed;z-index:10;font-family:var(--ui);font-weight:700}
+#back{left:max(12px,env(safe-area-inset-left));top:calc(env(safe-area-inset-top,0px) + 12px);background:#fff;color:var(--ink);border-radius:999px;padding:11px 18px;text-decoration:none;font-size:16px;box-shadow:0 3px 0 var(--ink)}
+#snd{right:max(12px,env(safe-area-inset-right));top:calc(env(safe-area-inset-top,0px) + 12px);background:#fff;color:var(--ink);border:0;border-radius:999px;padding:11px 18px;font:inherit;font-size:16px;box-shadow:0 3px 0 var(--ink);cursor:pointer}
+#snd.on{background:#FFD84D}
+#bar{left:50%;transform:translateX(-50%);bottom:calc(env(safe-area-inset-bottom,0px) + 14px);display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.96);border-radius:999px;padding:8px 10px 8px 16px;box-shadow:0 6px 20px rgba(0,0,0,.2)}
+#bar .who{font-size:15px;white-space:nowrap;display:flex;align-items:center;gap:6px}
+#bar .dot{width:13px;height:13px;border-radius:50%}
+#bar .sep{width:1px;height:26px;background:#DDD}
+#bar button{border:0;background:#F3F0FF;border-radius:50%;width:44px;height:44px;font-size:23px;cursor:pointer;line-height:1}
+#bar button:active{transform:scale(.9)}
+#online{font-size:14px;color:#3355FF;white-space:nowrap;line-height:1.25;text-align:left}
+#online small{display:block;color:#8A88A8;font-weight:500;font-size:12px}
+#mini{right:max(12px,env(safe-area-inset-right));bottom:calc(env(safe-area-inset-bottom,0px) + 14px);width:224px;height:140px;border-radius:14px;background:#fff;padding:4px;box-shadow:0 6px 20px rgba(0,0,0,.2);cursor:pointer}
+#mini canvas{width:216px;height:132px;border-radius:10px;display:block}
+#hint{left:max(12px,env(safe-area-inset-left));bottom:calc(env(safe-area-inset-bottom,0px) + 14px);background:rgba(29,27,58,.82);color:#fff;border-radius:14px;padding:10px 14px;font-size:14px;font-weight:500;line-height:1.55;max-width:250px}
+#toast{left:50%;top:calc(env(safe-area-inset-top,0px) + 70px);transform:translateX(-50%);background:rgba(29,27,58,.88);color:#fff;border-radius:999px;padding:10px 18px;font-size:16px;opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap}
+#toast.show{opacity:1}
+#intro{position:fixed;inset:0;z-index:20;display:flex;align-items:center;justify-content:center;background:rgba(29,27,58,.55);padding:20px}
+#intro .card{background:#fff;border-radius:26px;padding:30px 28px;max-width:460px;text-align:center;box-shadow:0 20px 50px rgba(0,0,0,.3)}
+#intro h1{font-family:var(--display);font-weight:400;font-size:52px;margin:0 0 6px}
+#intro p{margin:6px 0;font-size:18px;line-height:1.6}
+#intro .me2{display:inline-flex;align-items:center;gap:8px;margin:14px 0 4px;padding:9px 16px;border-radius:999px;background:#F3F0FF;font-family:var(--ui);font-weight:900;font-size:18px}
+#intro ul{text-align:left;margin:12px auto 0;padding-left:22px;font-size:15px;line-height:1.7;color:#4A4870;max-width:360px}
+#intro button{margin-top:18px;border:0;background:#3355FF;color:#fff;font-family:var(--ui);font-weight:900;font-size:20px;padding:15px 38px;border-radius:999px;cursor:pointer;box-shadow:0 4px 0 #1D1B3A}
+#intro small{display:block;margin-top:14px;color:#8A88A8;font-size:13px}
+@media (max-width:720px){#hint{display:none}#mini{width:136px;height:88px;bottom:calc(env(safe-area-inset-bottom,0px) + 84px)}#mini canvas{width:128px;height:80px}#bar{padding:6px 8px 6px 12px;gap:5px}#bar button{width:36px;height:36px;font-size:19px}#bar .who .nmTxt{display:none}#online small{display:none}}
+@media (prefers-reduced-motion: reduce){.tree,.flame,.wave,.foam,.flow{animation:none}}
+</style>
+</head>
+<body>
+<div id="view"><div id="world">
+  <svg class="layer" viewBox="0 0 3200 2000" aria-hidden="true">
+    <defs>
+      <pattern id="grass" width="60" height="60" patternUnits="userSpaceOnUse"><rect width="60" height="60" fill="#8CCB6E"/><path d="M8 44 l3 -9 l3 9 M38 20 l3 -9 l3 9 M44 52 l2 -6 l2 6" stroke="#77B85A" stroke-width="2.5" fill="none"/><circle cx="24" cy="10" r="2" fill="#9ED783"/></pattern>
+      <radialGradient id="fireLight"><stop offset="0" stop-color="#FFD27A" stop-opacity=".6"/><stop offset="1" stop-color="#FFD27A" stop-opacity="0"/></radialGradient>
+      <linearGradient id="seaG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5CC8EE"/><stop offset="1" stop-color="#155A96"/></linearGradient>
+      <radialGradient id="plaza"><stop offset="0" stop-color="#F2E6C8"/><stop offset="1" stop-color="#E2CFA0"/></radialGradient>
+    </defs>
+    <rect width="3200" height="2000" fill="url(#grass)"/>
+    <!-- 길 -->
+    <g stroke="#E8D6A8" fill="none" stroke-linecap="round" opacity=".95">
+      <path d="M0 1010 C 400 960, 800 1060, 1200 1000 S 2000 950, 2400 1010 S 2900 1060, 3200 990" stroke-width="70"/>
+      <path d="M1600 600 C 1580 760, 1620 880, 1600 1000 S 1580 1300, 1600 1600" stroke-width="60"/>
+      <path d="M1600 1000 C 2000 900, 2300 820, 2440 820" stroke-width="44"/>
+      <path d="M1600 1000 C 1300 1100, 900 1200, 700 1230" stroke-width="44"/>
+    </g>
+    <circle cx="1600" cy="1000" r="170" fill="url(#plaza)" stroke="#D2BC88" stroke-width="6"/>
+    <!-- 시냇물 -->
+    <path id="stream" d="M1230 0 C 1180 200, 1260 420, 1160 640 S 1120 980, 1040 1200 S 940 1540, 980 1760" stroke="#6FC8F0" stroke-width="70" fill="none" stroke-linecap="round"/>
+    <path d="M1230 0 C 1180 200, 1260 420, 1160 640 S 1120 980, 1040 1200 S 940 1540, 980 1760" stroke="#fff" stroke-width="6" fill="none" class="flow" opacity=".7"/>
+    <!-- 다리 -->
+    <g transform="translate(1085 1010) rotate(-8)"><rect x="-80" y="-44" width="160" height="88" rx="10" fill="#B8864E"/><g stroke="#8B5A2B" stroke-width="5">
+      <line x1="-60" y1="-44" x2="-60" y2="44"/><line x1="-30" y1="-44" x2="-30" y2="44"/><line x1="0" y1="-44" x2="0" y2="44"/><line x1="30" y1="-44" x2="30" y2="44"/><line x1="60" y1="-44" x2="60" y2="44"/></g>
+      <rect x="-84" y="-52" width="168" height="10" rx="5" fill="#8B5A2B"/><rect x="-84" y="42" width="168" height="10" rx="5" fill="#8B5A2B"/></g>
+    <!-- 꽃과 돌 -->
+    <g id="flowers"></g>
+    <!-- 모래사장과 바다 -->
+    <path d="M0 1640 C 400 1600, 800 1660, 1240 1620 S 2200 1600, 3200 1630 V2000 H0z" fill="#F2DDA4"/>
+    <g>
+      <path class="wave" d="M0 1740 C 320 1710, 640 1770, 1000 1735 S 1720 1710, 2120 1745 S 2840 1715, 3200 1740 V2000 H0z" fill="url(#seaG)"/>
+      <path class="foam" d="M0 1738 C 320 1708, 640 1768, 1000 1733 S 1720 1708, 2120 1743 S 2840 1713, 3200 1738" stroke="#fff" stroke-width="10" fill="none" stroke-linecap="round"/>
+      <path class="wave b" d="M0 1830 C 400 1800, 760 1860, 1200 1820 S 2000 1800, 2500 1835 S 3000 1810, 3200 1825 V2000 H0z" fill="#2C8FCB" opacity=".75"/>
+      <path class="wave c" d="M0 1920 C 440 1895, 840 1950, 1280 1915 S 2120 1895, 2600 1925 S 3040 1905, 3200 1915 V2000 H0z" fill="#1A6AA6" opacity=".7"/>
+    </g>
+    <!-- 부두 -->
+    <g transform="translate(2180 1600)"><rect x="0" y="0" width="90" height="300" fill="#B8864E"/>
+      <g fill="#8B5A2B"><rect x="-8" y="60" width="12" height="260"/><rect x="86" y="60" width="12" height="260"/></g></g>
+    <!-- 모닥불 -->
+    <circle id="fireGlow" cx="650" cy="1260" r="220" fill="url(#fireLight)"/>
+    <g fill="#8B5A2B"><rect x="480" y="1320" width="100" height="26" rx="13"/><rect x="720" y="1320" width="100" height="26" rx="13"/><rect x="600" y="1380" width="100" height="26" rx="13"/><rect x="600" y="1140" width="100" height="26" rx="13"/></g>
+    <g id="fire" transform="translate(650 1270)">
+      <g stroke="#6E4A2E" stroke-width="16" stroke-linecap="round"><line x1="-46" y1="16" x2="46" y2="-8"/><line x1="-46" y1="-8" x2="46" y2="16"/></g>
+      <g class="flame"><path d="M0 -96 C 38 -54, 40 -14, 0 8 C -40 -14, -36 -54, 0 -96z" fill="#FF7A2A"/></g>
+      <g class="flame b"><path d="M-18 -60 C 6 -36, 8 -8, -16 8 C -40 -6, -38 -36, -18 -60z" fill="#FF9A3A"/></g>
+      <g class="flame c"><path d="M6 -62 C 24 -38, 22 -8, 3 6 C -16 -8, -11 -38, 6 -62z" fill="#FFD84D"/></g>
+    </g>
+    <!-- 광장 분수 -->
+    <g transform="translate(1600 1000)"><circle r="70" fill="#6FC8F0" stroke="#fff" stroke-width="8"/><circle r="20" fill="#E9EEF3"/><g class="foam" fill="none" stroke="#fff" stroke-width="5" opacity=".9"><path d="M0 -10 q-26 -40 -44 -6"/><path d="M0 -10 q26 -40 44 -6"/><path d="M0 -12 v-40"/></g></g>
+  </svg>
+  <div id="forest" class="layer"></div>
+  <!-- 피아노 -->
+  <svg id="piano" viewBox="0 0 540 150" style="position:absolute;left:1260px;top:1240px;width:540px;height:150px" aria-label="피아노"><rect width="540" height="150" rx="18" fill="#2B2B33"/><g id="keys"></g></svg>
+  <!-- 종 -->
+  <svg viewBox="0 0 200 260" style="position:absolute;left:1960px;top:1080px;width:200px;height:260px" aria-hidden="true">
+    <rect x="16" y="20" width="14" height="230" fill="#8B5A2B"/><rect x="170" y="20" width="14" height="230" fill="#8B5A2B"/><rect x="6" y="10" width="188" height="22" rx="8" fill="#6E4A2E"/>
+    <g class="bellG" id="bell"><path d="M100 36 C 60 36, 58 90, 54 130 C 52 150, 40 160, 40 170 H160 C 160 160, 148 150, 146 130 C 142 90, 140 36, 100 36z" fill="#D8A83A"/><path d="M76 60 C 70 90, 68 120, 64 150" stroke="#F2D27A" stroke-width="6" fill="none" opacity=".7"/><rect x="40" y="166" width="120" height="10" rx="5" fill="#B8862A"/><circle cx="100" cy="182" r="10" fill="#8B6A1A"/></g>
+  </svg>
+  <!-- 퀴즈 -->
+  <div id="quizBoard"><div class="qn">함께 푸는 O/X 퀴즈</div><div class="qq">문제를 불러오는 중…</div><div class="qa"></div></div>
+  <div class="oxZone" id="zoneO">O<span class="cnt"></span></div>
+  <div class="oxZone" id="zoneX">X<span class="cnt"></span></div>
+  <!-- 오늘의 상식 -->
+  <div id="fact"><div class="h">오늘의 상식</div><div class="q"></div><div class="a"></div></div>
+  <!-- 지구본 -->
+  <div id="globeBox" style="position:absolute;left:2760px;top:90px;width:330px;height:330px"><canvas id="globe" width="660" height="660" style="width:330px;height:330px"></canvas></div>
+  <!-- 한반도 지도 -->
+  <div id="mapBox" style="position:absolute;left:2440px;top:560px;width:420px;height:675px">
+    <svg id="map" viewBox="-20 -10 660 1060" style="width:100%;height:100%" aria-label="한반도 지도">
+      <rect x="-20" y="-10" width="660" height="1060" rx="40" fill="#BFE3F7" stroke="#fff" stroke-width="10"/>
+      <g stroke="#9FD0EC" stroke-width="2" opacity=".7"><line x1="0" y1="-10" x2="0" y2="1050"/><line x1="80" y1="-10" x2="80" y2="1050"/><line x1="160" y1="-10" x2="160" y2="1050"/><line x1="240" y1="-10" x2="240" y2="1050"/><line x1="320" y1="-10" x2="320" y2="1050"/><line x1="400" y1="-10" x2="400" y2="1050"/><line x1="480" y1="-10" x2="480" y2="1050"/><line x1="560" y1="-10" x2="560" y2="1050"/><line x1="-20" y1="0" x2="640" y2="0"/><line x1="-20" y1="80" x2="640" y2="80"/><line x1="-20" y1="160" x2="640" y2="160"/><line x1="-20" y1="240" x2="640" y2="240"/><line x1="-20" y1="320" x2="640" y2="320"/><line x1="-20" y1="400" x2="640" y2="400"/><line x1="-20" y1="480" x2="640" y2="480"/><line x1="-20" y1="560" x2="640" y2="560"/><line x1="-20" y1="640" x2="640" y2="640"/><line x1="-20" y1="720" x2="640" y2="720"/><line x1="-20" y1="800" x2="640" y2="800"/><line x1="-20" y1="880" x2="640" y2="880"/><line x1="-20" y1="960" x2="640" y2="960"/><line x1="-20" y1="1040" x2="640" y2="1040"/></g>
+      <path d="M1.7 328.7 L5.6 326.0 L6.6 319.7 L8.4 317.2 L13.2 318.5 L15.7 317.7 L8.7 316.4 L7.3 315.2 L5.6 310.2 L19.7 297.9 L20.2 295.9 L21.5 294.8 L27.2 290.6 L32.7 289.0 L35.0 283.0 L39.7 280.6 L43.6 276.8 L47.2 271.6 L50.4 274.4 L58.8 273.9 L59.2 272.9 L56.7 269.2 L57.5 266.6 L75.8 258.5 L77.5 255.6 L78.8 255.1 L82.2 255.9 L84.4 255.3 L88.3 256.8 L88.8 253.3 L91.5 252.7 L92.7 248.7 L98.9 247.4 L100.0 242.2 L100.9 241.5 L103.9 243.9 L109.6 243.1 L106.7 238.9 L109.7 235.2 L114.7 233.2 L115.9 231.4 L120.8 233.0 L125.8 230.2 L127.1 230.1 L129.8 232.3 L135.5 230.1 L135.7 228.6 L133.3 228.6 L134.2 227.2 L138.5 225.5 L140.9 220.3 L143.1 219.1 L142.9 217.8 L145.8 214.3 L144.7 212.4 L156.7 204.7 L159.4 199.2 L163.2 195.1 L165.1 190.9 L169.8 185.2 L172.4 183.3 L174.6 183.4 L173.6 185.5 L176.3 184.8 L176.3 182.2 L174.6 176.6 L177.9 171.1 L180.7 163.8 L181.0 162.5 L179.9 158.6 L183.9 153.4 L188.0 153.3 L192.5 149.9 L188.8 146.4 L192.6 146.3 L197.4 150.4 L199.0 147.0 L203.5 145.3 L205.2 141.5 L208.6 139.9 L209.9 143.4 L212.7 143.7 L217.6 146.7 L220.3 151.9 L218.1 152.3 L218.1 154.6 L218.9 155.7 L222.5 157.4 L222.0 158.8 L228.5 161.5 L225.0 163.1 L222.6 166.2 L224.9 167.8 L226.6 166.9 L228.5 168.3 L230.6 165.4 L233.6 167.2 L236.5 166.9 L237.2 168.1 L235.7 169.5 L238.4 170.5 L244.3 170.1 L248.1 171.7 L251.8 170.1 L255.9 171.6 L257.3 170.9 L257.4 173.1 L258.5 174.2 L264.8 177.0 L266.8 175.3 L269.0 176.1 L278.5 175.6 L281.5 176.9 L282.8 176.3 L284.1 173.9 L289.1 172.9 L291.5 175.0 L293.7 172.9 L294.5 174.0 L294.8 178.7 L297.6 177.9 L297.3 180.1 L298.6 181.1 L300.5 181.1 L301.8 180.0 L302.9 180.7 L301.9 182.1 L305.1 182.4 L308.3 179.5 L316.4 165.5 L317.6 161.7 L313.5 154.0 L306.2 148.8 L305.0 144.5 L300.8 135.8 L298.1 135.0 L297.3 133.6 L295.2 123.5 L296.3 120.6 L314.3 116.7 L322.4 117.4 L325.9 119.2 L329.6 119.0 L333.4 120.4 L336.7 119.2 L338.3 119.9 L341.8 117.0 L349.8 117.0 L350.7 115.2 L358.4 115.6 L365.2 117.4 L368.1 116.5 L370.0 111.1 L375.0 109.8 L377.9 106.4 L378.0 104.6 L379.9 105.7 L382.4 105.1 L389.6 98.0 L389.5 96.5 L387.2 95.7 L387.4 94.5 L389.6 93.3 L390.0 90.9 L390.9 90.2 L388.3 88.9 L388.3 88.2 L391.6 87.6 L392.1 86.1 L391.0 84.1 L391.6 82.6 L397.0 81.1 L397.9 77.8 L398.8 77.3 L399.7 78.5 L400.7 78.0 L399.9 75.5 L401.7 75.5 L403.5 77.2 L407.3 75.9 L413.9 80.9 L415.3 83.0 L416.8 82.3 L417.6 79.6 L419.5 78.8 L419.8 75.2 L426.1 76.2 L428.7 75.7 L430.7 72.4 L431.3 61.5 L433.4 59.4 L431.7 57.1 L432.5 55.7 L434.5 55.3 L434.1 53.8 L435.4 52.3 L433.0 49.6 L433.0 46.5 L440.0 27.2 L440.4 23.8 L444.7 22.4 L442.7 20.4 L447.0 19.2 L450.7 23.3 L452.9 23.9 L461.9 21.8 L462.8 22.7 L462.6 24.1 L460.2 27.9 L463.4 29.3 L471.2 29.8 L472.6 33.3 L471.5 45.7 L473.0 49.1 L477.4 53.3 L478.0 55.0 L483.4 59.4 L486.1 60.1 L486.4 63.8 L488.1 65.1 L489.3 64.5 L489.6 63.0 L488.3 61.5 L489.3 60.0 L492.0 58.9 L493.2 60.1 L494.3 66.9 L497.9 75.4 L503.4 79.9 L504.3 81.7 L504.8 87.9 L507.7 90.5 L499.6 93.7 L499.4 90.2 L492.7 86.4 L489.2 86.5 L489.5 87.8 L487.1 89.1 L484.6 87.6 L484.4 89.3 L482.7 90.9 L482.9 93.0 L484.4 93.9 L484.0 95.8 L481.4 94.4 L480.8 95.6 L481.6 96.8 L478.8 98.6 L478.4 100.8 L476.6 101.7 L477.2 98.1 L476.6 96.4 L475.5 96.3 L470.4 101.8 L468.3 102.7 L468.0 109.9 L466.0 110.1 L464.9 112.7 L461.7 111.0 L459.6 111.0 L458.0 112.1 L457.5 114.8 L456.4 115.0 L455.8 116.4 L454.9 120.4 L454.3 120.7 L453.3 118.6 L452.4 118.9 L452.3 121.0 L450.9 121.7 L452.4 123.8 L450.4 125.5 L449.4 130.1 L448.6 130.8 L445.4 128.9 L444.0 129.6 L443.0 134.3 L443.1 137.6 L440.5 143.5 L439.7 144.1 L438.5 142.2 L437.4 142.2 L434.4 144.1 L431.7 151.6 L429.6 152.5 L427.7 155.0 L426.0 162.4 L424.4 165.1 L425.3 167.4 L424.7 170.6 L425.2 173.5 L429.6 178.0 L431.3 177.9 L433.0 180.7 L436.1 181.4 L436.8 182.4 L435.2 187.5 L433.1 190.7 L429.4 207.7 L430.7 211.5 L430.0 214.4 L430.7 222.1 L433.6 225.6 L432.8 226.1 L432.6 229.0 L431.1 230.9 L431.4 232.9 L429.7 236.5 L428.3 235.5 L418.2 236.0 L416.8 237.1 L416.6 239.0 L414.0 240.5 L406.8 241.9 L400.8 245.5 L396.9 252.6 L394.3 249.2 L391.4 249.4 L389.3 252.4 L388.6 256.2 L386.7 259.6 L386.6 263.1 L379.0 272.7 L375.3 272.6 L371.0 274.0 L361.8 282.8 L354.2 285.4 L353.2 286.5 L348.1 286.9 L346.7 288.9 L345.6 288.9 L345.5 288.0 L344.0 288.7 L342.6 290.3 L342.5 292.8 L345.6 294.3 L346.5 296.0 L346.3 299.9 L343.4 302.0 L340.2 301.3 L336.6 303.3 L335.4 305.7 L331.6 306.5 L328.0 309.6 L322.5 310.3 L320.3 313.3 L319.5 317.2 L317.5 316.7 L314.4 312.3 L311.6 314.4 L312.1 317.1 L308.9 317.1 L305.8 318.4 L304.6 317.3 L294.1 315.5 L293.4 318.0 L290.7 319.6 L288.8 322.5 L286.1 321.7 L284.9 323.9 L284.3 329.8 L283.6 330.7 L276.4 331.4 L277.4 332.4 L277.2 333.4 L274.7 334.6 L271.9 334.3 L269.4 335.2 L268.1 338.4 L266.8 339.3 L263.7 336.9 L262.4 339.0 L258.8 341.6 L257.8 343.9 L255.5 345.3 L254.0 349.3 L254.8 355.0 L258.1 356.3 L259.5 358.2 L259.8 360.5 L256.8 364.8 L255.5 369.0 L258.9 385.6 L258.8 388.4 L257.3 389.8 L255.6 388.4 L257.2 382.8 L253.5 376.7 L252.5 376.3 L248.0 380.7 L244.2 382.2 L244.3 382.9 L247.9 384.3 L250.2 383.2 L251.3 383.6 L251.8 385.2 L248.0 387.0 L246.6 385.7 L245.3 385.8 L245.8 387.6 L243.7 395.9 L245.4 399.8 L250.1 403.4 L251.6 403.2 L251.8 400.7 L253.2 400.5 L254.8 404.3 L256.4 405.4 L262.4 404.8 L267.8 408.2 L274.4 408.3 L284.7 423.9 L286.7 423.6 L287.7 426.6 L290.5 428.2 L294.7 434.2 L300.8 435.6 L310.2 447.2 L316.0 444.5 L318.4 448.3 L321.1 450.3 L322.1 452.1 L322.5 457.5 L328.6 469.4 L331.2 477.4 L338.2 491.1 L343.7 505.5 L366.8 539.8 L378.0 552.1 L378.7 558.7 L381.5 560.3 L384.6 569.5 L387.9 573.1 L393.7 582.9 L395.3 587.6 L399.1 591.8 L402.9 607.0 L407.0 612.7 L407.3 613.9 L405.6 618.2 L406.9 630.3 L410.3 642.8 L410.5 646.9 L409.6 650.8 L406.4 658.3 L408.3 670.7 L407.9 679.2 L407.4 681.0 L404.0 685.7 L403.5 687.7 L403.2 699.8 L404.9 703.2 L406.0 709.2 L407.0 710.3 L406.1 712.7 L403.2 714.5 L403.1 715.8 L407.2 720.4 L408.8 720.7 L416.9 711.8 L418.2 712.8 L419.5 718.3 L415.4 726.1 L414.3 735.5 L412.2 741.5 L412.4 745.2 L408.0 756.4 L409.9 760.0 L408.9 768.7 L405.6 772.8 L404.6 768.7 L403.6 767.0 L402.5 766.8 L401.9 768.6 L403.6 769.8 L404.0 772.4 L403.6 773.8 L401.3 774.8 L401.8 779.3 L400.4 781.8 L401.6 783.3 L401.5 784.6 L398.3 786.1 L396.1 788.4 L394.2 788.4 L392.7 793.4 L393.2 795.3 L388.3 804.4 L382.4 805.0 L382.7 809.9 L380.9 810.8 L377.9 807.9 L375.9 810.2 L374.6 814.0 L374.0 814.5 L372.7 812.5 L372.9 815.4 L371.7 814.6 L370.1 815.6 L368.9 812.7 L369.6 806.3 L366.4 811.8 L365.3 811.9 L364.8 807.9 L363.5 811.9 L356.3 811.7 L355.5 809.0 L354.8 811.7 L354.0 812.1 L352.1 811.2 L351.3 809.5 L349.1 810.4 L348.8 805.7 L347.5 806.8 L347.5 808.4 L344.2 805.0 L342.6 805.7 L342.6 801.5 L341.3 798.6 L339.4 802.1 L341.3 807.9 L343.3 810.9 L343.1 813.2 L345.3 813.9 L341.4 814.3 L339.6 811.2 L334.1 809.6 L330.8 810.5 L331.7 812.5 L324.4 815.1 L323.0 819.3 L332.3 814.9 L333.2 819.1 L331.5 821.0 L327.4 820.8 L326.9 821.7 L328.6 824.0 L327.9 830.9 L329.3 831.4 L330.1 829.6 L331.2 830.9 L328.1 835.7 L326.3 836.2 L323.9 836.1 L324.0 834.5 L326.4 833.7 L321.6 833.2 L319.4 831.1 L319.3 830.3 L321.9 829.0 L320.1 825.3 L317.5 829.2 L315.7 829.3 L314.0 827.0 L311.3 826.2 L310.1 827.9 L310.0 830.9 L304.6 830.8 L303.1 830.0 L302.9 827.6 L298.0 826.8 L297.8 816.4 L299.0 811.9 L295.5 816.4 L293.7 816.6 L295.1 820.1 L294.1 820.8 L291.9 820.8 L289.9 822.1 L287.7 818.1 L286.6 823.8 L284.9 825.3 L280.1 825.5 L277.6 824.1 L273.3 824.0 L271.3 821.0 L270.5 826.0 L266.7 829.3 L265.1 830.1 L262.4 825.9 L261.2 825.4 L259.8 828.6 L261.9 834.4 L266.3 838.8 L269.7 835.8 L274.2 835.9 L275.7 835.1 L273.0 847.4 L270.2 848.4 L266.3 846.9 L264.8 850.2 L263.8 850.2 L264.8 852.9 L265.0 858.2 L262.9 856.3 L259.6 855.3 L258.7 853.8 L258.3 851.5 L260.6 845.4 L258.3 839.9 L256.7 839.2 L257.0 837.7 L255.8 835.1 L255.6 831.0 L252.6 836.0 L243.3 837.6 L248.0 840.6 L242.9 842.7 L242.6 844.0 L245.6 844.3 L246.1 845.3 L245.3 846.1 L246.4 850.0 L251.2 853.8 L252.9 856.3 L250.3 856.4 L253.5 857.7 L254.2 860.9 L252.6 862.3 L250.1 862.5 L245.3 859.8 L241.9 861.4 L241.5 862.2 L242.6 864.6 L244.4 865.3 L247.4 864.5 L249.1 865.9 L244.0 871.5 L242.5 870.8 L240.2 872.6 L241.5 875.5 L239.3 875.5 L231.9 865.3 L227.9 867.2 L228.4 868.7 L224.8 867.4 L224.1 865.9 L224.5 863.6 L226.8 862.0 L229.4 857.6 L231.1 856.3 L229.6 862.5 L233.8 861.6 L234.9 860.0 L234.9 857.0 L233.3 852.9 L236.0 849.5 L237.4 850.5 L237.6 853.6 L239.1 854.8 L240.4 854.3 L242.6 850.2 L240.5 845.9 L237.3 847.9 L233.9 843.4 L230.1 850.9 L225.0 851.2 L222.1 854.6 L215.0 858.8 L214.8 861.8 L213.2 864.6 L213.7 865.9 L209.4 870.4 L209.5 874.5 L208.8 875.2 L206.7 874.1 L206.0 875.0 L206.1 878.2 L199.1 874.9 L198.5 873.0 L198.9 863.1 L198.3 861.8 L196.6 861.4 L194.8 864.2 L195.6 867.7 L193.2 868.6 L195.3 872.1 L191.2 875.0 L192.6 875.7 L192.5 876.7 L189.6 876.4 L189.0 878.6 L185.1 880.4 L182.7 890.0 L180.8 889.5 L176.2 890.6 L176.7 885.9 L172.9 885.1 L173.6 881.9 L174.6 881.8 L175.9 878.6 L175.2 877.3 L172.6 876.7 L173.2 873.0 L171.8 872.8 L172.2 870.4 L173.8 869.1 L177.8 868.6 L175.6 866.6 L177.7 863.7 L176.7 863.2 L175.1 864.6 L172.9 863.9 L171.8 865.9 L165.9 866.6 L165.7 865.0 L162.4 861.6 L160.7 863.0 L158.3 861.1 L158.0 860.1 L158.8 859.1 L160.5 859.1 L160.1 858.1 L156.4 855.8 L156.2 852.9 L157.9 845.0 L160.2 845.2 L163.2 850.2 L162.2 852.2 L164.2 859.1 L171.7 861.5 L172.3 859.8 L169.4 859.3 L167.6 857.0 L167.8 854.8 L165.5 856.4 L164.9 848.9 L170.4 849.4 L170.8 852.9 L177.3 857.7 L177.7 857.2 L176.1 855.0 L182.7 857.4 L184.0 857.0 L178.9 853.6 L179.5 852.9 L175.2 848.1 L169.4 847.2 L167.8 846.1 L165.8 846.7 L164.0 846.0 L163.8 845.1 L166.0 843.1 L168.4 843.5 L171.4 842.1 L175.0 844.9 L177.2 845.4 L177.1 841.7 L178.1 840.4 L180.0 839.9 L185.4 841.2 L184.9 839.9 L187.5 839.1 L186.5 837.8 L184.7 837.4 L180.5 837.8 L180.5 834.5 L181.6 831.7 L181.0 830.2 L179.9 829.9 L177.9 831.7 L178.4 835.1 L175.6 841.8 L173.5 841.3 L174.6 839.2 L173.5 838.6 L171.1 839.9 L168.9 839.4 L168.1 840.8 L164.5 840.9 L164.2 839.9 L167.0 836.3 L167.3 832.6 L168.5 830.9 L166.7 828.5 L166.4 824.9 L169.4 821.9 L166.6 821.5 L164.3 823.1 L164.8 826.2 L163.7 827.3 L159.9 826.2 L160.9 825.5 L158.8 822.7 L162.5 822.7 L162.3 820.6 L164.5 818.3 L164.0 816.2 L160.3 811.7 L158.9 811.2 L159.4 813.4 L158.9 814.7 L157.7 814.7 L156.6 813.2 L157.3 812.1 L155.3 809.3 L155.0 807.7 L156.2 806.3 L157.8 806.1 L159.2 806.8 L159.9 808.4 L160.9 807.7 L162.1 804.3 L162.7 806.4 L162.2 810.3 L163.2 810.4 L163.9 812.6 L167.5 813.9 L167.2 816.1 L168.6 818.0 L170.6 813.3 L170.8 810.0 L167.7 808.0 L166.9 805.8 L164.3 802.6 L163.7 801.2 L164.8 798.9 L163.6 797.4 L163.7 796.1 L159.4 796.7 L160.3 795.5 L164.6 794.8 L163.2 794.0 L165.1 791.6 L165.1 787.3 L167.5 783.0 L169.1 785.1 L171.2 785.4 L168.1 780.6 L172.1 770.1 L174.0 767.5 L182.0 765.7 L184.3 763.1 L185.9 762.7 L189.8 766.5 L188.0 761.2 L186.9 760.4 L175.6 762.3 L171.7 759.8 L172.0 756.0 L176.9 751.7 L182.2 748.6 L184.5 745.4 L184.8 742.5 L187.4 740.7 L193.0 740.8 L196.9 743.9 L197.6 740.8 L190.5 736.0 L190.7 735.2 L192.7 733.5 L198.1 733.7 L199.9 731.2 L201.3 730.7 L199.1 728.8 L193.0 731.4 L183.4 731.0 L183.2 726.9 L180.1 725.4 L176.6 726.0 L176.2 722.9 L193.9 721.0 L202.2 716.4 L203.8 715.3 L203.9 713.9 L197.7 715.8 L194.7 718.2 L189.8 720.0 L188.6 719.4 L184.9 712.4 L186.0 711.5 L183.4 710.1 L181.6 706.9 L180.2 706.3 L178.7 706.9 L178.6 705.8 L176.8 704.7 L175.3 704.9 L174.6 707.4 L174.0 706.9 L174.3 704.0 L177.0 702.6 L179.4 701.8 L182.6 702.7 L180.9 700.1 L178.4 699.4 L177.3 698.0 L179.9 691.3 L181.0 690.5 L175.6 687.7 L180.3 685.7 L181.1 684.7 L180.6 683.4 L176.2 682.6 L174.6 680.9 L175.6 680.1 L174.4 678.0 L177.5 676.7 L179.0 674.4 L183.6 672.7 L179.2 672.7 L176.4 675.9 L175.1 676.1 L173.6 673.3 L173.2 670.3 L175.6 667.1 L172.2 666.0 L171.2 660.4 L175.5 659.7 L176.1 657.4 L173.3 655.0 L175.1 652.9 L174.4 651.6 L172.5 651.2 L172.1 649.5 L172.7 648.3 L174.5 648.0 L172.9 645.4 L169.6 648.3 L170.2 649.9 L170.1 656.2 L168.5 659.3 L164.0 657.1 L164.8 649.8 L163.9 649.3 L164.2 646.7 L163.4 645.7 L162.1 646.0 L160.6 650.0 L158.8 650.1 L161.0 653.9 L161.5 655.6 L160.7 657.1 L162.1 659.0 L159.8 659.8 L158.3 661.7 L157.8 659.0 L158.8 656.6 L156.5 652.7 L157.2 650.7 L156.6 648.1 L153.1 651.5 L149.0 652.7 L148.0 652.1 L147.3 649.8 L151.0 649.4 L151.8 648.8 L151.8 647.3 L150.9 645.8 L147.4 644.0 L146.8 647.6 L145.4 649.6 L145.0 643.9 L148.0 638.4 L149.6 641.8 L151.7 641.8 L150.1 639.1 L153.3 639.6 L153.8 638.4 L150.6 637.7 L150.5 636.4 L151.8 634.3 L150.0 632.8 L150.1 631.4 L153.4 629.6 L153.1 632.7 L156.7 632.5 L157.5 623.9 L159.4 623.3 L159.2 626.9 L160.5 631.7 L158.8 634.3 L159.4 637.1 L157.2 638.8 L157.3 639.6 L158.0 641.1 L160.9 639.5 L163.0 641.0 L160.9 635.3 L161.8 634.3 L163.8 636.4 L164.6 635.0 L166.9 634.3 L164.8 632.3 L166.7 631.8 L168.1 627.8 L167.5 626.1 L164.7 625.8 L162.9 624.5 L162.7 623.5 L164.2 624.0 L164.7 622.5 L164.2 621.6 L161.5 621.3 L162.9 620.0 L165.9 621.0 L165.9 619.2 L170.2 619.7 L170.8 621.0 L169.2 623.8 L169.7 625.4 L172.0 624.2 L172.8 626.4 L171.8 628.8 L171.8 633.3 L173.2 635.8 L176.1 625.2 L179.9 630.1 L181.1 630.2 L179.2 625.8 L174.0 620.3 L174.3 619.2 L175.0 619.3 L177.7 622.3 L180.3 622.2 L179.8 620.9 L175.5 618.4 L174.6 614.5 L177.3 615.1 L184.5 620.4 L185.3 621.8 L184.2 624.0 L185.1 626.3 L185.0 628.8 L186.2 627.5 L186.4 623.4 L187.6 621.1 L188.9 620.5 L195.0 621.8 L198.0 624.4 L197.0 630.7 L199.4 628.3 L200.7 629.0 L201.2 633.3 L200.7 636.1 L202.2 641.2 L200.7 642.6 L202.3 644.6 L204.0 639.6 L203.4 637.1 L206.5 637.7 L203.1 633.0 L209.6 630.7 L213.4 628.1 L214.8 624.8 L213.7 623.3 L217.3 621.8 L217.5 620.7 L212.8 622.0 L211.8 626.8 L207.3 627.0 L201.3 622.4 L200.3 619.7 L205.0 619.2 L203.9 617.9 L207.1 618.5 L204.9 613.0 L205.5 610.4 L204.6 610.0 L203.9 610.9 L203.0 615.9 L202.2 616.3 L201.5 615.5 L198.4 616.2 L194.8 615.1 L194.5 613.0 L194.6 609.9 L196.6 606.7 L203.4 605.0 L203.9 602.4 L200.7 604.1 L198.9 603.5 L198.4 601.5 L190.6 607.5 L189.3 607.0 L189.3 606.1 L190.8 603.6 L187.9 603.8 L188.1 601.4 L191.9 598.7 L188.8 598.2 L187.1 594.6 L188.2 593.8 L191.2 593.8 L194.5 595.2 L195.8 594.6 L195.8 596.8 L196.9 598.0 L197.8 597.6 L199.9 592.6 L203.9 593.2 L202.5 591.4 L193.0 589.4 L189.6 586.8 L189.4 585.6 L192.0 582.3 L191.8 581.6 L187.6 581.1 L185.7 583.6 L183.7 582.0 L185.5 578.6 L182.2 576.0 L182.1 572.8 L182.8 571.4 L185.8 570.4 L186.0 569.6 L183.0 570.3 L182.6 569.3 L182.8 565.1 L179.3 559.3 L177.0 544.5 L177.3 543.2 L178.4 543.0 L182.7 544.5 L186.3 543.5 L187.8 545.4 L187.4 552.8 L189.8 554.8 L194.6 556.2 L188.7 551.4 L190.4 545.7 L189.2 540.6 L190.4 537.1 L189.8 536.3 L187.8 537.2 L186.6 540.1 L181.9 542.6 L169.5 535.2 L166.4 530.8 L164.9 531.0 L155.5 535.5 L150.7 535.6 L147.4 537.0 L146.6 538.1 L148.0 543.2 L147.4 546.7 L143.6 545.9 L141.8 540.0 L139.9 539.8 L139.3 533.0 L135.9 534.6 L134.9 531.4 L131.7 528.8 L130.5 529.9 L132.7 532.6 L133.8 537.7 L131.4 536.0 L128.7 535.5 L126.6 533.5 L121.8 525.7 L119.4 524.8 L119.0 520.7 L102.9 516.8 L101.5 517.5 L101.4 519.1 L102.9 520.8 L106.4 522.6 L109.1 522.2 L109.9 522.8 L109.4 524.7 L112.6 524.7 L111.0 527.5 L113.7 526.7 L114.2 527.5 L109.9 530.1 L108.6 530.1 L105.6 527.6 L105.3 529.8 L106.4 534.4 L105.0 536.3 L106.6 537.7 L105.8 539.0 L103.9 539.4 L104.7 543.5 L101.9 543.2 L101.2 542.6 L101.7 541.8 L100.8 541.3 L99.3 541.7 L99.1 542.9 L97.5 542.7 L96.8 542.0 L97.2 540.5 L95.5 542.1 L93.2 546.9 L86.1 548.4 L84.2 552.0 L83.1 552.4 L82.1 551.4 L84.4 543.9 L86.5 544.5 L90.7 542.6 L85.5 541.8 L86.5 540.4 L91.7 537.7 L95.6 538.7 L97.1 538.2 L97.4 535.7 L95.0 536.0 L93.5 534.2 L96.0 530.6 L92.3 529.6 L90.9 528.0 L89.3 528.7 L89.8 530.1 L86.1 530.8 L90.9 534.0 L90.8 535.7 L87.2 533.5 L83.3 533.5 L85.5 535.7 L80.0 539.1 L79.4 537.7 L74.5 537.7 L80.0 532.2 L79.4 530.5 L75.9 528.5 L76.1 526.8 L74.6 527.1 L72.1 531.9 L69.5 533.2 L63.5 532.5 L60.5 530.4 L56.6 529.4 L56.1 528.2 L56.5 526.1 L53.9 527.5 L54.9 524.7 L60.5 522.1 L66.1 524.0 L69.4 523.0 L70.2 522.0 L69.6 521.2 L67.9 522.0 L64.7 519.8 L64.0 516.5 L71.5 515.1 L72.5 515.4 L73.4 517.8 L75.0 518.0 L75.6 514.6 L77.2 513.7 L76.5 512.2 L66.7 510.2 L56.6 513.8 L46.5 506.9 L44.9 509.3 L39.2 510.2 L29.9 508.5 L29.1 507.4 L29.6 506.3 L35.3 505.2 L36.9 504.4 L37.5 502.4 L41.4 501.4 L44.1 497.3 L45.9 496.9 L47.2 497.8 L49.3 501.0 L54.9 497.4 L53.0 496.5 L48.8 497.1 L45.4 494.2 L46.0 485.5 L49.8 479.1 L51.4 474.9 L53.3 473.8 L53.5 475.8 L56.8 470.2 L57.2 468.5 L55.3 466.4 L55.2 462.6 L54.0 461.6 L54.3 460.8 L56.9 461.6 L58.5 460.9 L60.2 463.1 L63.7 460.6 L65.7 461.9 L66.4 457.6 L64.9 455.5 L65.3 453.4 L66.4 453.8 L68.0 456.8 L69.8 456.5 L69.8 453.0 L71.7 454.7 L76.7 453.0 L79.4 454.3 L84.8 450.5 L90.6 451.4 L92.2 449.3 L95.8 451.4 L96.8 454.7 L97.8 454.6 L98.8 452.1 L104.0 456.9 L107.6 456.8 L105.6 454.1 L102.3 453.4 L97.4 447.9 L93.5 447.2 L91.0 442.3 L88.3 444.5 L90.0 446.3 L88.8 447.1 L86.4 448.3 L83.8 446.5 L82.6 448.3 L80.5 447.9 L79.4 446.5 L79.0 447.2 L80.0 449.3 L77.6 449.7 L74.9 447.2 L76.7 444.5 L75.6 443.7 L76.0 442.8 L74.7 440.7 L73.4 440.5 L73.8 442.8 L72.7 446.0 L70.5 446.1 L69.2 443.7 L67.1 442.3 L66.4 439.6 L67.6 430.8 L71.5 422.5 L71.3 421.4 L77.0 411.9 L81.8 411.7 L78.1 411.0 L78.9 405.3 L78.3 404.8 L79.9 403.5 L82.7 403.1 L81.6 400.7 L82.8 398.7 L84.5 397.9 L88.1 398.5 L86.8 395.4 L90.7 389.0 L88.6 388.0 L88.7 384.9 L87.6 383.5 L89.2 384.3 L91.9 381.5 L83.9 380.1 L85.9 376.0 L82.7 376.6 L83.0 374.0 L87.0 369.8 L88.4 366.1 L91.3 364.2 L90.9 361.6 L78.2 367.9 L74.3 363.7 L72.2 362.7 L73.3 360.9 L68.1 360.9 L69.1 363.6 L64.8 363.4 L63.3 359.7 L59.3 359.6 L52.2 353.8 L51.3 353.7 L50.6 355.4 L47.7 353.8 L46.1 349.6 L43.6 347.8 L39.9 347.0 L39.6 346.0 L37.3 345.8 L35.4 341.8 L34.9 343.8 L36.1 346.6 L35.3 350.8 L36.3 351.2 L35.9 352.8 L34.1 353.5 L35.2 355.6 L33.0 355.3 L31.3 356.2 L27.7 358.8 L26.8 361.0 L25.7 360.2 L26.1 358.9 L24.7 357.1 L27.4 353.0 L27.5 350.3 L25.7 350.6 L24.6 348.5 L22.6 347.6 L22.9 343.4 L20.8 341.3 L20.9 338.6 L10.7 336.9 L9.3 337.5 L7.7 333.5 L5.0 332.8 L1.7 328.7Z M147.7 989.9 L149.1 985.9 L150.4 983.3 L154.0 980.7 L156.3 976.4 L158.5 975.8 L159.5 973.6 L171.3 969.8 L173.3 967.9 L181.1 967.1 L186.3 964.7 L187.6 965.0 L197.7 963.6 L200.2 964.1 L202.3 966.5 L206.1 968.1 L207.3 969.3 L208.1 972.3 L208.8 973.4 L209.9 972.2 L210.5 973.5 L208.9 974.9 L209.4 976.9 L208.3 978.7 L204.2 982.7 L202.1 986.8 L201.6 989.0 L198.8 989.6 L196.8 989.4 L193.7 992.0 L185.7 993.5 L183.0 995.9 L179.7 996.7 L176.2 996.3 L172.2 997.1 L168.9 996.1 L161.3 996.2 L159.0 997.3 L157.6 1000.0 L156.3 1000.2 L155.0 999.6 L153.2 996.5 L150.8 995.6 L148.5 993.1 L147.7 989.9Z M332.3 833.1 L332.8 832.0 L335.1 830.1 L339.1 829.0 L339.9 829.0 L343.3 830.8 L344.7 830.9 L344.7 830.3 L343.3 829.3 L342.4 827.8 L342.0 824.5 L343.0 824.6 L348.5 821.4 L347.6 819.5 L348.1 817.7 L349.3 816.7 L350.7 817.3 L351.1 819.1 L350.6 823.4 L351.8 826.5 L351.8 827.8 L350.3 832.2 L352.8 831.4 L352.8 834.3 L352.5 835.5 L351.8 836.2 L350.8 835.9 L352.2 839.4 L352.4 840.9 L351.8 841.2 L350.4 840.7 L348.0 839.3 L347.5 841.3 L346.1 843.0 L345.7 844.3 L348.6 846.4 L347.3 847.5 L341.6 849.4 L339.9 849.5 L342.5 847.4 L341.5 846.9 L341.0 846.0 L341.4 843.4 L339.0 844.7 L338.3 844.1 L338.0 841.8 L338.5 841.3 L340.5 840.9 L341.0 839.8 L341.5 836.5 L340.4 835.8 L339.6 836.8 L336.8 838.1 L335.5 839.2 L332.5 835.0 L332.3 833.1Z M143.1 879.7 L144.1 876.4 L146.3 873.7 L148.5 873.5 L149.7 870.6 L150.4 869.7 L152.6 868.7 L152.8 867.2 L153.8 868.4 L155.0 868.6 L156.2 867.8 L156.6 866.3 L156.0 865.0 L154.0 863.4 L154.5 862.5 L155.8 862.4 L157.1 863.2 L159.1 864.6 L160.4 866.6 L162.6 865.3 L162.7 866.2 L165.0 870.2 L165.1 871.5 L164.5 874.6 L162.3 879.1 L161.5 879.7 L159.4 877.7 L159.1 879.8 L151.5 884.1 L147.3 884.7 L146.4 884.5 L146.2 883.6 L147.4 881.8 L147.0 881.2 L144.8 879.7 L144.7 881.8 L143.1 879.7Z M279.8 834.9 L280.0 833.1 L280.9 831.3 L282.6 830.4 L283.0 828.2 L283.5 827.6 L285.8 826.0 L287.0 826.4 L288.6 828.6 L288.5 829.9 L287.8 831.2 L286.1 833.1 L287.2 836.5 L289.6 837.5 L290.5 839.3 L295.8 837.8 L299.1 838.5 L299.5 839.6 L298.6 843.0 L298.7 846.2 L297.7 847.2 L298.3 849.2 L298.0 850.2 L296.8 850.4 L294.3 849.1 L291.6 850.0 L289.9 844.1 L288.6 843.3 L287.5 844.1 L286.1 848.7 L285.0 848.7 L283.1 847.8 L282.6 846.9 L282.3 844.0 L279.8 834.9Z M164.0 547.3 L164.3 546.2 L164.2 541.5 L164.5 540.4 L165.3 540.1 L167.2 537.9 L168.6 537.6 L172.3 541.0 L174.8 542.3 L175.8 543.3 L176.2 544.9 L175.7 547.7 L176.7 550.4 L177.0 554.0 L176.7 554.9 L177.9 556.9 L176.8 557.5 L176.0 559.6 L175.2 560.3 L174.1 560.2 L172.6 558.9 L171.6 559.6 L167.4 559.8 L165.9 559.1 L164.2 556.9 L166.7 556.3 L167.9 554.8 L164.0 547.3Z M163.1 573.4 L163.4 572.6 L164.5 572.8 L168.1 570.3 L172.4 570.1 L174.0 569.2 L174.6 567.0 L175.7 566.6 L176.6 567.5 L179.6 568.6 L181.1 571.0 L179.8 572.0 L177.7 572.2 L175.1 573.4 L173.5 575.3 L170.0 577.9 L168.2 577.8 L167.9 576.5 L167.3 576.2 L166.7 576.6 L166.5 575.5 L165.3 576.3 L163.8 575.8 L164.3 575.2 L163.1 573.4Z M159.8 661.8 L161.9 659.6 L163.5 659.1 L164.5 660.8 L164.6 661.4 L163.7 662.7 L165.1 666.4 L165.3 667.3 L165.0 668.2 L167.0 670.7 L165.4 670.7 L165.3 671.2 L167.0 672.0 L167.0 674.1 L169.2 679.2 L168.4 678.8 L163.7 678.9 L163.5 677.4 L164.7 675.5 L162.9 676.6 L162.1 676.2 L162.3 674.7 L163.7 672.6 L163.2 672.1 L162.1 673.3 L161.7 672.5 L160.9 672.9 L161.3 670.5 L161.0 666.8 L159.8 661.8Z M186.0 886.3 L185.8 882.7 L186.7 880.5 L189.4 879.8 L190.3 880.1 L192.1 881.9 L193.3 886.1 L194.0 887.6 L195.5 889.1 L196.1 890.8 L195.4 891.0 L193.7 890.2 L192.9 891.1 L189.5 889.9 L189.5 889.2 L190.2 888.7 L190.1 887.9 L187.5 887.7 L186.0 886.3Z M516.1 569.3 L516.8 567.7 L518.2 566.8 L523.9 565.4 L525.3 566.4 L525.2 569.0 L524.3 571.8 L523.4 573.7 L521.8 574.4 L519.8 574.1 L517.9 572.9 L516.6 571.3 L516.1 569.3Z M223.0 873.5 L225.3 872.1 L230.4 871.3 L232.8 872.0 L233.7 873.6 L233.4 875.5 L232.3 877.0 L227.6 878.2 L226.3 878.0 L223.5 876.2 L224.0 874.5 L223.0 873.5Z M272.6 857.5 L273.1 855.6 L275.2 853.4 L275.8 850.9 L274.6 849.5 L274.7 848.7 L276.6 848.2 L277.4 848.6 L277.6 849.5 L276.3 851.5 L277.1 851.8 L277.8 853.0 L279.0 856.9 L278.9 859.8 L278.3 861.2 L277.5 862.0 L275.7 861.6 L272.9 858.6 L272.6 857.5Z M41.1 370.5 L42.6 367.9 L43.6 368.3 L44.2 367.3 L43.1 366.2 L43.2 365.7 L44.2 365.5 L44.4 364.7 L44.0 364.3 L44.0 362.6 L45.3 361.9 L45.2 360.4 L46.1 359.6 L46.1 358.8 L47.5 358.6 L49.7 359.5 L48.4 360.7 L50.3 364.9 L46.3 367.3 L44.6 369.2 L41.1 370.5Z M24.9 525.5 L25.7 522.0 L27.7 522.7 L32.1 521.1 L34.3 522.0 L35.2 523.0 L35.1 524.5 L34.0 525.3 L32.4 524.4 L30.0 524.7 L30.0 525.8 L32.2 526.7 L30.5 528.0 L27.3 527.5 L24.9 525.5Z M290.7 834.0 L291.2 832.5 L293.7 828.7 L295.0 828.3 L295.4 829.4 L294.5 832.2 L294.6 833.1 L295.0 833.3 L296.4 830.8 L297.2 830.6 L298.2 832.0 L298.8 834.8 L300.1 836.4 L299.2 836.7 L295.6 835.7 L293.7 836.3 L292.5 836.2 L291.4 835.4 L290.7 834.0Z M152.4 542.9 L153.4 539.8 L154.4 538.8 L155.5 538.5 L158.3 539.8 L161.3 540.0 L162.0 540.8 L161.5 542.6 L160.1 543.8 L158.4 543.9 L155.1 543.2 L152.7 544.0 L152.4 542.9Z M139.3 813.9 L140.4 809.8 L142.7 808.7 L143.7 806.7 L145.1 805.7 L146.8 805.3 L148.0 805.7 L145.6 807.1 L145.0 807.9 L145.3 810.0 L146.4 811.8 L144.6 813.0 L143.6 814.9 L140.4 814.5 L139.3 813.9Z M153.2 834.5 L153.6 834.0 L156.5 833.3 L157.1 832.2 L158.1 831.9 L158.5 830.6 L157.6 828.7 L158.5 828.2 L161.2 829.3 L162.3 830.4 L162.2 831.0 L160.3 831.9 L160.2 833.0 L160.3 833.4 L163.4 834.1 L163.6 836.3 L162.0 837.8 L161.2 837.4 L161.9 836.3 L161.7 835.9 L159.2 834.4 L154.6 835.5 L153.2 834.5Z M194.6 881.3 L196.9 877.3 L200.2 876.0 L201.2 876.2 L201.6 877.5 L201.2 878.1 L202.6 879.3 L203.2 880.7 L200.3 880.5 L199.9 881.1 L197.8 882.1 L196.4 884.5 L195.9 883.9 L195.7 882.0 L194.6 881.3Z M126.2 845.0 L126.5 843.8 L127.1 842.9 L128.9 841.9 L130.0 842.3 L134.5 840.9 L135.4 841.9 L135.5 844.0 L133.8 843.4 L133.1 844.3 L131.0 844.1 L130.6 844.4 L130.0 846.9 L128.4 848.2 L127.4 848.1 L126.8 847.4 L126.2 845.0Z M133.8 833.1 L137.1 829.0 L139.0 829.2 L139.7 827.3 L140.4 827.1 L141.9 828.9 L141.9 831.7 L140.4 833.7 L139.2 834.1 L137.4 833.1 L133.8 833.7 L133.8 833.1Z M140.4 843.0 L144.2 843.0 L146.1 844.2 L147.8 844.5 L148.7 845.6 L149.0 848.7 L148.5 849.6 L147.5 849.7 L145.8 847.7 L143.7 848.2 L140.4 843.0Z M157.2 550.1 L157.9 549.4 L159.0 546.3 L160.3 545.3 L160.7 545.8 L161.6 549.0 L164.9 552.1 L165.1 553.1 L164.2 554.2 L162.6 554.3 L157.2 550.1Z M128.2 851.2 L128.8 850.5 L131.1 849.5 L133.0 847.2 L134.9 849.6 L135.3 850.7 L134.8 852.3 L133.6 853.9 L132.5 854.4 L128.9 852.9 L128.2 851.2Z M140.0 835.7 L140.2 834.9 L141.4 834.3 L143.8 834.6 L143.9 832.9 L144.6 832.1 L146.2 832.1 L146.9 832.9 L147.0 833.5 L146.0 834.2 L146.3 835.8 L146.1 836.7 L144.8 837.0 L144.3 837.6 L144.1 839.7 L143.2 840.2 L142.5 840.1 L142.3 839.1 L140.0 835.7Z M177.7 600.2 L178.5 598.5 L178.3 597.3 L179.3 596.1 L179.4 594.9 L178.9 593.4 L177.8 591.7 L179.3 592.1 L180.6 591.2 L180.4 592.1 L180.7 592.9 L183.2 594.1 L184.0 595.8 L183.5 596.7 L179.5 600.0 L177.7 600.2Z M319.9 837.4 L321.5 836.5 L324.1 838.0 L327.5 837.3 L328.3 838.0 L328.5 839.3 L328.1 840.1 L328.4 840.6 L328.0 841.2 L327.2 840.9 L326.9 841.3 L328.2 842.0 L327.1 843.7 L325.8 843.7 L324.9 842.2 L324.2 842.1 L324.2 840.8 L322.8 840.3 L323.5 839.7 L323.7 838.9 L321.5 837.8 L320.1 838.1 L319.9 837.4Z M147.5 810.6 L147.9 809.8 L149.0 809.4 L150.6 810.3 L152.1 809.6 L152.7 810.3 L153.6 810.2 L153.8 810.8 L152.5 811.5 L152.2 812.3 L153.1 813.3 L154.6 813.7 L155.1 814.4 L155.9 816.6 L155.6 817.5 L155.3 817.8 L153.8 816.8 L153.4 816.2 L153.5 814.8 L151.0 814.3 L148.7 813.2 L147.5 810.6Z M38.9 468.3 L39.2 466.6 L43.2 464.5 L43.6 465.4 L45.8 466.4 L47.9 470.6 L42.9 468.9 L41.4 467.8 L39.6 469.2 L38.9 468.3Z M195.0 886.4 L197.2 885.7 L198.6 886.1 L201.3 884.6 L205.7 885.9 L204.4 888.8 L203.0 888.8 L201.6 889.7 L200.6 887.7 L200.0 887.4 L197.4 887.9 L195.0 886.4Z M202.2 902.6 L203.2 899.8 L204.9 898.7 L206.2 899.0 L208.3 901.5 L207.4 904.2 L206.4 904.8 L205.2 904.9 L203.6 903.7 L202.9 904.3 L202.2 902.6Z M175.0 904.6 L175.7 903.1 L177.1 902.1 L178.4 902.1 L179.9 903.1 L182.4 903.1 L183.7 904.3 L183.5 904.7 L183.0 904.4 L182.8 904.8 L181.0 904.3 L177.5 907.4 L175.9 907.3 L175.1 906.1 L175.0 904.6Z M250.1 874.7 L250.4 873.9 L250.2 872.9 L250.6 872.7 L252.9 873.9 L254.7 873.0 L256.4 874.9 L256.8 876.5 L254.7 878.2 L253.4 878.6 L253.0 878.3 L252.9 877.4 L251.3 876.1 L251.4 875.7 L250.1 874.7Z M137.4 864.4 L137.8 863.8 L140.0 863.6 L140.9 862.9 L141.3 862.0 L139.6 857.9 L140.2 857.5 L142.8 859.5 L143.1 862.1 L142.8 864.1 L142.3 864.6 L139.4 866.7 L138.6 866.9 L137.4 866.1 L138.3 865.9 L139.1 864.8 L137.4 864.4Z M270.3 866.6 L270.8 865.8 L273.6 864.9 L274.6 865.7 L275.8 868.1 L275.7 869.1 L276.8 869.6 L277.2 870.2 L277.0 870.8 L275.4 871.2 L273.1 869.8 L270.3 866.6Z M178.4 900.5 L179.0 898.1 L179.5 897.8 L179.0 896.8 L179.3 896.5 L182.2 897.4 L183.8 898.7 L183.8 899.5 L183.3 900.0 L183.0 901.2 L181.3 901.4 L181.6 902.1 L181.2 902.4 L180.0 902.1 L178.4 900.5Z M213.5 884.4 L214.8 883.7 L216.2 881.9 L217.0 882.5 L217.9 884.2 L218.5 884.5 L220.3 884.1 L221.9 886.2 L219.5 886.0 L220.1 886.6 L217.3 888.7 L217.2 887.8 L218.1 886.9 L217.8 886.5 L216.1 886.1 L216.1 885.2 L215.6 884.8 L213.5 884.4Z M73.0 549.6 L75.4 546.8 L76.5 546.3 L77.3 546.6 L77.7 545.1 L82.3 543.1 L79.0 547.2 L76.2 549.3 L73.5 550.4 L73.0 549.6Z M86.7 855.4 L86.7 854.0 L88.3 850.8 L89.6 850.2 L90.2 851.2 L91.8 850.9 L92.0 851.3 L87.9 857.1 L87.2 856.8 L86.7 855.4Z M169.4 596.2 L169.4 593.6 L170.1 592.7 L171.5 591.9 L173.3 592.1 L174.1 592.6 L174.4 593.9 L173.2 594.6 L172.1 596.7 L171.2 596.9 L169.4 596.2Z M141.9 597.4 L142.2 595.4 L143.2 593.2 L144.4 594.6 L147.5 596.8 L146.2 598.5 L144.5 598.9 L143.7 598.5 L143.0 597.2 L141.9 597.4Z M185.4 905.8 L186.0 902.3 L185.4 901.3 L186.1 900.3 L188.1 901.0 L188.3 902.0 L187.5 902.7 L187.4 903.4 L188.8 905.3 L188.2 905.7 L187.7 908.1 L186.9 908.3 L185.5 907.2 L185.4 905.8Z M23.5 366.2 L23.6 365.5 L26.2 363.5 L29.7 362.9 L31.0 363.0 L31.6 363.7 L31.4 364.6 L29.8 366.1 L28.7 366.2 L27.3 365.2 L23.5 366.2Z M357.1 815.1 L357.4 814.4 L358.2 813.9 L359.9 814.0 L360.4 815.3 L360.4 817.8 L360.1 819.9 L359.5 820.6 L359.1 820.8 L358.9 820.3 L357.1 815.1Z M142.2 841.2 L143.0 840.6 L145.0 840.2 L146.7 839.2 L147.5 839.5 L148.3 840.8 L147.7 841.7 L147.9 843.0 L146.5 843.8 L142.2 841.2Z M136.2 859.4 L136.5 857.5 L137.1 856.6 L139.7 861.6 L139.4 862.7 L137.1 863.4 L136.5 862.9 L136.2 859.4Z M136.5 889.9 L137.5 888.5 L140.2 889.1 L141.4 888.9 L141.9 889.2 L142.0 891.0 L140.4 892.1 L139.7 891.4 L138.8 892.0 L137.1 891.3 L136.5 889.9Z M311.4 856.7 L311.7 855.2 L312.5 854.8 L315.1 856.2 L315.1 856.8 L317.1 856.3 L315.9 858.0 L314.0 858.0 L312.3 859.0 L312.4 857.4 L311.4 856.7Z" fill="#9AD8A6" stroke="#2E7D4F" stroke-width="2.4" stroke-linejoin="round"/>
+      <g fill="#9AD8A6" stroke="#2E7D4F" stroke-width="1.8"><circle cx="600.3" cy="595.9" r="3.6"/><circle cx="597.4" cy="594" r="2.6"/></g>
+      <g font-family="Noto Sans KR, sans-serif" font-weight="900" font-size="24" fill="#1D5A3A" paint-order="stroke" stroke="#fff" stroke-width="5">
+        <circle cx="212.6" cy="563" r="7" fill="#D8452B" stroke="#fff" stroke-width="3"/><text x="226" y="556">서울</text>
+        <circle cx="378" cy="802" r="5" fill="#1D5A3A"/><text x="388" y="828" font-size="20">부산</text>
+        <circle cx="115" cy="418" r="5" fill="#1D5A3A"/><text x="128" y="410" font-size="20">평양</text>
+        <text x="492" y="548" font-size="20">울릉도</text><text x="566" y="634" font-size="20">독도</text><text x="140" y="1036" font-size="20">제주도</text>
+        <text x="268" y="106" font-size="20">백두산</text><text x="40" y="720" font-size="26" fill="#3A7AB8">서해</text><text x="460" y="420" font-size="26" fill="#3A7AB8">동해</text><text x="300" y="960" font-size="26" fill="#3A7AB8">남해</text>
+      </g>
+      <g id="pins"></g>
+    </svg>
+  </div>
+  <div id="mapTip"></div>
+  <!-- 여행 입구 -->
+  <div id="portals" class="layer"></div>
+  <!-- 풍선 -->
+  <div id="balloons" class="layer"></div>
+  <!-- 표지판 -->
+  <div id="signs" class="layer"></div>
+  <!-- 커서 -->
+  <div id="cursors" class="layer"></div>
+</div></div>
+
+<a id="back" class="ui" href="/">← 배움.fun</a>
+<button id="snd" class="ui" type="button" aria-pressed="false">🔈 소리 켜기</button>
+<div id="toast" class="ui" role="status"></div>
+<div id="hint" class="ui">화면 <b>가장자리</b>로 가면 운동장이 움직여요.<br><b>빈 땅을 끌거나</b> 휠을 굴려도 둘러볼 수 있어요.<br>오른쪽 아래 <b>지도</b>를 누르면 바로 이동해요.</div>
+<div id="bar" class="ui">
+  <span class="who"><span class="dot" id="myDot"></span><span class="nmTxt" id="myName"></span></span>
+  <span class="sep"></span>
+  <button type="button" data-e="0" aria-label="손 흔들기">👋</button><button type="button" data-e="1" aria-label="웃기">😂</button><button type="button" data-e="2" aria-label="하트">❤️</button><button type="button" data-e="3" aria-label="좋아요">👍</button><button type="button" data-e="4" aria-label="놀람">😮</button>
+</div>
+<div id="mini" class="ui" aria-label="운동장 지도, 누르면 그곳으로 이동해요"><canvas width="432" height="264"></canvas></div>
+<div id="intro"><div class="card">
+  <h1>배움 운동장</h1>
+  <p>지금 접속한 사람들의 커서가 여기 모여요.</p>
+  <div class="me2"><span class="dot" id="myDot2" style="width:15px;height:15px;border-radius:50%"></span><span id="myName2"></span></div>
+  <p style="font-size:14px;color:#6A6890;margin-top:2px">오늘 여러분의 이름이에요.</p>
+  <ul><li>퀴즈 칠판 앞 <b>O, X 구역</b>으로 가서 함께 문제를 풀어요.</li><li>피아노, 종, 풍선, 지구본을 <b>눌러</b> 보세요. 모두에게 들려요.</li><li><b>한반도 지도</b>를 누르면 핀이 꽂혀요.</li><li>아래쪽 <b>여행 입구</b>로 들어가면 배움 여행을 떠나요.</li></ul>
+  <button type="button" id="enter">입장하기</button>
+  <small>소리가 나요. 이어폰을 끼면 더 좋아요.<br>이름과 커서 위치 말고는 아무것도 주고받지 않아요.</small>
+</div></div>
+
+<script>
+const SERVER = '';
+const LAND = [[[-59.6,-80.0],[-60.2,-81.0],[-66.3,-80.3],[-61.9,-80.4],[-60.6,-79.6],[-59.6,-80.0]],[[-159.2,-79.5],[-161.1,-79.6],[-163.7,-78.6],[-161.2,-78.4],[-159.2,-79.5]],[[-48.7,-78.0],[-43.9,-78.5],[-43.3,-80.0],[-54.2,-80.6],[-48.7,-78.0]],[[-68.5,-71.0],[-68.8,-72.2],[-71.1,-72.5],[-75.0,-71.7],[-72.1,-71.2],[-71.7,-69.5],[-70.3,-68.9],[-68.5,-71.0]],[[-57.2,-63.5],[-62.0,-64.8],[-62.1,-66.2],[-65.7,-68.0],[-61.8,-70.7],[-60.8,-73.7],[-70.6,-76.6],[-77.2,-76.7],[-73.7,-77.9],[-77.9,-78.4],[-78.0,-79.2],[-58.2,-83.2],[-49.8,-81.7],[-42.8,-82.1],[-28.5,-80.3],[-29.7,-79.3],[-35.6,-79.5],[-35.8,-78.3],[-17.5,-75.1],[-15.7,-74.5],[-16.5,-73.9],[-15.4,-73.1],[-10.3,-71.3],[-7.4,-71.7],[-6.9,-70.9],[-0.2,-71.6],[7.7,-69.9],[10.8,-70.8],[13.4,-70.0],[27.1,-70.5],[33.9,-68.5],[38.6,-69.8],[54.5,-65.8],[61.4,-68.0],[68.9,-67.9],[69.7,-69.2],[67.8,-70.3],[69.1,-70.7],[67.9,-71.9],[69.9,-72.3],[73.9,-69.9],[77.6,-69.5],[82.8,-67.2],[86.8,-67.2],[88.0,-66.2],[89.7,-67.2],[95.8,-67.4],[99.7,-67.2],[102.8,-65.6],[106.2,-66.9],[113.6,-65.9],[119.8,-67.3],[134.8,-66.2],[135.1,-65.3],[137.5,-67.0],[145.5,-66.9],[148.8,-68.4],[154.3,-68.6],[161.6,-70.6],[171.2,-71.7],[169.3,-73.7],[166.1,-74.4],[163.6,-76.2],[164.7,-78.2],[167.0,-78.8],[161.8,-79.2],[159.8,-80.9],[169.4,-83.8],[180.0,-84.7],[180.0,-90.0],[-180.0,-90.0],[-180.0,-84.7],[-179.1,-84.1],[-170.0,-83.9],[-158.1,-85.4],[-143.1,-85.0],[-153.6,-83.7],[-152.9,-82.0],[-156.8,-81.1],[-150.6,-81.3],[-146.4,-80.3],[-155.3,-79.1],[-158.1,-78.0],[-158.4,-76.9],[-151.3,-77.4],[-146.1,-76.5],[-146.2,-75.4],[-135.2,-74.3],[-121.1,-74.5],[-113.9,-73.7],[-112.3,-74.7],[-107.6,-75.2],[-100.1,-74.9],[-102.5,-74.1],[-103.7,-72.6],[-96.3,-73.6],[-90.1,-73.3],[-89.2,-72.6],[-74.9,-73.9],[-67.4,-72.5],[-68.5,-69.7],[-67.7,-67.3],[-63.0,-64.6],[-57.2,-63.5]],[[-69.3,-52.5],[-65.0,-54.7],[-69.2,-55.5],[-74.7,-52.8],[-71.1,-54.1],[-69.3,-52.5]],[[144.7,-41.2],[148.3,-40.9],[147.9,-43.2],[146.0,-43.5],[144.7,-41.2]],[[173.0,-40.9],[174.2,-41.3],[173.1,-43.9],[171.5,-44.2],[169.3,-46.6],[166.7,-46.2],[167.0,-45.1],[173.0,-40.9]],[[172.6,-34.5],[176.8,-37.9],[178.5,-37.7],[175.2,-41.7],[174.9,-39.9],[173.8,-39.5],[174.7,-37.4],[172.6,-34.5]],[[49.2,-12.0],[50.4,-15.7],[49.7,-15.7],[47.1,-24.9],[45.4,-25.6],[44.0,-25.0],[43.3,-22.1],[44.4,-20.1],[44.4,-16.2],[47.7,-14.6],[49.2,-12.0]],[[143.6,-13.8],[145.4,-15.0],[146.4,-19.0],[148.8,-20.4],[153.1,-26.1],[152.9,-31.6],[150.0,-37.4],[146.3,-39.0],[145.0,-37.9],[143.6,-38.8],[140.6,-38.0],[139.6,-36.1],[138.1,-35.6],[138.2,-34.4],[136.8,-35.3],[137.8,-32.9],[136.0,-34.9],[134.3,-32.6],[131.3,-31.5],[126.1,-32.2],[123.7,-33.9],[119.9,-34.0],[118.0,-35.1],[115.0,-34.2],[115.7,-31.6],[113.3,-26.1],[114.2,-26.3],[113.4,-24.4],[114.1,-21.8],[114.2,-22.5],[116.7,-20.7],[120.9,-19.7],[125.7,-14.2],[127.1,-13.8],[129.6,-15.0],[130.6,-12.5],[132.6,-12.1],[132.4,-11.1],[136.5,-11.9],[135.5,-15.0],[140.2,-17.7],[142.5,-10.7],[143.6,-13.8]],[[106.1,-5.9],[110.8,-6.5],[115.7,-8.4],[105.4,-6.9],[106.1,-5.9]],[[134.1,-1.2],[135.5,-3.4],[138.3,-1.7],[144.6,-3.9],[147.6,-6.1],[147.2,-7.4],[150.7,-10.6],[147.9,-10.1],[144.7,-7.6],[142.6,-9.3],[137.6,-8.4],[138.7,-7.3],[137.9,-5.4],[133.7,-3.5],[133.0,-4.1],[132.0,-2.8],[133.7,-2.2],[130.5,-0.9],[132.4,-0.4],[134.1,-1.2]],[[125.2,1.4],[123.7,0.2],[120.2,0.2],[120.9,-1.4],[123.3,-0.6],[121.5,-1.9],[123.2,-5.3],[122.2,-5.3],[122.7,-4.5],[121.5,-4.6],[121.0,-2.6],[120.4,-5.5],[119.4,-5.4],[118.8,-2.8],[120.0,0.6],[125.2,1.4]],[[105.8,-5.9],[102.6,-4.2],[95.3,5.5],[97.5,5.2],[103.8,0.1],[103.4,-0.7],[106.1,-3.1],[105.8,-5.9]],[[117.3,3.2],[119.0,0.9],[117.8,0.8],[116.1,-4.0],[110.2,-2.9],[109.1,-0.5],[109.7,2.0],[111.2,1.9],[113.0,3.1],[116.7,6.9],[119.2,5.4],[117.3,3.2]],[[126.4,8.4],[125.4,5.6],[123.6,7.8],[121.9,7.2],[123.5,8.7],[125.5,9.0],[125.4,9.8],[126.4,8.4]],[[81.2,6.2],[79.9,6.8],[80.1,9.8],[81.8,7.5],[81.2,6.2]],[[121.3,18.5],[122.2,18.5],[122.5,17.1],[121.7,14.3],[124.0,13.8],[124.1,12.5],[120.6,13.9],[121.0,14.5],[120.1,15.0],[119.9,16.4],[121.3,18.5]],[[-73.4,19.6],[-70.0,19.6],[-68.3,18.6],[-71.4,17.6],[-74.5,18.3],[-72.3,18.7],[-73.4,19.6]],[[110.3,18.7],[108.7,18.5],[108.6,19.4],[110.8,20.1],[110.3,18.7]],[[-82.3,23.2],[-78.3,22.5],[-74.2,20.3],[-77.8,19.9],[-77.1,20.4],[-78.7,21.6],[-81.8,22.6],[-85.0,21.9],[-82.3,23.2]],[[15.5,38.2],[15.1,36.6],[12.4,37.6],[12.6,38.1],[15.5,38.2]],[[9.2,41.2],[9.7,39.2],[8.8,38.9],[8.2,41.0],[9.2,41.2]],[[141.9,39.2],[140.3,35.1],[135.8,33.5],[135.1,34.6],[131.0,33.9],[132.0,33.1],[131.3,31.5],[130.2,31.4],[129.4,33.3],[132.6,35.4],[135.7,35.5],[136.7,37.3],[137.4,36.8],[139.4,38.2],[139.9,40.6],[141.4,41.4],[141.9,39.2]],[[143.9,44.2],[145.3,44.4],[145.5,43.3],[140.0,41.6],[142.0,45.6],[143.9,44.2]],[[-123.5,48.5],[-125.7,48.8],[-128.4,50.8],[-125.8,50.3],[-123.5,48.5]],[[-55.4,51.6],[-56.8,49.8],[-53.5,49.2],[-53.1,46.7],[-54.2,46.8],[-54.2,47.8],[-55.4,46.9],[-59.3,47.6],[-57.4,50.7],[-55.4,51.6]],[[142.2,54.2],[144.7,49.0],[143.2,49.3],[142.6,47.9],[143.5,46.1],[142.7,46.7],[142.1,46.0],[142.2,54.2]],[[-6.8,52.3],[-10.0,51.8],[-9.2,52.9],[-9.7,53.9],[-6.7,55.2],[-5.7,54.6],[-6.8,52.3]],[[-3.0,58.6],[-4.1,57.6],[-2.0,57.7],[-3.1,56.0],[1.7,52.7],[1.4,51.3],[-5.2,50.0],[-3.4,51.4],[-5.3,52.0],[-4.2,52.3],[-4.6,53.5],[-2.9,54.0],[-4.8,54.8],[-5.0,55.8],[-5.6,55.3],[-6.1,56.8],[-5.0,58.6],[-3.0,58.6]],[[-87.2,63.5],[-85.0,65.2],[-80.1,63.7],[-87.2,63.5]],[[-14.5,66.5],[-13.6,65.1],[-18.7,63.5],[-22.8,64.0],[-21.8,64.4],[-24.0,64.9],[-22.2,65.4],[-24.3,65.6],[-22.1,66.4],[-20.6,65.7],[-14.5,66.5]],[[-175.0,66.6],[-171.9,66.9],[-169.9,66.0],[-172.5,65.4],[-173.0,64.3],[-178.7,66.1],[-179.9,65.9],[-180.0,65.0],[-180.0,69.0],[-175.0,66.6]],[[-95.6,69.1],[-96.3,68.8],[-99.8,69.4],[-98.2,70.1],[-95.6,69.1]],[[-90.5,69.5],[-90.6,68.5],[-89.2,69.3],[-87.4,67.2],[-85.5,69.9],[-82.6,69.7],[-81.3,69.2],[-82.0,68.1],[-81.3,67.6],[-83.3,66.4],[-85.8,66.6],[-87.3,64.8],[-93.2,62.0],[-94.7,58.9],[-93.2,58.8],[-92.3,57.1],[-82.3,55.1],[-82.1,53.3],[-79.9,51.2],[-78.6,52.6],[-79.8,54.7],[-76.5,56.5],[-78.5,58.8],[-77.3,59.9],[-78.1,62.3],[-73.8,62.4],[-69.6,61.1],[-69.3,59.0],[-67.6,58.2],[-64.6,60.3],[-61.4,57.0],[-61.8,56.3],[-57.3,54.6],[-55.7,52.1],[-60.0,50.2],[-66.4,50.2],[-71.1,46.8],[-65.1,49.2],[-64.2,48.7],[-65.1,48.1],[-64.5,46.2],[-61.5,45.9],[-60.5,47.0],[-59.8,45.9],[-65.4,43.5],[-66.2,44.5],[-64.4,45.3],[-67.1,45.1],[-70.7,43.0],[-70.0,41.6],[-73.7,40.9],[-71.9,40.9],[-74.0,40.8],[-74.9,38.9],[-75.5,39.5],[-75.1,38.4],[-75.9,37.2],[-76.3,39.2],[-76.3,38.1],[-77.0,38.2],[-75.7,35.6],[-81.3,31.4],[-80.4,25.2],[-81.7,25.9],[-84.1,30.1],[-89.2,30.3],[-89.2,29.3],[-90.2,29.1],[-93.8,29.7],[-96.6,28.3],[-97.9,22.4],[-96.3,19.3],[-94.4,18.1],[-92.0,18.7],[-90.8,19.3],[-90.3,21.0],[-87.1,21.5],[-88.9,15.9],[-83.4,15.3],[-83.8,11.1],[-81.4,8.8],[-79.6,9.6],[-76.8,8.6],[-74.9,11.1],[-71.8,12.4],[-71.1,12.1],[-71.9,11.4],[-71.7,9.1],[-71.4,11.0],[-69.9,12.2],[-68.2,10.6],[-61.9,10.7],[-62.4,9.9],[-57.1,6.0],[-54.0,5.8],[-51.3,4.2],[-50.0,1.7],[-50.4,-0.1],[-48.6,-0.2],[-48.6,-1.2],[-47.8,-0.6],[-44.9,-1.6],[-44.6,-2.7],[-40.0,-2.9],[-35.6,-5.1],[-34.7,-7.3],[-35.1,-9.0],[-38.7,-13.1],[-39.3,-17.9],[-40.9,-21.9],[-47.6,-24.9],[-48.9,-28.7],[-53.8,-34.4],[-56.2,-34.9],[-58.4,-33.9],[-56.8,-36.9],[-59.2,-38.7],[-62.3,-38.8],[-62.7,-41.0],[-65.1,-41.1],[-65.0,-42.1],[-63.5,-42.6],[-65.2,-43.5],[-65.6,-45.0],[-67.3,-45.6],[-67.6,-46.3],[-65.6,-47.2],[-66.0,-48.1],[-69.1,-50.7],[-68.2,-52.3],[-70.8,-52.9],[-71.0,-53.8],[-74.9,-52.3],[-75.6,-48.7],[-74.1,-46.9],[-75.6,-46.6],[-74.4,-44.1],[-73.2,-44.5],[-72.7,-42.4],[-74.3,-43.2],[-73.2,-39.3],[-73.6,-37.2],[-71.4,-32.4],[-70.2,-19.8],[-71.5,-17.4],[-76.0,-14.6],[-79.8,-7.2],[-81.2,-6.1],[-81.4,-4.7],[-79.8,-2.7],[-81.0,-2.2],[-80.9,-1.1],[-77.1,3.8],[-78.2,8.3],[-79.6,8.9],[-80.9,7.2],[-85.7,9.9],[-87.5,13.3],[-91.2,13.9],[-94.7,16.2],[-96.6,15.7],[-103.5,18.3],[-105.5,19.9],[-106.0,22.8],[-112.2,29.0],[-113.1,31.2],[-114.8,31.8],[-114.7,30.2],[-109.4,23.2],[-110.0,22.8],[-112.2,24.7],[-112.3,26.0],[-115.1,27.7],[-114.2,28.6],[-117.3,33.0],[-120.6,34.6],[-124.4,40.3],[-123.9,45.5],[-124.7,48.2],[-122.6,47.1],[-122.8,49.0],[-127.4,50.8],[-127.9,52.3],[-134.1,58.1],[-147.1,60.9],[-151.7,59.2],[-150.6,61.3],[-158.4,56.0],[-164.8,54.4],[-157.7,57.6],[-157.0,58.9],[-162.0,58.7],[-161.9,59.6],[-163.8,59.8],[-166.1,61.5],[-164.6,63.1],[-160.8,63.8],[-161.5,64.4],[-160.8,64.8],[-165.0,64.4],[-168.1,65.7],[-164.5,66.6],[-161.7,66.1],[-166.8,68.4],[-156.6,71.4],[-136.5,68.9],[-128.1,70.5],[-125.8,69.5],[-121.5,69.8],[-113.9,68.4],[-115.3,67.9],[-108.9,67.4],[-107.8,67.9],[-108.8,68.3],[-108.2,68.7],[-106.2,68.8],[-101.5,67.6],[-97.7,68.6],[-96.1,68.2],[-96.1,67.3],[-94.2,69.1],[-96.5,70.1],[-95.2,71.9],[-91.5,70.2],[-92.4,69.7],[-90.5,69.5]],[[-114.2,73.1],[-114.7,72.7],[-109.9,73.0],[-108.2,71.7],[-108.4,73.1],[-106.5,73.1],[-104.5,71.0],[-101.1,69.6],[-102.7,69.5],[-102.4,68.8],[-113.3,68.5],[-117.3,70.0],[-112.4,70.4],[-117.9,70.5],[-118.4,70.9],[-116.1,71.3],[-119.4,71.6],[-117.9,72.7],[-114.2,73.1]],[[-76.3,73.1],[-79.5,72.7],[-80.9,73.3],[-78.1,73.7],[-76.3,73.1]],[[-86.6,73.2],[-85.8,72.5],[-82.3,73.8],[-80.7,72.1],[-77.8,72.7],[-74.1,71.3],[-72.2,71.6],[-67.0,69.2],[-68.8,68.7],[-61.9,66.9],[-63.9,65.0],[-68.0,66.3],[-64.7,63.4],[-65.0,62.7],[-68.8,63.7],[-66.2,61.9],[-74.8,64.7],[-77.7,64.2],[-78.6,64.6],[-77.9,65.3],[-74.0,65.5],[-72.9,67.7],[-79.0,70.2],[-84.9,70.0],[-89.9,71.2],[-89.4,73.1],[-85.8,73.8],[-86.6,73.2]],[[-101.5,73.4],[-97.4,73.8],[-98.1,73.0],[-96.5,72.6],[-96.7,71.7],[-99.3,71.4],[-102.5,72.5],[-100.4,72.7],[-101.5,73.4]],[[-90.5,73.9],[-95.4,72.1],[-96.0,73.4],[-90.5,73.9]],[[-115.5,73.5],[-123.1,70.9],[-125.9,71.9],[-123.9,73.7],[-124.9,74.3],[-115.5,73.5]],[[145.1,75.6],[144.3,74.8],[139.0,74.6],[137.0,75.3],[138.8,76.1],[145.1,75.6]],[[-102.6,76.3],[-97.7,76.3],[-98.2,75.0],[-102.5,75.6],[-102.6,76.3]],[[-110.5,76.4],[-105.7,75.5],[-112.2,74.4],[-113.9,74.7],[-111.8,75.2],[-117.7,75.2],[-115.4,76.5],[-109.1,75.5],[-110.5,76.4]],[[57.5,70.7],[53.7,70.8],[51.5,72.0],[55.6,75.1],[68.9,76.5],[58.5,74.3],[55.4,72.4],[57.5,70.7]],[[-94.7,77.1],[-89.2,75.6],[-81.1,75.7],[-79.8,74.9],[-89.8,74.5],[-97.1,76.8],[-94.7,77.1]],[[-116.2,77.6],[-117.1,76.5],[-122.9,76.1],[-119.1,77.5],[-116.2,77.6]],[[104.4,77.7],[114.1,75.8],[109.4,74.2],[123.2,73.0],[123.3,73.7],[127.0,73.6],[131.3,70.8],[132.3,71.8],[139.9,71.5],[139.1,72.4],[140.5,72.8],[149.5,72.2],[153.0,70.8],[159.0,70.9],[160.9,69.4],[167.8,69.6],[169.6,68.7],[170.8,69.0],[170.5,70.1],[175.7,69.9],[180.0,69.0],[180.0,65.0],[177.4,64.6],[179.2,62.3],[173.7,61.7],[170.3,59.9],[168.9,60.6],[163.5,59.9],[162.0,58.2],[163.2,57.6],[162.1,54.9],[160.4,54.3],[156.8,51.0],[155.4,55.4],[155.9,56.8],[163.7,61.1],[164.5,62.6],[160.1,60.5],[159.3,61.8],[156.7,61.4],[154.2,59.8],[155.0,59.1],[142.2,59.0],[135.1,54.7],[138.2,53.8],[139.9,54.2],[141.4,52.2],[140.1,48.4],[138.2,46.3],[134.9,43.4],[132.3,43.3],[127.5,39.8],[129.5,36.8],[129.1,35.1],[126.5,34.4],[126.1,36.7],[126.9,36.9],[124.7,38.1],[125.3,39.6],[121.1,38.9],[122.2,40.4],[121.6,40.9],[118.0,39.2],[117.5,38.7],[118.9,37.4],[122.4,37.5],[119.2,34.9],[121.9,31.7],[121.7,28.2],[118.7,24.5],[115.9,22.8],[110.8,21.4],[110.4,20.3],[108.5,21.7],[105.9,19.8],[109.3,13.4],[109.2,11.7],[105.2,8.6],[105.1,9.9],[100.1,13.4],[99.2,9.2],[103.0,5.5],[104.2,1.3],[101.4,2.8],[100.1,6.5],[98.5,8.4],[98.3,7.8],[98.8,11.4],[97.2,16.9],[95.4,15.7],[94.2,16.0],[94.3,18.2],[91.4,22.8],[87.0,21.5],[86.5,20.2],[80.3,15.9],[79.9,10.4],[77.5,8.0],[73.5,16.0],[72.6,21.4],[70.5,20.9],[66.4,25.4],[57.4,25.7],[56.5,27.1],[54.7,26.5],[51.5,27.9],[50.1,30.1],[48.0,30.0],[50.8,24.8],[51.6,25.8],[51.8,24.0],[54.0,24.1],[56.4,26.4],[56.8,24.2],[59.8,22.3],[57.7,18.9],[55.3,17.2],[48.7,14.0],[43.5,12.6],[42.6,16.8],[39.1,21.3],[38.5,23.7],[34.6,28.1],[34.9,29.5],[33.9,27.6],[32.4,29.9],[35.5,23.1],[36.9,22.0],[37.5,18.6],[43.3,12.4],[42.7,11.7],[44.6,10.4],[51.1,12.0],[51.0,10.6],[47.7,4.2],[40.3,-2.6],[39.2,-4.7],[38.8,-6.5],[40.5,-10.8],[40.8,-14.7],[39.5,-16.7],[34.8,-19.8],[35.6,-23.7],[32.6,-25.7],[32.2,-28.8],[28.2,-32.8],[25.8,-33.9],[19.6,-34.8],[18.4,-34.1],[18.2,-31.7],[15.2,-27.1],[14.3,-22.1],[11.8,-18.1],[13.7,-10.7],[11.9,-5.0],[8.8,-1.1],[9.4,3.7],[8.5,4.8],[5.9,4.3],[4.3,6.3],[-2.0,4.7],[-9.0,4.8],[-12.4,7.3],[-16.6,12.2],[-17.6,14.7],[-16.1,18.1],[-17.0,21.9],[-14.4,26.3],[-9.6,29.9],[-9.3,32.6],[-5.9,35.8],[-2.2,35.2],[1.5,36.6],[9.5,37.4],[11.1,36.9],[10.3,33.8],[19.1,30.3],[20.1,32.2],[21.5,32.8],[28.9,30.9],[31.0,31.6],[33.8,31.0],[36.0,34.6],[36.2,36.7],[27.6,36.7],[26.2,39.5],[29.2,41.2],[33.5,42.0],[38.3,40.9],[41.7,42.0],[36.7,45.2],[39.1,47.3],[35.0,46.3],[36.3,45.1],[33.9,44.4],[32.5,45.3],[33.3,46.1],[30.7,46.6],[27.7,42.6],[28.8,41.1],[22.6,40.3],[24.0,37.7],[23.1,37.9],[23.2,36.4],[22.5,36.4],[19.4,40.3],[19.5,41.7],[13.1,45.7],[12.3,45.4],[12.6,44.1],[18.5,40.2],[16.9,40.4],[17.1,38.9],[16.1,38.0],[15.4,40.0],[8.9,44.4],[6.5,43.1],[3.1,43.1],[3.0,41.9],[0.8,41.0],[0.1,38.7],[-2.1,36.7],[-5.4,35.9],[-6.5,36.9],[-8.9,36.9],[-9.4,43.0],[-1.4,44.0],[-1.2,46.0],[-4.6,48.7],[-1.6,48.6],[-1.9,49.8],[1.3,50.1],[4.7,53.1],[8.1,53.5],[8.8,54.0],[8.5,57.1],[10.6,57.7],[10.9,56.5],[9.7,55.5],[10.9,54.0],[19.7,54.4],[21.3,55.2],[21.6,57.4],[24.1,57.0],[24.4,58.4],[23.3,59.2],[29.1,60.0],[22.9,59.8],[21.3,60.7],[21.5,63.2],[25.4,65.1],[22.2,65.7],[21.4,64.4],[17.8,62.7],[17.1,61.3],[18.8,60.1],[16.8,58.7],[15.9,56.1],[12.9,55.4],[10.4,59.5],[8.4,58.3],[5.7,58.6],[5.0,62.0],[10.5,64.5],[14.8,67.8],[24.5,71.0],[28.2,71.2],[31.3,70.5],[30.0,70.2],[31.1,69.6],[36.5,69.1],[41.1,67.5],[41.1,66.8],[38.4,66.0],[33.2,66.6],[34.8,65.9],[34.9,64.4],[37.0,63.8],[36.5,64.8],[37.2,65.1],[39.6,64.5],[40.4,64.8],[39.8,65.5],[42.1,66.5],[43.9,66.1],[44.5,66.8],[43.5,68.6],[46.3,68.3],[46.8,67.7],[45.6,67.0],[46.3,66.7],[53.7,68.9],[54.5,68.8],[53.5,68.2],[58.8,68.9],[59.9,68.3],[61.1,68.9],[60.0,69.5],[60.6,69.9],[68.5,68.1],[69.2,68.6],[66.9,69.5],[66.7,71.0],[69.2,72.8],[72.6,72.8],[71.8,71.4],[72.8,70.4],[72.6,69.0],[73.7,68.4],[71.3,66.3],[72.4,66.2],[75.1,67.8],[74.9,69.0],[73.6,69.6],[74.4,70.6],[73.1,71.4],[74.9,72.1],[74.7,72.8],[75.7,72.3],[75.3,71.3],[76.4,71.2],[75.9,71.9],[77.6,72.3],[81.5,71.8],[80.5,73.6],[86.8,73.9],[86.0,74.5],[87.2,75.1],[100.8,76.4],[104.4,77.7]],[[105.1,78.3],[99.4,77.9],[102.1,79.3],[105.1,78.3]],[[10.4,79.7],[21.5,79.0],[15.9,76.8],[10.4,79.7]],[[17.4,80.3],[27.4,80.1],[23.0,79.4],[17.4,80.3]],[[51.5,80.7],[47.6,80.0],[44.8,80.6],[51.5,80.7]],[[99.9,78.9],[95.0,79.0],[91.2,80.3],[95.9,81.3],[100.2,79.8],[99.9,78.9]],[[-92.4,81.3],[-85.8,79.3],[-90.8,78.2],[-96.7,80.2],[-92.4,81.3]],[[-68.5,83.1],[-61.9,82.6],[-67.7,81.5],[-65.5,81.5],[-71.2,79.8],[-76.9,79.3],[-75.4,78.5],[-79.8,77.2],[-77.9,76.8],[-80.6,76.2],[-89.5,76.5],[-87.8,77.2],[-88.3,77.9],[-85.0,77.5],[-88.0,78.4],[-85.1,79.3],[-86.9,80.3],[-81.8,80.5],[-87.6,80.5],[-91.6,81.9],[-68.5,83.1]],[[-27.1,83.5],[-20.8,82.7],[-31.9,82.2],[-22.1,81.7],[-23.2,81.2],[-15.8,81.9],[-12.2,81.3],[-20.0,80.2],[-17.7,80.1],[-19.7,78.8],[-19.7,77.6],[-18.5,77.0],[-21.7,76.6],[-19.8,76.1],[-19.6,75.2],[-20.7,75.2],[-19.4,74.3],[-23.6,73.3],[-22.3,72.2],[-24.8,72.3],[-21.8,70.7],[-25.5,71.4],[-25.2,70.8],[-26.4,70.2],[-22.3,70.1],[-39.8,65.5],[-42.8,62.7],[-43.4,60.1],[-48.3,60.9],[-51.6,63.6],[-54.0,67.2],[-50.9,69.9],[-54.7,69.6],[-54.4,70.8],[-51.4,70.6],[-55.8,71.7],[-54.7,72.6],[-58.6,75.5],[-68.5,76.1],[-71.4,77.0],[-66.8,77.4],[-73.3,78.0],[-65.7,79.4],[-68.0,80.1],[-62.2,81.3],[-62.7,81.8],[-50.4,82.4],[-44.5,81.7],[-46.8,82.6],[-27.1,83.5]]];
+const W = 3200, H = 2000;
+const $ = s => document.querySelector(s);
+const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const rnd = (a,b) => a + Math.random()*(b-a);
+const clamp = (v,a,b) => Math.max(a, Math.min(b, v));
+const lerp = (a,b,t) => a + (b-a)*t;
+function mulberry32(a){ return function(){ a|=0; a=a+0x6D2B79F5|0; let t=Math.imul(a^a>>>15,1|a); t=t+Math.imul(t^t>>>7,61|t)^t; return ((t^t>>>14)>>>0)/4294967296; }; }
+const hr = (...k) => mulberry32(k.reduce((h,v)=>Math.imul(h ^ (v|0), 2654435761) + 0x9E37, 7));
+
+/* ---------- 나 ---------- */
+const ADJ = ['용감한','느긋한','반짝이는','호기심 많은','씩씩한','졸린','신나는','꼼꼼한','수줍은','재빠른','다정한','엉뚱한','배고픈','노래하는','궁금한','씽씽 달리는'];
+const ANI = ['수달','다람쥐','고래','펭귄','여우','판다','부엉이','거북','해달','토끼','너구리','돌고래','참새','기린','고슴도치','문어'];
+const COLORS = ['#3355FF','#E0591C','#2FA35A','#C8356E','#7A4FD8','#0E8FA8','#D89A14','#E0453A'];
+const ME = (() => { let s = null; try { s = JSON.parse(sessionStorage.getItem('camp-me')||'null'); } catch(_){}
+  if (!s){ s = {name: ADJ[Math.random()*ADJ.length|0]+' '+ANI[Math.random()*ANI.length|0], color: COLORS[Math.random()*COLORS.length|0]}; try{ sessionStorage.setItem('camp-me', JSON.stringify(s)); }catch(_){} }
+  return {id:'me', name:s.name, color:s.color, x:1600, y:1080, tx:1600, ty:1080}; })();
+$('#myName').textContent = ME.name; $('#myName2').textContent = ME.name; $('#myDot').style.background = ME.color; $('#myDot2').style.background = ME.color;
+function toast(t){ const e = $('#toast'); e.textContent = t; e.classList.add('show'); clearTimeout(e._t); e._t = setTimeout(()=>e.classList.remove('show'), 2400); }
+
+/* =========================================================
+   카메라: 운동장은 화면보다 훨씬 넓어요 (가로 3200 × 세로 2000)
+   ========================================================= */
+const V = {s:1, ox:0, oy:0, tx:null, ty:null};
+function fit(){
+  const vw = innerWidth, vh = innerHeight;
+  V.s = vw < vh ? clamp(vw/760, .42, .75) : clamp(Math.min(vw/1500, vh/950), .5, 1.1);
+  if (V.tx == null){ V.tx = vw/2 - ME.x*V.s; V.ty = vh/2 - ME.y*V.s; V.ox = V.tx; V.oy = V.ty; }
+  clampCam(); applyCam();
+}
+function clampCam(){ const vw = innerWidth, vh = innerHeight, fw = W*V.s, fh = H*V.s;
+  V.tx = fw <= vw ? (vw-fw)/2 : clamp(V.tx, vw - fw, 0); V.ty = fh <= vh ? (vh-fh)/2 : clamp(V.ty, vh - fh, 0); }
+function applyCam(){ $('#world').style.transform = `translate3d(${V.ox.toFixed(1)}px,${V.oy.toFixed(1)}px,0) scale(${V.s})`; }
+function panBy(dx, dy){ V.tx -= dx; V.ty -= dy; clampCam(); }
+function jumpTo(wx, wy){ V.tx = innerWidth/2 - wx*V.s; V.ty = innerHeight/2 - wy*V.s; clampCam(); }
+addEventListener('resize', fit);
+const toWorld = (cx, cy) => [clamp((cx - V.ox)/V.s, 0, W), clamp((cy - V.oy)/V.s, 0, H)];
+const PTR = {x:innerWidth/2, y:innerHeight/2, inside:false, mouse:false};
+
+/* ---------- 숲, 꽃 ---------- */
+(function(){
+  const r = hr(11); let h = '';
+  const spots = []; for (let i=0;i<46;i++){ const x = 40 + r()*960, y = 40 + r()*700; if (Math.abs(x - (1230 - y*0.1)) < 90) continue; spots.push([x,y, .8 + r()*.7]); }
+  spots.sort((a,b)=>a[1]-b[1]).forEach(([x,y,k],i)=>{ const s = 140*k;
+    h += `<svg class="tree" viewBox="0 0 100 120" style="left:${x}px;top:${y}px;width:${s}px;animation-delay:${-(i*0.61)%6}s" aria-hidden="true"><rect x="44" y="70" width="12" height="46" rx="4" fill="#7A4E2A"/><ellipse cx="50" cy="116" rx="26" ry="5" fill="rgba(0,0,0,.12)"/><circle cx="50" cy="48" r="34" fill="${['#3E8A4A','#4E9A52','#2E7040'][i%3]}"/><circle cx="36" cy="38" r="18" fill="#5FAE5C" opacity=".7"/><circle cx="64" cy="58" r="16" fill="#2E7040" opacity=".5"/></svg>`; });
+  $('#forest').innerHTML = h;
+  let f = ''; const rf = hr(21);
+  for (let i=0;i<120;i++){ const x = rf()*3200, y = 800 + rf()*820; if (Math.hypot(x-1600,y-1000) < 230) continue; const c = ['#FF7AA8','#FFD84D','#FFFFFF','#B4A9FF','#FF9A5A'][i%5];
+    f += i%6===0 ? `<ellipse cx="${x}" cy="${y}" rx="${10+rf()*14}" ry="${7+rf()*8}" fill="#A9A398" opacity=".8"/>` : `<g transform="translate(${x} ${y})"><circle r="5" fill="${c}"/><circle r="2.2" fill="#F2A23A"/></g>`; }
+  $('#flowers').innerHTML = f;
+})();
+
+/* ---------- 표지판 ---------- */
+const SIGNS = [
+  [1600, 840, '배움 운동장', '모두가 모이는 광장'],
+  [520, 820, '숲', '새소리와 바람 소리'],
+  [650, 1120, '모닥불', '여럿이 모이면 불이 커져요'],
+  [1530, 1232, '피아노', '누르면 모두에게 들려요'],
+  [2060, 1070, '큰 종', '눌러서 울려 보세요'],
+  [1600, 100, 'O/X 퀴즈', '구역으로 가서 답해요'],
+  [2650, 548, '한반도 지도', '누르면 핀이 꽂혀요'],
+  [2925, 86, '지구본', '누르면 빙글 돌아요'],
+  [1800, 1470, '여행 입구', '들어가면 배움 여행을 떠나요'],
+  [3040, 560, '풍선 언덕', '눌러서 터뜨려요'],
+  [900, 1620, '바닷가', '파도 소리를 들어 보세요'],
+  [1150, 560, '시냇물', '졸졸졸']
+];
+$('#signs').innerHTML = SIGNS.map(([x,y,t,d])=>`<div class="sign" style="left:${x}px;top:${y}px"><div class="board"><div class="t">${t}</div><div class="d">${d}</div></div><div class="post"></div></div>`).join('');
+
+/* ---------- 피아노 ---------- */
+const NOTES = [261.63,293.66,329.63,349.23,392.0,440.0,493.88,523.25], NOTE_N = ['도','레','미','파','솔','라','시','도'];
+const PIANO = {x:1260, y:1140, kx:14, ky:14, kw:64, kh:120, gap:0.3};
+(function(){ let h=''; for (let i=0;i<8;i++) h += `<rect class="key" data-k="${i}" x="${14+i*64.5}" y="14" width="60" height="120" rx="8" fill="#FAFAF5"/><text x="${44+i*64.5}" y="118" text-anchor="middle" font-family="Noto Sans KR" font-weight="900" font-size="22" fill="#8A88A8" pointer-events="none">${NOTE_N[i]}</text>`; $('#keys').innerHTML = h; })();
+function keyFlash(k, color){ const el = document.querySelector(`.key[data-k="${k}"]`); if (!el) return; el.style.setProperty('--kc', color); el.classList.add('on'); clearTimeout(el._t); el._t = setTimeout(()=>el.classList.remove('on'), 240); }
+const pianoKeyAt = (x,y) => { const px = x - 1260 - 14, py = y - 1240 - 14; if (px < 0 || px > 8*64.5 || py < 0 || py > 120) return -1; return clamp(Math.floor(px/64.5), 0, 7); };
+function ringBell(){ const b = $('#bell'); b.classList.remove('ring'); void b.getBBox(); b.classList.add('ring'); }
+
+/* ---------- 여행 입구 ---------- */
+const TRIPS = [['seoul','서울 아래로','#8B5A3A','#F4A62A'],['ai','AI의 크기','#1E1650','#8C7CF0'],['history','과거로','#E8DCC4','#8B6A4A'],['sea','바다 아래로','#1F7DBB','#08213F'],['sky','하늘 위로','#9FD6F0','#0B1030'],['artwork','그림과 기계','#8B5A2B','#2B1F4A'],['space','태양계 옆으로','#0B0A1E','#FF9A2A'],['life','누가 더 클까?','#DFF3E4','#2FA35A'],['cosmos','우주의 크기','#0C0A24','#E0502A']];
+const PORT = {x0:1340, y:1500, dx:115};
+(function(){ $('#portals').innerHTML = TRIPS.map(([k,t,c1,c2],i)=>`<a class="portal" data-trip="${k}" href="/#/${k}" style="left:${PORT.x0 + i*PORT.dx}px;top:${PORT.y}px" tabindex="-1"><div class="ring"><svg viewBox="0 0 100 100"><defs><radialGradient id="pg${i}"><stop offset="0" stop-color="${c2}"/><stop offset="1" stop-color="${c1}"/></radialGradient></defs><rect width="100" height="100" fill="url(#pg${i})"/><g fill="#fff" opacity=".7"><circle cx="30" cy="30" r="2"/><circle cx="70" cy="40" r="1.5"/><circle cx="50" cy="70" r="2"/></g></svg></div><div class="lb">${t}</div></a>`).join(''); })();
+const portalAt = (x,y) => { for (let i=0;i<TRIPS.length;i++){ const cx = PORT.x0 + i*PORT.dx, cy = PORT.y + 50; if (Math.hypot(x-cx, y-cy) < 52) return i; } return -1; };
+
+/* ---------- 풍선 ---------- */
+const BAL_N = 9, BAL = Array.from({length:BAL_N}, (_,i)=>({i, popUntil:0, color: ['#FF7AA8','#FFD84D','#6FD0FF','#8FE0B0','#B4A9FF','#FF9A5A','#F2F2F2','#FF6A6A','#7AE0C8'][i]}));
+let POPPED = 0;
+(function(){ const b = $('#balloons'); BAL.forEach(o=>{ const d = document.createElement('div'); d.className = 'balloon';
+  d.innerHTML = `<svg viewBox="0 0 64 90"><path d="M32 60 q-3 14 2 28" stroke="#8A88A8" stroke-width="1.5" fill="none"/><ellipse cx="32" cy="30" rx="26" ry="30" fill="${o.color}"/><ellipse cx="22" cy="18" rx="7" ry="10" fill="#fff" opacity=".45"/><path d="M28 59 l4 5 l4 -5z" fill="${o.color}"/></svg>`;
+  b.appendChild(d); o.el = d; }); })();
+function balPos(o, t){ const T = 42000 + o.i*3700, ph = ((t/T) + o.i*0.29) % 1; return [2900 + ((o.i*61)%220) + Math.sin(t/2600 + o.i)*26, 1600 - ph*1000]; }
+function balloonAt(x,y){ const t = Date.now(); for (const o of BAL){ if (o.popUntil > t) continue; const [bx,by] = balPos(o,t); if (Math.hypot(x-(bx+42), y-(by+40)) < 46) return o.i; } return -1; }
+
+/* ---------- 지구본 ---------- */
+const G = {rot:0, vel:0.004, cv:$('#globe')}; G.cx = G.cv.getContext('2d');
+function drawGlobe(){
+  const c = G.cx, R = 300, cx = 330, cy = 330; c.clearRect(0,0,660,660);
+  c.beginPath(); c.arc(cx,cy+R*.92,R*.7,0,6.283); c.fillStyle='rgba(0,0,0,.08)'; c.fill();
+  const g = c.createRadialGradient(230,210,30,330,330,R); g.addColorStop(0,'#7FD4F5'); g.addColorStop(1,'#1F5FA0');
+  c.beginPath(); c.arc(cx,cy,R,0,6.283); c.fillStyle = g; c.fill();
+  const tilt = 0.4, ct = Math.cos(tilt), st = Math.sin(tilt);
+  c.fillStyle = '#7CC06A'; c.strokeStyle = '#4E8A3E'; c.lineWidth = 2.5;
+  for (const poly of LAND){
+    c.beginPath(); let vis = 0, i = 0;
+    for (const [lo,la] of poly){
+      const l = lo*Math.PI/180 + G.rot, p = la*Math.PI/180;
+      let x = Math.cos(p)*Math.sin(l), y = Math.sin(p), z = Math.cos(p)*Math.cos(l);
+      let y2 = y*ct - z*st; const z2 = y*st + z*ct;
+      if (z2 < 0){ const k = 1/(Math.hypot(x,y2)||1); x *= k; y2 *= k; } else vis++;
+      const px = cx + x*R, py = cy - y2*R; if (i++ === 0) c.moveTo(px,py); else c.lineTo(px,py);
+    }
+    if (vis > 1){ c.closePath(); c.fill(); c.stroke(); }
+  }
+  const sh = c.createRadialGradient(230,200,50,330,330,R); sh.addColorStop(0,'rgba(255,255,255,.28)'); sh.addColorStop(.6,'rgba(255,255,255,0)'); sh.addColorStop(1,'rgba(0,0,40,.45)');
+  c.beginPath(); c.arc(cx,cy,R,0,6.283); c.fillStyle = sh; c.fill(); c.lineWidth = 8; c.strokeStyle = 'rgba(255,255,255,.7)'; c.stroke();
+}
+const globeAt = (x,y) => Math.hypot(x-2925, y-255) < 160;
+
+/* ---------- 지도 ---------- */
+const PLACES = [['서울',212.6,563],['인천',185,570],['수원',222,600],['춘천',270,528],['강릉',352,548],['대전',250,690],['청주',262,650],['전주',215,760],['광주',170,845],['대구',330,760],['부산',378,802],['울산',398,770],['포항',402,715],['목포',120,885],['여수',250,860],['안동',330,680],['제주도',176.9,982],['울릉도',521,571],['독도',600,596],['평양',115,418],['개성',180,525],['원산',236,420],['함흥',292,330],['신의주',25,330],['청진',470,150],['백두산',299.9,120],['한라산',176,985],['서해',60,700],['동해',470,450],['남해',290,950]];
+function nearest(mx,my){ let b=null, d=1e9; for (const p of PLACES){ const q=(p[1]-mx)**2+(p[2]-my)**2; if (q<d){d=q;b=p;} } return d < 70*70 ? (['서해','동해','남해'].includes(b[0]) ? b[0] : b[0]+' 근처') : '바다'; }
+const MAPR = {x:2440, y:560, w:420, h:675, vx:-20, vy:-10, vw:660, vh:1060};
+const toMap = (wx, wy) => [(wx - MAPR.x)/MAPR.w*MAPR.vw + MAPR.vx, (wy - MAPR.y)/MAPR.h*MAPR.vh + MAPR.vy];
+const onMap = (x,y) => x > MAPR.x && x < MAPR.x+MAPR.w && y > MAPR.y && y < MAPR.y+MAPR.h;
+function addPin(mx, my, color){
+  const g = document.createElementNS('http://www.w3.org/2000/svg','g');
+  g.innerHTML = `<path d="M${mx} ${my} l-11 -26 a13 13 0 1 1 22 0z" fill="${color}" stroke="#fff" stroke-width="3"/><circle cx="${mx}" cy="${my-34}" r="5" fill="#fff"/><circle cx="${mx}" cy="${my}" r="10" fill="${color}" opacity=".3"><animate attributeName="r" from="6" to="34" dur="1.2s" repeatCount="3"/><animate attributeName="opacity" from=".5" to="0" dur="1.2s" repeatCount="3"/></circle>`;
+  $('#pins').appendChild(g); setTimeout(()=>{ g.style.transition='opacity 1s'; g.style.opacity=0; setTimeout(()=>g.remove(),1000); }, 60000);
+}
+
+/* ---------- 오늘의 상식 (12초마다, 모두 같은 순서) ---------- */
+const FACTS = [['햇빛은 얼마나 걸려 올까?','태양에서 지구까지 약 8분 20초 걸려요.'],['바다는 왜 짤까?','강물이 돌에서 녹여 낸 소금이 오랜 세월 바다에 쌓였어요.'],['독도는 어디 있을까?','울릉도에서 동남쪽으로 약 87km 떨어진 우리 섬이에요.'],['한글은 몇 글자?','자음 14자와 모음 10자, 모두 24자로 거의 모든 소리를 적어요.'],['지구 속은 몇 도일까?','가장 안쪽은 약 5,400℃로 태양 겉면만큼 뜨거워요.'],['개미는 몇 마리나 있을까?','지구에 약 2경 마리가 산다고 봐요.'],['하늘은 왜 파랄까?','햇빛의 파란빛이 공기에 가장 많이 흩어져서예요.'],['달은 멀어지고 있어요','1년에 약 3.8cm씩 지구에서 멀어져요.'],['우주에서는 소리가 날까?','공기가 거의 없어서 소리가 전해지지 않아요.'],['사람 뼈는 몇 개?','어른 몸에는 뼈가 206개 있어요.'],['가장 높은 산은?','한반도에서는 백두산(약 2,744m), 남한에서는 한라산(약 1,947m)이에요.'],['비행기는 어떻게 뜰까?','날개가 빠르게 달리며 공기를 아래로 밀어, 그 힘으로 떠올라요.']];
+let factI = -1;
+function factTick(){ const i = Math.floor(Date.now()/12000) % FACTS.length; if (i === factI) return; factI = i; $('#fact .q').textContent = FACTS[i][0]; $('#fact .a').textContent = FACTS[i][1]; }
+
+/* ---------- O/X 퀴즈 ---------- */
+const QUIZ = [
+ ['지구 중심은 태양 겉면만큼 뜨거워요.','O','약 5,400℃로 태양 겉면과 비슷해요.'],
+ ['바다에서 가장 깊은 곳은 에베레스트 높이보다 깊어요.','O','챌린저 해연은 약 11km, 에베레스트는 약 8.8km예요.'],
+ ['달에서는 몸무게가 두 배로 늘어나요.','X','달의 중력은 지구의 약 6분의 1이라 가벼워져요.'],
+ ['한글은 세종대왕 때 만들어졌어요.','O','1443년에 만들고 1446년에 널리 알렸어요.'],
+ ['독도는 울릉도보다 서쪽에 있어요.','X','독도는 울릉도에서 동남쪽으로 약 87km 떨어져 있어요.'],
+ ['토성은 물보다 가벼워요.','O','토성의 평균 밀도는 물보다 작아요.'],
+ ['하늘이 파란 건 바다가 비쳐서예요.','X','햇빛의 파란빛이 공기에 가장 많이 흩어지기 때문이에요.'],
+ ['대왕고래는 지금 지구에서 가장 큰 동물이에요.','O','몸길이가 약 30m까지 자라요.'],
+ ['햇빛이 지구까지 오는 데 1초도 안 걸려요.','X','약 8분 20초 걸려요.'],
+ ['한라산은 한반도에서 가장 높은 산이에요.','X','가장 높은 산은 백두산이에요. 한라산은 남한에서 가장 높아요.'],
+ ['개미는 자기 몸무게보다 무거운 걸 들 수 있어요.','O','몸무게의 수십 배를 들어 옮기기도 해요.'],
+ ['지구에서 가장 가까운 별은 북극성이에요.','X','가장 가까운 별은 태양이고, 그다음은 프록시마 센타우리예요.'],
+ ['AI도 틀린 답을 그럴듯하게 말할 수 있어요.','O','그래서 중요한 건 꼭 확인해야 해요.'],
+ ['우주에서는 소리가 들리지 않아요.','O','소리를 전할 공기가 거의 없기 때문이에요.'],
+ ['물곰은 우주에서도 살아남은 적이 있어요.','O','2007년 우주 실험에서 살아 돌아온 물곰이 있어요.']
+];
+const QT = 40000;
+let quizState = {i:-1, phase:''};
+const ZO = {x:1250,y:330,w:330,h:240}, ZX = {x:1620,y:330,w:330,h:240};
+const inR = (r,x,y) => x>r.x && x<r.x+r.w && y>r.y && y<r.y+r.h;
+function quizTick(){
+  const now = Date.now(), n = Math.floor(now/QT), t = now % QT, q = QUIZ[n % QUIZ.length];
+  const phase = t < 25000 ? 'ask' : t < 35000 ? 'show' : 'rest';
+  const all = [ME, ...PEERS.values(), ...BOTLIST.filter(b=>b.on)];
+  const co = all.filter(p=>inR(ZO,p.x,p.y)).length, cx = all.filter(p=>inR(ZX,p.x,p.y)).length;
+  $('#zoneO .cnt').textContent = co ? co+'명' : ''; $('#zoneX .cnt').textContent = cx ? cx+'명' : '';
+  const secs = Math.ceil((25000 - Math.min(t,25000))/1000);
+  $('#quizBoard .qn').textContent = phase==='rest' ? '다음 문제 준비 중…' : phase==='ask' ? `함께 푸는 O/X 퀴즈 · ${secs}초 남았어요` : '정답 공개!';
+  if (n !== quizState.i || phase !== quizState.phase){
+    quizState = {i:n, phase};
+    $('#quizBoard .qq').textContent = q[0];
+    $('#quizBoard .qa').textContent = phase==='show' ? `정답은 ${q[1]}! ${q[2]}` : phase==='ask' ? 'O나 X 구역으로 커서를 옮겨 보세요' : '';
+    $('#zoneO').classList.toggle('win', phase==='show' && q[1]==='O'); $('#zoneX').classList.toggle('win', phase==='show' && q[1]==='X');
+    if (phase==='show'){ const inO = inR(ZO,ME.x,ME.y), inX = inR(ZX,ME.x,ME.y); if (inO||inX){ const right = (q[1]==='O') === inO; SFX.quiz(right); toast(right ? '정답이에요! 🎉' : '아쉬워요, 다음 문제에 도전해요'); } else SFX.quiz(null); }
+  }
+}
+
+/* ---------- 커서 ---------- */
+const PEERS = new Map();
+const ARROW = c => `<svg viewBox="0 0 30 34"><path d="M3 2 L3 27 L10 21 L15 32 L20 30 L15 19 L25 19 Z" fill="${c}" stroke="#fff" stroke-width="2.5" stroke-linejoin="round"/></svg>`;
+function makeCursor(p, kind){
+  const d = document.createElement('div'); d.className = 'cur' + (kind==='me'?' me':kind==='bot'?' bot':'');
+  d.style.setProperty('--bc', p.color);
+  d.innerHTML = ARROW(p.color) + `<span class="nm" style="background:${p.color}"></span>`;
+  d.querySelector('.nm').textContent = p.name;
+  $('#cursors').appendChild(d); p.el = d; return d;
+}
+makeCursor(ME, 'me');
+const EMO = ['👋','😂','❤️','👍','😮'];
+function showEmote(p, i){ if (!p.el || !EMO[i]) return; const s = document.createElement('span'); s.className='emo'; s.textContent = EMO[i]; p.el.appendChild(s); setTimeout(()=>s.remove(), 2200); SFX.blip(p); }
+
+/* =========================================================
+   컴퓨터 친구들: 모두의 화면에 같은 자리, 같은 행동으로 보이도록
+   시간만으로 계산해요. (서버가 없어도, 있어도 똑같이 보여요)
+   ========================================================= */
+const SPOTS = {plaza:[1600,1060,140], quizO:[1415,450,120], quizX:[1785,450,120], fire:[650,1250,150], piano:[1530,1310,220], bell:[2060,1260,70], map:[2650,900,170], globe:[2925,255,110], fact:[2420,210,170], portals:[1800,1560,420], beach:[1600,1680,900], forest:[500,420,380], bridge:[1085,1010,60], balloons:[3000,1100,160]};
+const SPOT_KEYS = ['plaza','fire','piano','bell','map','map','globe','fact','portals','beach','beach','forest','forest','bridge','balloons','plaza'];
+const BOT_N = 18;
+const BOTLIST = Array.from({length:BOT_N}, (_,i)=>{ const r = hr(900+i); return {id:'bot'+i, i, name: ADJ[(r()*ADJ.length)|0]+' '+ANI[(r()*ANI.length)|0], color: COLORS[(r()*COLORS.length)|0], L: 9000 + r()*9000, off: r()*1e6, x:1600, y:1000, on:false, lastSeg:-1, lastNote:-1}; });
+// 같은 이름이 둘 보이지 않게 (나와 겹치거나 서로 겹치면 동물을 바꿔요)
+(function(){ const used = new Set([ME.name]); BOTLIST.forEach(b=>{ let k = 0; while (used.has(b.name)){ const p = b.name.split(' '); b.name = p.slice(0,-1).join(' ')+' '+ANI[(ANI.indexOf(p[p.length-1])+1+k++)%ANI.length]; } used.add(b.name); }); })();
+function botTarget(b, seg){
+  const r = hr(b.i*7919 + seg); const t = (seg*b.L - b.off);
+  const qn = Math.floor(t/QT), qt = ((t % QT) + QT) % QT, q = QUIZ[((qn % QUIZ.length)+QUIZ.length)%QUIZ.length];
+  let k = SPOT_KEYS[(r()*SPOT_KEYS.length)|0];
+  if (qt < 21000 && r() < .45) k = (r() < .72) === (q[1]==='O') ? 'quizO' : 'quizX';
+  const s = SPOTS[k], a = r()*6.283, d = Math.sqrt(r())*s[2];
+  return {x: s[0] + Math.cos(a)*d, y: s[1] + Math.sin(a)*d*.6, k, emo: r() < .3 ? (r()*5|0) : -1, r};
+}
+function botsTick(now){
+  const real = PEERS.size + 1, want = clamp(BOT_N - real + 1, 6, BOT_N);
+  const t = Date.now();
+  for (const b of BOTLIST){
+    const on = b.i < want;
+    if (on !== b.on){ b.on = on; if (on){ if (!b.el) makeCursor(b,'person'); b.el.style.display=''; } else if (b.el) b.el.style.display='none'; }
+    if (!on) continue;
+    const u = (t + b.off)/b.L, seg = Math.floor(u), f = u - seg;
+    const A = botTarget(b, seg-1), B = botTarget(b, seg);
+    const m = f < .3 ? (1 - Math.cos(Math.PI*f/.3))/2 : 1;
+    const wob = f >= .3 ? 1 : 0;
+    b.x = lerp(A.x, B.x, m) + Math.sin(t/900 + b.i)*14*wob; b.y = lerp(A.y, B.y, m) + Math.cos(t/1100 + b.i*2)*10*wob;
+    b.el.style.transform = `translate(${b.x.toFixed(1)}px,${b.y.toFixed(1)}px)`;
+    if (seg !== b.lastSeg && f > .35){ b.lastSeg = seg;
+      if (B.emo >= 0) showEmote(b, B.emo);
+      if (B.k === 'bell' && hr(b.i, seg, 3)() < .5){ ringBell(); SFX.bell(b); }
+      if (B.k === 'balloons'){ const i = balloonAt(b.x, b.y); if (i >= 0 && hr(b.i, seg, 5)() < .6) popBalloon(i, b); } }
+    if (B.k === 'piano' && f > .35){ const nt = Math.floor(t/520); if (nt !== b.lastNote){ b.lastNote = nt; const rr = hr(b.i, nt); if (rr() < .55){ const k = pianoKeyAt(b.x, b.y) >= 0 ? pianoKeyAt(b.x, b.y) : (rr()*8|0); keyFlash(k, b.color); SFX.piano(k, b); } } }
+  }
+}
+
+/* =========================================================
+   소리: 파일 없이 브라우저가 직접 만드는 소리
+   - 장소마다 소리가 있고, 가까울수록 크게, 왼쪽·오른쪽 방향까지 들려요
+   ========================================================= */
+const SFX = (() => {
+  let A = null, on = false, master, comp, rev, dry, N = {}, Z = {};
+  const nb = sec => { const b = A.createBuffer(2, A.sampleRate*sec, A.sampleRate); for (let ch=0; ch<2; ch++){ const d = b.getChannelData(ch); let l=0; for (let i=0;i<d.length;i++){ const w=Math.random()*2-1; l=(l+0.02*w)/1.02; d[i]=w*.45+l*3; } } return b; };
+  const loop = () => { const s = A.createBufferSource(); s.buffer = N.nb; s.loop = true; s.start(0, Math.random()*3); return s; };
+  const filt = (type, f, q=.7) => { const x = A.createBiquadFilter(); x.type = type; x.frequency.value = f; x.Q.value = q; return x; };
+  const gain = v => { const g = A.createGain(); g.gain.value = v; return g; };
+  function impulse(sec, decay){ const len = A.sampleRate*sec, b = A.createBuffer(2, len, A.sampleRate); for (let ch=0;ch<2;ch++){ const d=b.getChannelData(ch); for (let i=0;i<len;i++) d[i]=(Math.random()*2-1)*Math.pow(1-i/len, decay); } return b; }
+  function zone(name){ const g = gain(0), p = A.createStereoPanner(); g.connect(p).connect(master); const s = gain(0); p.connect(s).connect(rev); Z[name] = {g, p, s}; return g; }
+  function build(){
+    A = new (window.AudioContext || window.webkitAudioContext)();
+    comp = A.createDynamicsCompressor(); comp.threshold.value = -16; comp.ratio.value = 3; comp.connect(A.destination);
+    master = gain(0); master.connect(comp);
+    rev = A.createConvolver(); rev.buffer = impulse(2.6, 3); const rg = gain(.28); rev.connect(rg).connect(master);
+    N.nb = nb(4);
+    // 바다: 왼쪽·오른쪽 파도가 엇갈려 밀려와요
+    const sea = zone('sea');
+    const deep = loop(); deep.connect(filt('lowpass', 300)).connect(gain(.55)).connect(sea);
+    for (const side of [-1, 1]){ const pn = A.createStereoPanner(); pn.pan.value = side*.7; pn.connect(sea);
+      const sw = loop(), sf = filt('bandpass', 800, .45), sg = gain(0); sw.connect(sf).connect(sg).connect(pn);
+      const fo = loop(), ff = filt('highpass', 2600), fg = gain(0); fo.connect(ff).connect(fg).connect(pn);
+      (side<0 ? (N.swL = {sg, sf, fg}) : (N.swR = {sg, sf, fg})); }
+    // 숲: 잎 스치는 바람
+    const forest = zone('forest'); const wi = loop(), wf = filt('bandpass', 650, .6); N.windG = gain(.3); wi.connect(wf).connect(N.windG).connect(forest); N.windF = wf;
+    // 시냇물: 졸졸 흐르는 물
+    const brook = zone('brook'); const bw = loop(); bw.connect(filt('highpass', 1200)).connect(filt('lowpass', 5000)).connect(gain(.18)).connect(brook);
+    // 모닥불
+    const fire = zone('fire'); const fr = loop(); fr.connect(filt('lowpass', 240)).connect(gain(.7)).connect(fire);
+    // 광장 분수
+    const fount = zone('fount'); const fw = loop(); fw.connect(filt('bandpass', 1800, .5)).connect(gain(.22)).connect(fount);
+    // 어디서나 옅은 바람
+    const air = gain(.045); air.connect(master); const aw = loop(); aw.connect(filt('lowpass', 420)).connect(air);
+    waveCycle(-1); setTimeout(()=>waveCycle(1), 3700); bird(); cuckoo(); gull(); crackle(); bubble(); gust();
+  }
+  function waveCycle(side){
+    if (!A) return; const w = side<0 ? N.swL : N.swR, t = A.currentTime, P = 7 + Math.random()*3;
+    w.sg.gain.cancelScheduledValues(t); w.sg.gain.setValueAtTime(.04, t); w.sg.gain.linearRampToValueAtTime(.95, t+P*.42); w.sg.gain.exponentialRampToValueAtTime(.05, t+P);
+    w.sf.frequency.setValueAtTime(420, t); w.sf.frequency.linearRampToValueAtTime(1400, t+P*.42); w.sf.frequency.linearRampToValueAtTime(520, t+P);
+    w.fg.gain.cancelScheduledValues(t); w.fg.gain.setValueAtTime(0, t); w.fg.gain.setValueAtTime(0, t+P*.38); w.fg.gain.linearRampToValueAtTime(.4, t+P*.48); w.fg.gain.exponentialRampToValueAtTime(.01, t+P*.95);
+    // 파도가 부서질 때 낮은 "쿵"
+    const o = A.createOscillator(), e = gain(0); o.frequency.setValueAtTime(70, t+P*.42); o.frequency.exponentialRampToValueAtTime(38, t+P*.7); e.gain.setValueAtTime(0, t+P*.4); e.gain.linearRampToValueAtTime(.18, t+P*.44); e.gain.exponentialRampToValueAtTime(.001, t+P*.8); o.connect(e).connect(Z.sea.g); o.start(t+P*.4); o.stop(t+P*.85);
+    setTimeout(()=>waveCycle(side), P*1000);
+  }
+  const zg = n => Z[n] ? Z[n].g.gain.value : 0;
+  function chirp(dest, base, n, gap){ const t = A.currentTime; for (let k=0;k<n;k++){ const o = A.createOscillator(), e = gain(0), t0 = t + k*gap*rnd(.8,1.2); o.type='sine'; o.frequency.setValueAtTime(base, t0); o.frequency.exponentialRampToValueAtTime(base*rnd(1.25,1.7), t0+.05); o.frequency.exponentialRampToValueAtTime(base*rnd(.75,1), t0+.1); e.gain.setValueAtTime(0,t0); e.gain.linearRampToValueAtTime(.11,t0+.012); e.gain.exponentialRampToValueAtTime(.001,t0+.11); o.connect(e).connect(dest); o.start(t0); o.stop(t0+.13); } }
+  function bird(){ if (!A) return; if (zg('forest') > .03){ const r = Math.random(); if (r < .5) chirp(Z.forest.g, rnd(2300,3600), 2+(Math.random()*4|0), .12); else chirp(Z.forest.g, rnd(3800,5200), 6+(Math.random()*5|0), .06); } setTimeout(bird, rnd(700, 2600)); }
+  function cuckoo(){ if (!A) return; if (zg('forest') > .1 && Math.random() < .5){ const t = A.currentTime; [[698,0],[554,.34]].forEach(([f,d])=>{ const o = A.createOscillator(), e = gain(0); o.type='sine'; o.frequency.value = f; e.gain.setValueAtTime(0,t+d); e.gain.linearRampToValueAtTime(.12,t+d+.03); e.gain.exponentialRampToValueAtTime(.001,t+d+.3); o.connect(e).connect(Z.forest.g); o.start(t+d); o.stop(t+d+.32); }); } setTimeout(cuckoo, rnd(6000, 14000)); }
+  function gull(){ if (!A) return; if (zg('sea') > .35 && Math.random() < .6){ const t = A.currentTime, n = 2 + (Math.random()*2|0); for (let k=0;k<n;k++){ const t0 = t + k*.32, o = A.createOscillator(), bp = filt('bandpass', 1500, 3), e = gain(0); o.type='sawtooth'; o.frequency.setValueAtTime(1350, t0); o.frequency.exponentialRampToValueAtTime(900, t0+.24); e.gain.setValueAtTime(0,t0); e.gain.linearRampToValueAtTime(.05,t0+.03); e.gain.exponentialRampToValueAtTime(.001,t0+.26); o.connect(bp).connect(e).connect(Z.sea.p); o.start(t0); o.stop(t0+.28); } } setTimeout(gull, rnd(5000, 11000)); }
+  function crackle(){ if (!A) return; if (zg('fire') > .03){ const t = A.currentTime, n = 1 + (Math.random()*3|0); for (let k=0;k<n;k++){ const s = A.createBufferSource(); s.buffer = N.nb; const f = filt('highpass', rnd(1200,4200)), e = gain(0), t0 = t + k*rnd(.02,.08); e.gain.setValueAtTime(rnd(.25,.7), t0); e.gain.exponentialRampToValueAtTime(.001, t0 + rnd(.02,.06)); s.connect(f).connect(e).connect(Z.fire.g); s.start(t0, Math.random()*3, .08); } } setTimeout(crackle, rnd(50, 320)); }
+  function bubble(){ if (!A) return; if (zg('brook') > .03){ const t = A.currentTime, o = A.createOscillator(), e = gain(0), f0 = rnd(500, 1400); o.type='sine'; o.frequency.setValueAtTime(f0, t); o.frequency.exponentialRampToValueAtTime(f0*rnd(1.5,2.4), t+.05); e.gain.setValueAtTime(0,t); e.gain.linearRampToValueAtTime(.08,t+.008); e.gain.exponentialRampToValueAtTime(.001,t+.06); o.connect(e).connect(Z.brook.g); o.start(t); o.stop(t+.07); } setTimeout(bubble, rnd(40, 180)); }
+  function gust(){ if (!A) return; const t = A.currentTime; N.windF.frequency.setTargetAtTime(rnd(450, 1100), t, 1.2); N.windG.gain.setTargetAtTime(rnd(.15, .45), t, 1.5); setTimeout(gust, rnd(2500, 6000)); }
+  // 장소별 소리 크기와 방향 (내 커서 기준)
+  const SRC = {forest:[500,420,520], brook:null, fire:[650,1270,380], fount:[1600,1000,260]};
+  function distToStream(x,y){ const pts = [[1230,0],[1180,200],[1160,640],[1040,1200],[980,1760]]; let d = 1e9, px = 0; for (let i=0;i<pts.length-1;i++){ const [x1,y1]=pts[i],[x2,y2]=pts[i+1]; const dx=x2-x1, dy=y2-y1, u=clamp(((x-x1)*dx+(y-y1)*dy)/(dx*dx+dy*dy),0,1); const qx=x1+u*dx, qy=y1+u*dy, q=Math.hypot(x-qx,y-qy); if (q<d){d=q; px=qx;} } return [d, px]; }
+  function mix(x, y){
+    if (!A || !on) return; const t = A.currentTime;
+    const set = (n, g, pan) => { Z[n].g.gain.setTargetAtTime(g, t, .3); Z[n].s.gain.setTargetAtTime(g*.5, t, .3); Z[n].p.pan.setTargetAtTime(clamp(pan, -.9, .9), t, .3); };
+    const fall = (d, r) => 1/(1 + Math.pow(d/r, 2.2));
+    set('sea', 0.06 + fall(Math.max(0, 1700 - y), 330)*1.0, 0);
+    for (const n of ['forest','fire','fount']){ const [sx,sy,r] = SRC[n]; set(n, fall(Math.hypot(x-sx, y-sy), r)*(n==='fount'?.6:1), (sx - x)/700); }
+    const [ds, sxp] = distToStream(x, y); set('brook', fall(ds, 170)*.9, (sxp - x)/500);
+  }
+  // 소리 나는 곳이 내 커서에서 얼마나 멀고 어느 쪽인지
+  const place = p => { const d = Math.hypot(p.x-ME.x, p.y-ME.y); return {v: p===ME ? 1 : clamp(1/(1+Math.pow(d/700,2)), .06, 1), pan: p===ME ? 0 : clamp((p.x-ME.x)/800, -.9, .9)}; };
+  function out(p){ const pl = place(p), g = gain(pl.v), pn = A.createStereoPanner(); pn.pan.value = pl.pan; g.connect(pn); pn.connect(master); const s = gain(.35); pn.connect(s).connect(rev); return g; }
+  function pianoNote(f, dest, t){ const parts = [[1,.5,1.6],[2,.22,1.0],[3,.1,.6],[4,.05,.4]]; for (const [h,a,d] of parts){ const o = A.createOscillator(), e = gain(0); o.type = h===1 ? 'triangle' : 'sine'; o.frequency.value = f*h*(1+ (h-1)*0.0015); e.gain.setValueAtTime(0,t); e.gain.linearRampToValueAtTime(a, t+.006); e.gain.exponentialRampToValueAtTime(.001, t+d*1.6); o.connect(e).connect(dest); o.start(t); o.stop(t+d*1.7); } }
+  return {
+    get on(){ return on; },
+    async toggle(){ if (!A) build(); on = !on; if (on){ await A.resume(); master.gain.setTargetAtTime(.9, A.currentTime, .15); mix(ME.x, ME.y); } else master.gain.setTargetAtTime(0, A.currentTime, .1); return on; },
+    mix,
+    piano(k, p){ if (!A||!on) return; pianoNote(NOTES[k], out(p), A.currentTime); },
+    bell(p){ if (!A||!on) return; const t = A.currentTime, d = out(p); [[1,.35,5],[2.76,.18,3],[5.4,.1,2],[8.93,.06,1.2],[.5,.2,6]].forEach(([h,a,dd])=>{ const o = A.createOscillator(), e = gain(0); o.type='sine'; o.frequency.value = 220*h; e.gain.setValueAtTime(0,t); e.gain.linearRampToValueAtTime(a,t+.01); e.gain.exponentialRampToValueAtTime(.001,t+dd); o.connect(e).connect(d); o.start(t); o.stop(t+dd); }); },
+    pop(p){ if (!A||!on) return; const t = A.currentTime, d = out(p), s = A.createBufferSource(); s.buffer = N.nb; const e = gain(0); e.gain.setValueAtTime(1, t); e.gain.exponentialRampToValueAtTime(.001, t+.12); s.connect(filt('highpass', 700)).connect(e).connect(d); s.start(t, Math.random()*3, .15); const o = A.createOscillator(), e2 = gain(0); o.frequency.setValueAtTime(700,t); o.frequency.exponentialRampToValueAtTime(180,t+.1); e2.gain.setValueAtTime(.25,t); e2.gain.exponentialRampToValueAtTime(.001,t+.12); o.connect(e2).connect(d); o.start(t); o.stop(t+.13); },
+    whoosh(p){ if (!A||!on) return; const t = A.currentTime, d = out(p), s = A.createBufferSource(); s.buffer = N.nb; const f = filt('bandpass', 300, 2); f.frequency.setValueAtTime(300, t); f.frequency.exponentialRampToValueAtTime(2400, t+.4); const e = gain(0); e.gain.setValueAtTime(0, t); e.gain.linearRampToValueAtTime(.6, t+.1); e.gain.exponentialRampToValueAtTime(.001, t+.55); s.connect(f).connect(e).connect(d); s.start(t, Math.random()*3, .6); },
+    pin(p){ if (!A||!on) return; const t = A.currentTime, d = out(p); [[880,0],[1318,.07]].forEach(([f,dt])=>{ const o = A.createOscillator(), e = gain(0); o.type='sine'; o.frequency.value = f; e.gain.setValueAtTime(0,t+dt); e.gain.linearRampToValueAtTime(.18,t+dt+.01); e.gain.exponentialRampToValueAtTime(.001,t+dt+.25); o.connect(e).connect(d); o.start(t+dt); o.stop(t+dt+.27); }); },
+    blip(p){ if (!A||!on) return; const t = A.currentTime, d = out(p), o = A.createOscillator(), e = gain(0); o.type='sine'; o.frequency.setValueAtTime(rnd(650,900),t); o.frequency.exponentialRampToValueAtTime(rnd(1100,1500),t+.08); e.gain.setValueAtTime(0,t); e.gain.linearRampToValueAtTime(.12,t+.01); e.gain.exponentialRampToValueAtTime(.001,t+.16); o.connect(e).connect(d); o.start(t); o.stop(t+.17); },
+    quiz(right){ if (!A||!on) return; const t = A.currentTime, notes = right===true ? [784,988,1175,1568] : right===false ? [392,330] : [659,880]; notes.forEach((f,i)=>{ const o = A.createOscillator(), e = gain(0); o.type = right===false ? 'triangle' : 'sine'; o.frequency.value = f; const t0 = t + i*.11; e.gain.setValueAtTime(0,t0); e.gain.linearRampToValueAtTime(.2,t0+.01); e.gain.exponentialRampToValueAtTime(.001,t0+.5); o.connect(e).connect(master); o.start(t0); o.stop(t0+.52); }); },
+    portal(){ if (!A||!on) return; const t = A.currentTime; for (let i=0;i<6;i++){ const o = A.createOscillator(), e = gain(0), t0 = t+i*.06; o.type='sine'; o.frequency.value = 523*Math.pow(2, i/5); e.gain.setValueAtTime(0,t0); e.gain.linearRampToValueAtTime(.12,t0+.01); e.gain.exponentialRampToValueAtTime(.001,t0+.4); o.connect(e).connect(master); o.start(t0); o.stop(t0+.42); } }
+  };
+})();
+$('#snd').addEventListener('click', async e => { const btn = e.currentTarget; const on = await SFX.toggle(); btn.classList.toggle('on', on); btn.setAttribute('aria-pressed', on); btn.textContent = on ? '🔊 소리 끄기' : '🔈 소리 켜기'; });
+
+/* =========================================================
+   연결 (Cloudflare 중계 서버)
+   ========================================================= */
+const NET = {ws:null, room:1, live:false, lastSend:0};
+function send(msg){ if (NET.ws && NET.ws.readyState === 1) NET.ws.send(JSON.stringify(msg)); }
+function connect(){
+  if (!SERVER){ status(); return; }
+  let ws; try { ws = new WebSocket(`${SERVER}?room=camp-${NET.room}`); } catch(_){ status(); return; }
+  NET.ws = ws; let opened = false;
+  ws.onopen = () => { opened = true; NET.live = true; ws.send(JSON.stringify(['hi', ME.name, ME.color, Math.round(ME.x), Math.round(ME.y)])); status(); };
+  ws.onmessage = ev => { let m; try { m = JSON.parse(ev.data); } catch(_){ return; } onMsg(m); };
+  ws.onclose = () => { NET.live = false; if (NET.full){ NET.full = false; NET.room++; setTimeout(connect, 200); return; }
+    for (const [id,p] of PEERS){ p.el.remove(); PEERS.delete(id); } status();
+    if (opened) setTimeout(connect, 2500); };
+}
+function onMsg(m){
+  const [t] = m;
+  if (t === 'full'){ NET.full = true; return; }
+  if (t === 'welcome'){ for (const [id,name,color,x,y] of m[2]) addPeer(id,name,color,x,y); if (m[3]) POPPED = m[3].balloons||0; status(); return; }
+  if (t === 'join'){ addPeer(m[1],m[2],m[3],m[4],m[5]); status(); return; }
+  if (t === 'bye'){ const p = PEERS.get(m[1]); if (p){ p.el.remove(); PEERS.delete(m[1]); status(); } return; }
+  const p = PEERS.get(m[1]); if (!p) return;
+  if (t === 'm'){ p.tx = m[2]; p.ty = m[3]; }
+  else if (t === 'e') showEmote(p, m[2]);
+  else if (t === 'p'){ keyFlash(m[2], p.color); SFX.piano(m[2], p); }
+  else if (t === 'b'){ popBalloon(m[2], p); if (m[3]) POPPED = m[3]; }
+  else if (t === 'g'){ G.vel += clamp(m[2], -0.08, 0.08); SFX.whoosh(p); }
+  else if (t === 'pin'){ addPin(m[2], m[3], p.color); SFX.pin(p); }
+  else if (t === 'bell'){ ringBell(); SFX.bell(p); }
+}
+function addPeer(id, name, color, x, y){ if (PEERS.has(id)) return; const p = {id, name:String(name).slice(0,20), color: /^#[0-9A-Fa-f]{6}$/.test(color)?color:'#888', x, y, tx:x, ty:y}; makeCursor(p, 'person'); PEERS.set(id, p); }
+function status(){}
+
+/* =========================================================
+   입력
+   ========================================================= */
+const DRAG = {on:false, moved:0, sx:0, sy:0, id:null};
+function hitAction(x, y){
+  const k = pianoKeyAt(x,y); if (k >= 0) return () => { keyFlash(k, ME.color); SFX.piano(k, ME); send(['p', k]); };
+  if (Math.hypot(x-2060, y-1200) < 90) return () => { ringBell(); SFX.bell(ME); send(['bell']); };
+  const b = balloonAt(x,y); if (b >= 0) return () => { POPPED++; popBalloon(b, ME); send(['b', b]); };
+  if (globeAt(x,y)) return () => { const d = (x < 2925 ? -1 : 1)*0.05; G.vel += d; SFX.whoosh(ME); send(['g', d]); };
+  if (onMap(x,y)) return () => { const [mx,my] = toMap(x,y); addPin(mx, my, ME.color); SFX.pin(ME); send(['pin', Math.round(mx), Math.round(my)]); toast(nearest(mx,my)+'에 핀을 꽂았어요'); };
+  const pi = portalAt(x,y); if (pi >= 0) return () => { SFX.portal(); toast(`${TRIPS[pi][1]}(으)로 떠나요!`); setTimeout(()=>{ location.href = '/#/' + TRIPS[pi][0]; }, 650); };
+  return null;
+}
+addEventListener('pointermove', e => {
+  PTR.x = e.clientX; PTR.y = e.clientY; PTR.mouse = e.pointerType === 'mouse'; PTR.inside = true;
+  if (DRAG.on && e.pointerId === DRAG.id){ const dx = e.clientX - DRAG.sx, dy = e.clientY - DRAG.sy; DRAG.moved += Math.abs(dx) + Math.abs(dy); DRAG.sx = e.clientX; DRAG.sy = e.clientY; if (DRAG.moved > 8){ $('#view').classList.add('drag'); panBy(-dx, -dy); V.ox = V.tx; V.oy = V.ty; applyCam(); } }
+}, {passive:true});
+addEventListener('pointerleave', () => { PTR.inside = false; });
+document.addEventListener('mouseleave', () => { PTR.inside = false; });
+$('#view').addEventListener('pointerdown', e => {
+  PTR.x = e.clientX; PTR.y = e.clientY; PTR.inside = true;
+  const [x,y] = toWorld(e.clientX, e.clientY); ME.tx = x; ME.ty = y; if (e.pointerType !== 'mouse'){ ME.x = x; ME.y = y; }
+  const act = hitAction(x, y); if (act){ act(); return; }
+  DRAG.on = true; DRAG.moved = 0; DRAG.sx = e.clientX; DRAG.sy = e.clientY; DRAG.id = e.pointerId; try { $('#view').setPointerCapture(e.pointerId); } catch(_){}
+});
+addEventListener('pointerup', () => { DRAG.on = false; $('#view').classList.remove('drag'); });
+addEventListener('wheel', e => { e.preventDefault(); panBy(e.deltaX, e.deltaY); }, {passive:false});
+const KEYS = new Set();
+addEventListener('keydown', e => { const k = +e.key; if (k>=1 && k<=5){ showEmote(ME, k-1); send(['e', k-1]); } if (['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','a','d','w','s'].includes(e.key)){ KEYS.add(e.key); e.preventDefault(); } });
+addEventListener('keyup', e => KEYS.delete(e.key));
+document.querySelectorAll('#bar [data-e]').forEach(b => b.addEventListener('click', () => { const i = +b.dataset.e; showEmote(ME, i); send(['e', i]); }));
+$('#enter').addEventListener('click', async () => { $('#intro').remove(); if (!SFX.on) $('#snd').click(); connect(); status(); setTimeout(()=>{ const h = $('#hint'); h.style.transition='opacity 1s'; h.style.opacity='.0'; setTimeout(()=>h.remove(), 1000); }, 15000); });
+function popBalloon(i, p){ const o = BAL[i]; if (!o) return; o.popUntil = Date.now() + 9000; SFX.pop(p); }
+
+/* ---------- 미니 지도 ---------- */
+const MINI = $('#mini canvas'), MC = MINI.getContext('2d');
+$('#mini').addEventListener('pointerdown', e => { e.stopPropagation(); const r = MINI.getBoundingClientRect(); const wx = (e.clientX - r.left)/r.width*W, wy = (e.clientY - r.top)/r.height*H; jumpTo(wx, wy); if (!PTR.mouse){ ME.tx = ME.x = wx; ME.ty = ME.y = wy; } });
+function drawMini(){
+  const c = MC, sx = 432/W, sy = 264/H; c.clearRect(0,0,432,264);
+  c.fillStyle = '#8CCB6E'; c.fillRect(0,0,432,264);
+  c.fillStyle = '#F2DDA4'; c.fillRect(0,1630*sy,432,120*sy); c.fillStyle = '#3AA6DA'; c.fillRect(0,1730*sy,432,270*sy);
+  c.fillStyle = '#3E8A4A'; c.fillRect(40*sx,40*sy,960*sx,700*sy);
+  c.fillStyle = '#28493A'; c.fillRect(1180*sx,110*sy,840*sx,170*sy);
+  c.fillStyle = '#9AD8A6'; c.fillRect(MAPR.x*sx, MAPR.y*sy, MAPR.w*sx, MAPR.h*sy);
+  c.fillStyle = '#FF7A2A'; c.beginPath(); c.arc(650*sx,1270*sy,6,0,6.283); c.fill();
+  c.fillStyle = '#2B2B33'; c.fillRect(1260*sx,1240*sy,540*sx,150*sy);
+  c.fillStyle = '#1F5FA0'; c.beginPath(); c.arc(2925*sx,255*sy,20,0,6.283); c.fill();
+  for (const b of BOTLIST) if (b.on){ c.fillStyle = b.color; c.beginPath(); c.arc(b.x*sx, b.y*sy, 5, 0, 6.283); c.fill(); }
+  for (const p of PEERS.values()){ c.fillStyle = p.color; c.beginPath(); c.arc(p.x*sx, p.y*sy, 5, 0, 6.283); c.fill(); }
+  c.fillStyle = ME.color; c.strokeStyle = '#fff'; c.lineWidth = 3; c.beginPath(); c.arc(ME.x*sx, ME.y*sy, 7, 0, 6.283); c.fill(); c.stroke();
+  const vx = -V.ox/V.s, vy = -V.oy/V.s, vw = innerWidth/V.s, vh = innerHeight/V.s;
+  c.strokeStyle = '#1D1B3A'; c.lineWidth = 3; c.strokeRect(vx*sx, vy*sy, vw*sx, vh*sy);
+}
+
+/* ---------- 매 프레임 ---------- */
+let lastQuiz = 0, lastMini = 0;
+function frame(now){
+  // 화면 가장자리에 가면 운동장이 흘러가요 (마우스)
+  if (PTR.mouse && PTR.inside && !DRAG.on && !document.getElementById('intro')){
+    const e = 70, sp = 14, vw = innerWidth, vh = innerHeight;
+    const ex = PTR.x < e ? -(e-PTR.x)/e : PTR.x > vw-e ? (PTR.x-(vw-e))/e : 0;
+    const ey = PTR.y < e ? -(e-PTR.y)/e : PTR.y > vh-e ? (PTR.y-(vh-e))/e : 0;
+    if (ex || ey) panBy(ex*sp, ey*sp);
+  }
+  if (KEYS.size){ const s = 16; panBy((KEYS.has('ArrowRight')||KEYS.has('d')?s:0) - (KEYS.has('ArrowLeft')||KEYS.has('a')?s:0), (KEYS.has('ArrowDown')||KEYS.has('s')?s:0) - (KEYS.has('ArrowUp')||KEYS.has('w')?s:0)); }
+  V.ox += (V.tx - V.ox)*0.2; V.oy += (V.ty - V.oy)*0.2; applyCam();
+  if (PTR.mouse && PTR.inside){ const [x,y] = toWorld(PTR.x, PTR.y); ME.tx = x; ME.ty = y; }
+  ME.x += (ME.tx - ME.x)*0.55; ME.y += (ME.ty - ME.y)*0.55;
+  ME.el.style.transform = `translate(${ME.x.toFixed(1)}px,${ME.y.toFixed(1)}px)`;
+  if (now - NET.lastSend > 70 && (Math.abs(ME.x - (NET.sx||0)) > .8 || Math.abs(ME.y - (NET.sy||0)) > .8)){ NET.lastSend = now; NET.sx = ME.x; NET.sy = ME.y; send(['m', Math.round(ME.x), Math.round(ME.y)]); }
+  for (const p of PEERS.values()){ p.x += (p.tx - p.x)*0.18; p.y += (p.ty - p.y)*0.18; p.el.style.transform = `translate(${p.x.toFixed(1)}px,${p.y.toFixed(1)}px)`; }
+  botsTick(now);
+  SFX.mix(ME.x, ME.y);
+  // 지도 위 지명
+  const tip = $('#mapTip'); if (onMap(ME.x, ME.y)){ const [mx,my] = toMap(ME.x, ME.y); tip.textContent = nearest(mx,my); tip.style.display='block'; tip.style.left = ME.x+'px'; tip.style.top = ME.y+'px'; } else tip.style.display='none';
+  // 입구 반짝
+  const pi = portalAt(ME.x, ME.y); document.querySelectorAll('.portal').forEach((el,i)=>el.classList.toggle('hot', i===pi));
+  // 풍선
+  const t = Date.now(); for (const o of BAL){ const [x,y] = balPos(o, t); o.el.style.transform = `translate(${x.toFixed(1)}px,${y.toFixed(1)}px)`; o.el.classList.toggle('pop', o.popUntil > t); }
+  // 지구본
+  G.rot += G.vel; G.vel += (0.004 - G.vel)*0.01; drawGlobe();
+  // 모닥불
+  const around = [ME, ...PEERS.values(), ...BOTLIST.filter(b=>b.on)].filter(p => Math.hypot(p.x-650, p.y-1260) < 300).length;
+  $('#fire').setAttribute('transform', `translate(650 1270) scale(${1 + Math.min(around,8)*0.07})`); $('#fireGlow').setAttribute('r', 220 + Math.min(around,8)*30);
+  if (now - lastQuiz > 250){ lastQuiz = now; quizTick(); factTick(); status(); }
+  if (now - lastMini > 100){ lastMini = now; drawMini(); }
+  requestAnimationFrame(frame);
+}
+fit(); status();
+requestAnimationFrame(frame);
+</script>
+</body>
+</html>
