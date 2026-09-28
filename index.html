@@ -925,8 +925,11 @@ function fxDraw(cx,g,p,tw){
   cx.arc(p.x,p.y,p.s,0,6.283); cx.fill(); cx.shadowBlur=0;
 }
 let REV_T = 0;
-function revealPassed(){
-  const now = performance.now(); if (now - REV_T < 120 || !window.revIn) return; REV_T = now;
+let REV_TAIL = 0;
+function revealPassed(force){
+  const now = performance.now();
+  if (!force){ clearTimeout(REV_TAIL); REV_TAIL = setTimeout(()=>revealPassed(true), 160); }
+  if ((!force && now - REV_T < 120) || !window.revIn) return; REV_T = now;
   const H = !!(cur && cur.horizontal), W = innerWidth, Hh = innerHeight;
   document.querySelectorAll('#track .rv:not(.in)').forEach(el=>{
     const r = el.getBoundingClientRect();
@@ -2869,8 +2872,9 @@ function buildH(page){
   }
   WARP = makeWarp(pairs, page.scale.total);
   const contentEnd = HX + Math.max(right, WARP.total) + 300;
-  end.style.left = contentEnd+'px';
-  const TW = contentEnd + end.offsetWidth + 200;
+  end.style.left = contentEnd+'px'; end.style.width = Math.min(480, W - 24)+'px'; end.style.boxSizing = 'border-box';
+  // 마지막 화면에서 도착 안내가 화면 한가운데 오도록 (휴대폰에서도 잘리지 않게)
+  const TW = contentEnd + end.offsetWidth/2 + W/2;
   track.style.width = TW+'px';
   $('#hspacer').style.height = (TW - W + VH)+'px';
 
@@ -3087,8 +3091,15 @@ function update(){
   $('#hudV').textContent = m; $('#hudS').textContent = s;
 }
 addEventListener('scroll', ()=>{ if (!ticking){ ticking=true; requestAnimationFrame(update); } }, {passive:true});
-let rt; addEventListener('resize', ()=>{ clearTimeout(rt); rt=setTimeout(()=>{
-  if (!cur) return; const was = innerWidth<720; if (cur.horizontal || cur.zoom || was!==mobile || Math.abs(innerHeight*0.9-HERO)>120){ const p=scrollY/document.documentElement.scrollHeight; build(cur); scrollTo(0,p*document.documentElement.scrollHeight); }
+// 휴대폰에서 스크롤하면 주소창이 숨었다 나타나며 화면 높이가 조금씩 바뀌어요.
+// 그때마다 여행 전체를 다시 만들면 버튼과 그림이 잠깐 사라지므로, 폭이 바뀌거나 높이가 크게 바뀔 때만 다시 만들어요.
+let rt, LAST_W = innerWidth, LAST_H = innerHeight;
+addEventListener('resize', ()=>{ clearTimeout(rt); rt=setTimeout(()=>{
+  if (!cur) return;
+  const dw = Math.abs(innerWidth - LAST_W), dh = Math.abs(innerHeight - LAST_H);
+  if (dw < 2 && dh < Math.max(180, LAST_H*0.25)){ update(); return; }
+  LAST_W = innerWidth; LAST_H = innerHeight;
+  const p=scrollY/document.documentElement.scrollHeight; build(cur); scrollTo(0,p*document.documentElement.scrollHeight);
 },200); });
 
 
@@ -3186,7 +3197,10 @@ addEventListener('keydown', e=>{ if (e.key==='Escape' && cur){ $('#backBtn').cli
   });
 })();
 
-(document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(()=>{ if (cur) build(cur); });
+// 글꼴이 늦게 도착하면 글자 크기가 바뀌므로 한 번 다시 배치해요. 이미 스크롤 중이면 보던 자리를 지켜요.
+(document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(()=>{ if (!cur) return;
+  const H = document.documentElement.scrollHeight, p = H ? scrollY/H : 0; build(cur);
+  if (!cur.zoom) scrollTo(0, p*document.documentElement.scrollHeight); });
 fxSetup();
 route();
 </script>
