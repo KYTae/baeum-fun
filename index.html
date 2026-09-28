@@ -95,7 +95,51 @@ img,svg{max-width:100%}
 #track{position:relative;color:var(--xink,#1D1B3A);transition:color .4s}
 #exp{--xink:#1D1B3A}
 #track.horiz{position:fixed;top:0;left:0;height:100%;will-change:transform;z-index:1}
-#exp.is-h #mini{display:none}
+#exp.is-h #mini,#exp.is-z #mini{display:none}
+#track.zoom{position:fixed;inset:0;z-index:1}
+.zstage{position:absolute;inset:0;overflow:hidden}
+.zground{position:absolute;left:0;right:0;top:74%;height:2px;background:currentColor;opacity:.25}
+.zit{position:absolute;left:0;top:0;transform-origin:0 0;will-change:transform}
+.fig .art img.rast{display:block;margin:0 auto;height:auto;max-width:100%;filter:drop-shadow(0 8px 12px rgba(0,0,0,.2))}
+.zstage:not(.zfloat) .zit::after{content:'';position:absolute;left:8%;right:8%;bottom:-2.5%;height:6%;background:radial-gradient(closest-side,rgba(0,0,0,.22),transparent);z-index:-1;pointer-events:none}
+.zit svg{width:100%;height:100%;display:block;overflow:visible;filter:drop-shadow(0 6px 10px rgba(0,0,0,.18))}
+.zlab{position:absolute;transform:translateX(-50%);font-family:var(--ui);font-weight:700;font-size:14px;white-space:nowrap;color:var(--xink)}
+.zhero{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 20px;background:var(--zbg,transparent);color:var(--xink)}
+.zhero h1{font-family:var(--display);font-weight:400;font-size:clamp(48px,9vw,96px);line-height:1.05;margin:14px 0 10px}
+.zhero p{max-width:540px;font-size:19px;opacity:.85;margin:0}
+.zinfo{position:absolute;left:24px;top:84px;width:min(340px,40vw);background:rgba(255,255,255,.93);color:#1D1B3A;border-radius:20px;padding:16px 18px;box-shadow:0 8px 24px rgba(0,0,0,.15)}
+.zinfo .zn{font-family:var(--ui);font-weight:700;font-size:22px}
+.zinfo .zs{font-family:var(--ui);font-weight:500;font-size:15px;color:#3355FF;margin-top:2px}
+.zinfo p{margin:8px 0 0;font-size:15px;line-height:1.6}
+.zinfo .zc{margin-top:10px;font-family:var(--ui);font-weight:700;font-size:14px;color:#E0591C}
+.znav{position:absolute;left:50%;transform:translateX(-50%);bottom:calc(env(safe-area-inset-bottom,0px) + 22px);width:388px;display:flex;justify-content:space-between;pointer-events:none;z-index:21}
+.znav button{pointer-events:auto}
+.znav svg{width:22px;height:22px;fill:none;stroke:#1D1B3A;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+#exp.is-z #hud .pill{width:240px;min-width:0;padding:10px 12px 9px}
+.zinfo .zk{position:absolute;right:16px;top:14px;font-family:var(--ui);font-weight:700;font-size:13px;color:#8A88A8}
+.zinfo{position:absolute}
+.zhills{position:absolute;left:0;right:0;top:calc(74% - 22vh);height:22vh;opacity:0;transition:opacity .3s}
+.zhills svg{width:100%;height:100%;display:block}
+.zgrass{position:absolute;left:0;right:0;top:calc(74% - var(--gs,20px));height:var(--gs,20px);opacity:0;background:repeating-linear-gradient(100deg,transparent 0 calc(var(--gs,20px)*.45),rgba(90,160,80,.5) calc(var(--gs,20px)*.45) calc(var(--gs,20px)*.55));-webkit-mask:linear-gradient(to top,#000,transparent);mask:linear-gradient(to top,#000,transparent)}
+.zruler{position:absolute;left:24px;top:calc(74% + 44px);font-family:var(--ui);font-weight:700;font-size:13px;color:var(--xink)}
+.zrl{height:10px;border:2px solid currentColor;border-top:0;opacity:.7;margin-bottom:4px}
+.zprog{position:absolute;left:0;right:0;top:0;height:4px;background:rgba(0,0,0,.08)}
+.zprog i{display:block;height:100%;width:0;background:#3355FF}
+.zoom.mobile .zruler{left:14px;top:calc(74% + 40px)}
+.zfloat .zground{display:none}
+.zfloat ~ .zinfo{}
+.zfloat .zruler{top:auto;bottom:calc(env(safe-area-inset-bottom,0px) + 100px)}
+.znav button{width:56px;height:56px;border-radius:50%;border:0;background:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 3px 0 #1D1B3A;transition:transform .12s}
+.znav button:active{transform:translateY(2px);box-shadow:0 1px 0 #1D1B3A}
+.znav button:disabled{opacity:.35}
+.zend{z-index:5;position:absolute;left:50%;top:44%;transform:translate(-50%,-50%);width:min(560px,90vw);text-align:center;background:rgba(255,255,255,.95);color:#1D1B3A;border-radius:24px;padding:28px 24px;box-shadow:0 12px 40px rgba(0,0,0,.2);opacity:0}
+.zend h2{font-family:var(--display);font-weight:400;font-size:40px;margin:0 0 8px}
+.zend .btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:18px}
+.zend button,.zend a.b{font:inherit;font-size:16px;border:0;cursor:pointer;background:#F3F0FF;color:#1D1B3A;padding:12px 18px;border-radius:999px;text-decoration:none}
+.zend small{display:block;margin-top:18px;opacity:.6;font-size:13px}
+.zoom.mobile .zinfo{left:12px;right:12px;width:auto;top:72px;padding:12px 14px}
+.zoom.mobile .zinfo p{font-size:14px}
+.zoom.mobile .znav{width:calc(100vw - 24px);max-width:388px}
 .horiz .decor{inset:auto;top:0;left:0;bottom:0}
 .horiz .hhero{position:absolute;left:0;top:0;padding:0 6vw}
 .horiz .it{transform:none}
@@ -114,6 +158,7 @@ img,svg{max-width:100%}
 .hero{position:absolute;left:0;right:0;top:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 20px}
 .hero-art svg{width:clamp(150px,22vw,220px);height:auto;display:block;margin:0 auto;filter:drop-shadow(0 10px 16px rgba(0,0,0,.22))}
 .hero-art.small svg{width:140px;margin-bottom:10px}
+.hero-art.zh-free svg{width:clamp(200px,30vw,300px);filter:none}
 .hero h1{font-family:var(--display);font-weight:400;font-size:clamp(52px,10vw,104px);line-height:1.05;margin:18px 0 10px}
 .hero p{max-width:520px;margin:0 auto;font-size:19px;opacity:.85}
 .cue{margin-top:36px;font-size:16px;opacity:.75;animation:bob 1.8s ease-in-out infinite}
@@ -125,12 +170,12 @@ img,svg{max-width:100%}
 .fig .art{animation:float 7s ease-in-out infinite;animation-delay:var(--d,0s)}
 @keyframes float{50%{transform:translateY(-7px)}}
 .fig.m-swim .art{animation:swim var(--sw,11s) linear infinite;animation-delay:var(--d,0s)}
-.fig.m-swim .art svg{animation:wave 2.4s ease-in-out infinite}
+.fig.m-swim .art svg,.fig.m-swim .art img.rast{animation:wave 2.4s ease-in-out infinite}
 @keyframes swim{0%{transform:translateX(-50px) scaleX(1)}47%{transform:translateX(50px) scaleX(1)}50%{transform:translateX(50px) scaleX(-1)}97%{transform:translateX(-50px) scaleX(-1)}100%{transform:translateX(-50px) scaleX(1)}}
 @keyframes wave{50%{transform:translateY(-6px) rotate(-2deg)}}
 .fig.m-jelly .art{animation:jelly 4.2s ease-in-out infinite;animation-delay:var(--d,0s)}
 @keyframes jelly{0%,100%{transform:translateY(6px) scale(1.04,.94)}35%{transform:translateY(-10px) scale(.93,1.07)}65%{transform:translateY(-14px) scale(1,1)}}
-.fig.m-sway .art svg{transform-origin:50% 100%;animation:sway 5s ease-in-out infinite}
+.fig.m-sway .art svg,.fig.m-sway .art img.rast{transform-origin:50% 100%;animation:sway 5s ease-in-out infinite}
 @keyframes sway{0%,100%{transform:rotate(-4deg)}50%{transform:rotate(4deg)}}
 .fig.m-crawl .art{animation:crawl 14s ease-in-out infinite}
 @keyframes crawl{0%,100%{transform:translateX(-24px)}50%{transform:translateX(24px)}}
@@ -149,6 +194,28 @@ img,svg{max-width:100%}
 .mobile:not(.horiz) .numc{width:46vw;padding:12px 12px 10px}
 .mobile .numc .nb{font-size:20px}
 .horiz .numc{width:240px}
+.kc{background:#FFF8DC;border-top-color:#F2B705}
+.kc .kt{display:flex;align-items:center;gap:6px;font-family:var(--ui);font-weight:700;font-size:13px;color:#B07A00;letter-spacing:.02em}
+.kc .kt svg{width:20px;height:20px;fill:#FFE27A;stroke:#B07A00;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;animation:bulb 2.6s ease-in-out infinite}
+@keyframes bulb{0%,100%{filter:drop-shadow(0 0 0 rgba(255,210,60,0))}50%{filter:drop-shadow(0 0 6px rgba(255,200,40,.9))}}
+.kc .kh{font-family:var(--ui);font-weight:700;font-size:19px;line-height:1.35;margin-top:6px;color:#1D1B3A;word-break:keep-all}
+.rv{opacity:0;translate:0 22px;transition:opacity .32s ease-out, translate .45s cubic-bezier(.2,.8,.2,1)}
+.rv.in{opacity:1;translate:0 0}
+.horiz .rv{translate:26px 0}
+.horiz .rv.in{translate:0 0}
+.fig.rv .art{transition:scale .5s cubic-bezier(.3,1.4,.5,1)}
+.fig.rv:not(.in) .art{scale:.85}
+.hl{display:inline-block;animation:hlIn .7s cubic-bezier(.3,1.6,.5,1) both}
+@keyframes hlIn{from{opacity:0;transform:translateY(40px) rotate(8deg)}to{opacity:1;transform:none}}
+.zinfo.pop{animation:zpop .5s cubic-bezier(.2,.9,.3,1.2)}
+@keyframes zpop{from{opacity:.2;transform:translateY(12px) scale(.97)}to{opacity:1;transform:none}}
+.zinfo .zf{margin-top:10px;padding:8px 10px;border-radius:12px;background:#FFF8DC;font-size:14px;line-height:1.55}
+.zinfo .zf b{font-family:var(--ui);font-weight:700;color:#B07A00;margin-right:4px}
+.zit .zg{transform-box:view-box;transform-origin:60px 120px;animation:zbreath 3.4s ease-in-out infinite;animation-delay:var(--zd,0s)}
+.zfloat .zit .zg{transform-origin:60px 60px;animation:zfloat 5s ease-in-out infinite;animation-delay:var(--zd,0s)}
+@keyframes zbreath{0%,100%{transform:scale(1,1)}50%{transform:scale(1.015,.985)}}
+@keyframes zfloat{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-3px) rotate(1.5deg)}}
+@media (prefers-reduced-motion: reduce){.rv{opacity:1;translate:none;transition:none}.fig.rv .art{scale:none}.kc .kt svg,.zit .zg{animation:none}}
 .quiz{left:50%;transform:translateX(-50%);width:min(520px,90vw);background:#fff;color:#1D1B3A;border-radius:22px;padding:20px 22px 18px;box-shadow:0 10px 30px rgba(0,0,0,.18);text-align:center}
 .quiz .qt{font-family:var(--ui);font-weight:700;font-size:15px;color:#3355FF}
 .quiz .qq{font-size:19px;line-height:1.5;margin:6px 0 14px}
@@ -235,6 +302,12 @@ img,svg{max-width:100%}
   <p class="tagline">스크롤로 배우는 크고, 깊고, 오래된 것들</p>
 
   <div class="grid">
+    <a class="card-link" href="/camp/" aria-label="배움 운동장: 지금 접속한 사람들과 함께">
+      <svg viewBox="0 0 300 300" aria-hidden="true"><rect width="300" height="300" fill="#8CCB6E"/><path d="M0 230 C 80 215, 160 240, 300 222 V300 H0z" fill="#F2DDA4"/><path d="M0 262 C 90 248, 190 272, 300 255 V300 H0z" fill="#3AA6DA"/>
+      <circle cx="232" cy="120" r="34" fill="#9AD8A6" stroke="#2E7D4F" stroke-width="3"/><g transform="translate(60 150)"><path d="M0 -40 C 16 -22, 16 -4, 0 6 C -16 -4, -14 -22, 0 -40z" fill="#FF7A2A"/><g stroke="#6E4A2E" stroke-width="7" stroke-linecap="round"><line x1="-20" y1="10" x2="20" y2="0"/><line x1="-20" y1="0" x2="20" y2="10"/></g></g>
+      <g transform="translate(120 150)"><path d="M3 2 L3 27 L10 21 L15 32 L20 30 L15 19 L25 19 Z" fill="#3355FF" stroke="#fff" stroke-width="2.5"/></g><g transform="translate(170 175)"><path d="M3 2 L3 27 L10 21 L15 32 L20 30 L15 19 L25 19 Z" fill="#E0591C" stroke="#fff" stroke-width="2.5"/></g><g transform="translate(95 190)"><path d="M3 2 L3 27 L10 21 L15 32 L20 30 L15 19 L25 19 Z" fill="#C8356E" stroke="#fff" stroke-width="2.5"/></g>
+      <rect x="196" y="18" width="84" height="30" rx="15" fill="#FFD84D"/><text x="238" y="39" text-anchor="middle" font-family="Noto Sans KR, sans-serif" font-weight="700" font-size="15" fill="#1D1B3A">함께 놀기</text>
+      <text x="20" y="92" font-family="Black Han Sans, sans-serif" font-size="40" fill="#fff" stroke="#2E7D4F" stroke-width="2" paint-order="stroke">배움 운동장</text></svg></a>
     <a class="card-link" href="#/seoul" aria-label="서울 아래로">
       <svg viewBox="0 0 300 300" role="img" aria-hidden="true">
         <rect width="300" height="120" fill="#8FD0FF"/>
@@ -314,6 +387,17 @@ img,svg{max-width:100%}
       <path d="M30 190 q16 -26 60 -22 q34 2 40 18 l-10 4 l-4 26 h-8 l-4 -20 q-26 6 -48 0 l-6 20 h-8 l-2 -22 q-10 -2 -10 -4z" fill="#3A2420"/>
       <rect x="170" y="150" width="110" height="80" rx="6" fill="#fff"/><path d="M180 220 q20 -50 40 -20 q16 20 50 -30" fill="none" stroke="#FF7AA8" stroke-width="6" stroke-linecap="round"/><g fill="#8C7CF0"><circle cx="266" cy="170" r="6"/></g>
       <text x="20" y="80" font-family="Black Han Sans, sans-serif" font-size="40" fill="#fff">그림과 기계</text></svg></a>
+    <a class="card-link" href="#/life" aria-label="누가 더 클까?">
+      <svg viewBox="0 0 300 300" aria-hidden="true"><rect width="300" height="300" fill="#DFF3E4"/><rect y="236" width="300" height="64" fill="#BFE0C8"/><line x1="0" y1="236" x2="300" y2="236" stroke="#1D1B3A" stroke-opacity=".2" stroke-width="2"/>
+      <circle cx="30" cy="232" r="3" fill="#D8352B"/><circle cx="48" cy="229" r="6" fill="#6FBF73"/>
+      <g transform="translate(62 204) scale(.26)"><ellipse cx="54" cy="80" rx="36" ry="22" fill="#F2A23A"/><circle cx="92" cy="58" r="18" fill="#F2A23A"/><path d="M80 44 l2 -16 l10 12z M98 40 l8 -12 l2 16z" fill="#F2A23A"/><path d="M18 76 q-16 -30 4 -40" fill="none" stroke="#F2A23A" stroke-width="8" stroke-linecap="round"/><g fill="#F2A23A"><rect x="26" y="94" width="10" height="20" rx="5"/><rect x="72" y="94" width="10" height="20" rx="5"/></g></g>
+      <g transform="translate(96 150) scale(.72)"><ellipse cx="60" cy="70" rx="30" ry="46" fill="#2B2B33"/><ellipse cx="60" cy="76" rx="20" ry="36" fill="#F5F1E8"/><circle cx="60" cy="24" r="18" fill="#2B2B33"/><path d="M44 34 q16 10 32 0 q-4 12 -16 12 q-12 0 -16 -12z" fill="#F2C230"/></g>
+      <g transform="translate(170 80) scale(1.3)"><g fill="#F2C230"><ellipse cx="40" cy="82" rx="26" ry="14"/><rect x="18" y="88" width="7" height="30"/><rect x="32" y="90" width="7" height="28"/><rect x="46" y="90" width="7" height="28"/><rect x="58" y="88" width="7" height="30"/><path d="M56 78 l18 -60 h10 l-14 64z"/><ellipse cx="86" cy="16" rx="14" ry="8"/></g><g fill="#B8702A"><circle cx="34" cy="80" r="4"/><circle cx="48" cy="84" r="4"/><circle cx="66" cy="56" r="3"/></g></g>
+      <text x="20" y="60" font-family="Black Han Sans, sans-serif" font-size="40" fill="#1D1B3A">누가 더 클까?</text></svg></a>
+    <a class="card-link" href="#/cosmos" aria-label="우주의 크기">
+      <svg viewBox="0 0 300 300" aria-hidden="true"><rect width="300" height="300" fill="#0C0A24"/><g fill="#fff" opacity=".8"><circle cx="20" cy="120" r="1.5"/><circle cx="60" cy="280" r="1"/><circle cx="140" cy="110" r="1.2"/><circle cx="280" cy="30" r="1.5"/><circle cx="250" cy="140" r="1"/><circle cx="110" cy="250" r="1.3"/><circle cx="200" cy="270" r="1"/></g>
+      <circle cx="40" cy="220" r="4" fill="#3A7AD8"/><circle cx="74" cy="214" r="12" fill="#D8B48A"/><circle cx="150" cy="190" r="40" fill="#FF9A2A"/><circle cx="150" cy="190" r="56" fill="#FFB347" opacity=".2"/><circle cx="300" cy="170" r="110" fill="#E0502A" opacity=".85"/>
+      <text x="20" y="64" font-family="Black Han Sans, sans-serif" font-size="40" fill="#fff">우주의 크기</text><text x="22" y="94" font-family="Gowun Dodum, sans-serif" font-size="16" fill="#CFC9FF">먼지 한 톨에서 우주 끝까지</text></svg></a>
     <a class="card-link" href="#/space" aria-label="태양계 옆으로 (가로 스크롤)">
       <svg viewBox="0 0 300 300" aria-hidden="true"><rect width="300" height="300" fill="#070918"/><circle cx="-10" cy="170" r="80" fill="#FF8A2A"/><circle cx="-10" cy="170" r="100" fill="#FFB347" opacity=".2"/>
       <circle cx="96" cy="170" r="6" fill="#9A938A"/><circle cx="124" cy="170" r="9" fill="#E8C98A"/><circle cx="154" cy="170" r="10" fill="#3A7AD8"/><circle cx="182" cy="170" r="8" fill="#D2643A"/><circle cx="228" cy="170" r="22" fill="#D8B48A"/><ellipse cx="282" cy="170" rx="30" ry="8" fill="none" stroke="#C9B08A" stroke-width="4"/><circle cx="282" cy="170" r="16" fill="#E8D0A0"/>
@@ -354,7 +438,7 @@ function interpStops(stops, x){ // stops: [[x, value]...] 숫자값 보간
 }
 
 /* 구간별 스케일: 값 → 픽셀, 픽셀 → 값 */
-const SCALE_MULT = 1.35 * 1.5;
+const SCALE_MULT = 1.35 * 1.5 * 1.4;
 function makeScale(segs, tf){
   tf = tf || {f:v=>v, i:t=>t};
   let off=0; const S=segs.map(([a,b,k])=>{ k*=SCALE_MULT; const s={a,b,k,off}; off+=(b-a)*k; return s; });
@@ -389,7 +473,7 @@ const seoul = {
     [-333,'c','','파크원 타워','333m','여의도에 있는 높은 빌딩이에요. 롯데월드타워의 절반을 조금 넘어요.'],
     [-249,'c','','63빌딩','249m','1985년에 지어졌어요. 그때는 우리나라에서 가장 높은 건물이었어요.'],
     [-90,'c','','30층 아파트','약 90m','한 층을 3m로 치면 30층은 약 90m예요.'],
-    [-1.7,'c','','당신','약 1.7m','지금 화면을 내리고 있는 바로 당신이에요.'],
+    [-1.7,'c','','여러분','약 1.7m','지금 화면을 내리고 있는 바로 여러분이에요. 키는 대략 이 정도예요.'],
     [0,'z','땅','이제 땅속으로 들어가요'],
     [1,'c','','수도관과 가스관','약 1m','도로 바로 밑에는 물과 가스가 다니는 관이 묻혀 있어요.'],
     [12,'c','','지하철 1호선','10m 안팎','1974년에 생긴 첫 지하철이에요. 땅을 파고 다시 덮어서 만들어 얕은 곳을 달려요.'],
@@ -507,7 +591,7 @@ const ai = {
     [1.4e13,'t','사람의 뇌에는 뇌세포가 약 860억 개 있어요.'],
     [2.8e13,'t','뇌세포 하나는 다른 뇌세포 수천 개와 이어져 있어요.'],
     [5.2e13,'t','이 연결 하나를 손잡이 하나로 친다면…'],
-    [1e14,'c','','당신의 뇌','뇌세포 연결 약 100조 개(추정)','지금까지 본 어떤 AI보다 연결이 많아요. 게다가 전구 하나 정도인 약 20와트로 움직여요.'],
+    [1e14,'c','','여러분의 뇌','뇌세포 연결 약 100조 개(추정)','지금까지 본 어떤 AI보다 연결이 많아요. 게다가 전구 하나 정도인 약 20와트로 움직여요.'],
     [1.5e14,'t','물론 뇌세포 연결과 AI 손잡이가 똑같지는 않아요. 그래도 크기만 보면 아직은 우리가 앞서 있어요.']
   ],
   ending:{h:'100조까지 왔어요!', p:['한 화면마다 10배씩, 14번 곱했을 뿐인데 1이 100조가 됐어요.'], note:'AI 크기는 공개된 논문과 발표 자료를 따랐어요. 뇌세포 연결 수는 연구마다 차이가 큰 추정값이에요.'}
@@ -621,7 +705,7 @@ seoul:{
 '파크원 타워':`<rect x="42" y="16" width="36" height="98" fill="#6D8BA8"/><rect x="42" y="16" width="18" height="98" fill="#86A3BE"/><rect x="36" y="10" width="7" height="104" fill="#D8452B"/><rect x="77" y="10" width="7" height="104" fill="#D8452B"/><g stroke="#D8452B" stroke-width="4"><line x1="40" y1="42" x2="80" y2="42"/><line x1="40" y1="76" x2="80" y2="76"/></g>`,
 '63빌딩':`<polygon points="46,10 74,10 81,114 39,114" fill="#EDC04A"/><polygon points="60,10 74,10 81,114 60,114" fill="#C8952A"/><g stroke="#FFF3C4" stroke-width="1.5" opacity=".75"><line x1="46" y1="30" x2="74" y2="30"/><line x1="44" y1="50" x2="76" y2="50"/><line x1="43" y1="70" x2="77" y2="70"/><line x1="42" y1="92" x2="78" y2="92"/></g>`,
 '30층 아파트':`<rect x="32" y="18" width="56" height="96" fill="#EEE8DE"/><rect x="60" y="18" width="28" height="96" fill="#DAD2C5"/><rect x="29" y="12" width="62" height="7" fill="#8A7F72"/>`+win(38,26,4,9,8,5,12,9.6,'#7FA3C7'),
-'당신':`<circle cx="60" cy="26" r="13" fill="#F2C9A0"/><path d="M47 25 a13 13 0 0 1 26 0 q-13 -6 -26 0z" fill="#3A2E28"/><rect x="45" y="42" width="30" height="42" rx="13" fill="#3355FF"/><rect x="48" y="78" width="10" height="34" rx="5" fill="#2B2F4A"/><rect x="62" y="78" width="10" height="34" rx="5" fill="#2B2F4A"/><rect x="36" y="46" width="9" height="30" rx="4.5" fill="#3355FF"/><rect x="75" y="46" width="9" height="30" rx="4.5" fill="#3355FF"/>`,
+'여러분':`<circle cx="60" cy="26" r="13" fill="#F2C9A0"/><path d="M47 25 a13 13 0 0 1 26 0 q-13 -6 -26 0z" fill="#3A2E28"/><rect x="45" y="42" width="30" height="42" rx="13" fill="#3355FF"/><rect x="48" y="78" width="10" height="34" rx="5" fill="#2B2F4A"/><rect x="62" y="78" width="10" height="34" rx="5" fill="#2B2F4A"/><rect x="36" y="46" width="9" height="30" rx="4.5" fill="#3355FF"/><rect x="75" y="46" width="9" height="30" rx="4.5" fill="#3355FF"/>`,
 '수도관과 가스관':`<rect x="10" y="22" width="100" height="88" rx="10" fill="#8B6A4A"/><rect x="10" y="14" width="100" height="12" rx="4" fill="#55575E"/><rect x="24" y="19" width="14" height="2" fill="#fff"/><rect x="54" y="19" width="14" height="2" fill="#fff"/><rect x="84" y="19" width="14" height="2" fill="#fff"/><circle cx="42" cy="64" r="21" fill="#5B8FD8"/><circle cx="42" cy="64" r="14" fill="#2D5DA8"/><circle cx="84" cy="72" r="15" fill="#F2C230"/><circle cx="84" cy="72" r="9" fill="#B98A10"/>`,
 '지하철 1호선':`<rect x="26" y="16" width="68" height="88" rx="14" fill="#E9EEF3"/><rect x="34" y="26" width="52" height="32" rx="6" fill="#23344F"/><rect x="26" y="66" width="68" height="9" fill="#0052A4"/><circle cx="40" cy="88" r="5" fill="#FFE27A"/><circle cx="80" cy="88" r="5" fill="#FFE27A"/><rect x="22" y="104" width="76" height="6" rx="2" fill="#55575E"/>`,
 '신월 빗물터널':`<circle cx="60" cy="68" r="44" fill="#4A4F5C"/><circle cx="60" cy="68" r="36" fill="#1E222B"/><path d="M24 74 h72 a36 36 0 0 1 -72 0z" fill="#4A90D9"/><path d="M30 74 q8 -4 15 0 t15 0 t15 0 t15 0" fill="none" stroke="#8CC4FF" stroke-width="2"/><g fill="#8CC4FF"><path d="M36 6 q5 8 0 12 q-5 -4 0 -12z"/><path d="M60 2 q5 8 0 12 q-5 -4 0 -12z"/><path d="M84 6 q5 8 0 12 q-5 -4 0 -12z"/></g>`,
@@ -663,7 +747,7 @@ ai:{
 'DeepSeek-V3':`<path d="M14 64 q10 -34 50 -30 q34 4 40 30 q-4 22 -44 24 q-38 0 -46 -24z" fill="#4D6BFE"/><path d="M104 64 l12 -16 l-2 22 l-10 -6z" fill="#4D6BFE"/><path d="M20 70 q30 16 78 0 q-10 18 -40 18 q-28 0 -38 -18z" fill="#DDE4FF"/><circle cx="36" cy="56" r="4" fill="#fff"/><circle cx="36" cy="56" r="2" fill="#1D1B3A"/><path d="M52 30 q-4 -12 4 -20 M56 30 q6 -10 16 -12" fill="none" stroke="#8FA8FF" stroke-width="3" stroke-linecap="round"/>`,
 'Kimi K2':`<path d="M76 18 a44 44 0 1 0 22 70 a36 36 0 1 1 -22 -70z" fill="#F5E6A8"/><g fill="#fff"><circle cx="30" cy="26" r="2"/><circle cx="100" cy="30" r="2.5"/><circle cx="92" cy="104" r="2"/><circle cx="18" cy="84" r="1.5"/></g>`,
 'Switch Transformer':`<g stroke="#8A7F72" stroke-width="4"><line x1="30" y1="112" x2="44" y2="60"/><line x1="58" y1="112" x2="52" y2="60"/><path d="M44 60 q4 -24 -16 -50 M52 60 q6 -24 40 -50" fill="none"/></g><g stroke="#C9A36A" stroke-width="5"><line x1="26" y1="100" x2="62" y2="100"/><line x1="30" y1="84" x2="58" y2="84"/><line x1="34" y1="68" x2="56" y2="68"/></g><rect x="78" y="70" width="10" height="36" fill="#555B75"/><circle cx="83" cy="66" r="8" fill="#FF7AA8"/>`,
-'당신의 뇌':`<path d="M60 20 c-12 -8 -32 -6 -38 10 c-14 4 -16 24 -6 32 c-6 12 4 28 18 26 c6 12 22 12 26 2z" fill="#F7A8C4"/><path d="M60 20 c12 -8 32 -6 38 10 c14 4 16 24 6 32 c6 12 -4 28 -18 26 c-6 12 -22 12 -26 2z" fill="#F291B4"/><g fill="none" stroke="#C85A86" stroke-width="3" stroke-linecap="round"><path d="M36 36 q10 4 8 14 M30 60 q12 -2 16 10 M48 80 q4 -8 12 -6"/><path d="M84 36 q-10 4 -8 14 M90 60 q-12 -2 -16 10 M72 80 q-4 -8 -12 -6"/><line x1="60" y1="22" x2="60" y2="90"/></g><rect x="54" y="90" width="12" height="20" rx="5" fill="#E07BA0"/>`
+'여러분의 뇌':`<path d="M60 20 c-12 -8 -32 -6 -38 10 c-14 4 -16 24 -6 32 c-6 12 4 28 18 26 c6 12 22 12 26 2z" fill="#F7A8C4"/><path d="M60 20 c12 -8 32 -6 38 10 c14 4 16 24 6 32 c6 12 -4 28 -18 26 c-6 12 -22 12 -26 2z" fill="#F291B4"/><g fill="none" stroke="#C85A86" stroke-width="3" stroke-linecap="round"><path d="M36 36 q10 4 8 14 M30 60 q12 -2 16 10 M48 80 q4 -8 12 -6"/><path d="M84 36 q-10 4 -8 14 M90 60 q-12 -2 -16 10 M72 80 q-4 -8 -12 -6"/><line x1="60" y1="22" x2="60" y2="90"/></g><rect x="54" y="90" width="12" height="20" rx="5" fill="#E07BA0"/>`
 },
 history:{
 '지금':`<path d="M60 108 q-34 -40 -34 -62 a34 34 0 0 1 68 0 q0 22 -34 62z" fill="#3355FF"/><circle cx="60" cy="46" r="13" fill="#fff"/>`,
@@ -717,7 +801,7 @@ history:{
 '한반도의 첫 사람들':`<g fill="#C9B79A"><ellipse cx="42" cy="84" rx="11" ry="17"/><ellipse cx="78" cy="44" rx="11" ry="17"/></g><g fill="#C9B79A">`+[[34,62],[40,60],[46,61],[51,64],[55,68],[70,22],[76,20],[82,21],[87,24],[91,28]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="3.4"/>`).join('')+`</g>`
 }};
 const MOTION_DUMMY=0;
-const HERO_ART = {seoul:'지구의 중심', ai:'당신의 뇌', history:'빗살무늬토기'};
+const HERO_ART = {seoul:'지구의 중심', ai:'여러분의 뇌', history:'빗살무늬토기'};
 function art(page, name){ const a = (ART[page]||{})[name]; return a ? `<svg viewBox="-6 -6 132 132" aria-hidden="true"><g filter="url(#paint)">${a}</g></svg>` : ''; }
 
 /* =========================================================
@@ -840,12 +924,23 @@ function fxDraw(cx,g,p,tw){
   if (g.k==='ember'||g.k==='glow'){ cx.shadowColor=`rgba(${g.c},.9)`; cx.shadowBlur=g.k==='glow'?12:8; } else cx.shadowBlur=0;
   cx.arc(p.x,p.y,p.s,0,6.283); cx.fill(); cx.shadowBlur=0;
 }
+let REV_T = 0;
+function revealPassed(){
+  const now = performance.now(); if (now - REV_T < 120 || !window.revIn) return; REV_T = now;
+  const H = !!(cur && cur.horizontal), W = innerWidth, Hh = innerHeight;
+  document.querySelectorAll('#track .rv:not(.in)').forEach(el=>{
+    const r = el.getBoundingClientRect();
+    const passedOrOn = H ? (r.left < W*1.1) : (cur && cur.reverse ? r.bottom > -Hh*0.1 : r.top < Hh*1.1);
+    if (passedOrOn) revIn(el);
+  });
+}
 function fxFrame(still){
   if (!FX.cfg||!FX.cx) return;
   const cfgs = Array.isArray(FX.cfg) ? FX.cfg : [FX.cfg];
   const W=innerWidth,H=innerHeight, cx=FX.cx;
   cx.setTransform(FX.dpr,0,0,FX.dpr,0,0); cx.clearRect(0,0,W,H);
-  const dy = scrollY - FX.lastY; FX.lastY = scrollY;
+  const par = (cur && cur.zoom) ? 0.05 : 1;   // 줌 여행은 배경 별이 아주 천천히만 흐르게
+  const dy = Math.max(-80, Math.min(80, (scrollY - FX.lastY) * par)); FX.lastY = scrollY;
   const live = {};
   for (const g of cfgs){
     const key=g.k+'|'+g.c; live[key]=1;
@@ -856,9 +951,9 @@ function fxFrame(still){
       if (!still){ p.t+=.03; p.x+=p.vx+(g.k==='ember'||g.k==='bubble'?Math.sin(p.t*2)*.3:0); p.y+=p.vy+(g.k==='fish'?Math.sin(p.t*2)*.2:0); }
       if (FX.axis==='x') p.x -= dy*(g.k==='spark'?.25:.35); else p.y -= dy*(g.k==='fish'?.2:.35);
       if (p.y<-30||p.y>H+30||p.x<-40||p.x>W+40){
-        const np=fxSpawn(g,false);
-        if (p.y<-30) np.y=H+20; else if (p.y>H+30) np.y=-20;
-        if (g.k==='fish' && (p.y<-30||p.y>H+30)) np.x=Math.random()*W;
+        const np=fxSpawn(g,false), span=H+60;
+        // 화면 밖으로 나간 입자는 한 줄로 모이지 않게, 넘친 만큼 이어서 흩어진 자리에서 다시 나타나요
+        if (p.y<-30||p.y>H+30){ np.y = ((((p.y+30) % span) + span) % span) - 30; np.x = Math.random()*W; }
         Object.assign(p,np);
       }
       const tw = (g.k==='spark'||g.k==='node'||g.k==='glow') ? (.5+.5*Math.sin(p.t*2)) : 1;
@@ -1200,7 +1295,7 @@ const sky = {
     return [main, tmp];
   },
   items:[
-    [0,'c','','당신','0m','서울 땅 위에서 출발해요. 이제 위로 올라가요.'],
+    [0,'c','','여러분','0m','서울 땅 위에서 출발해요. 이제 위로 올라가요.'],
     [10,'c','','까치','나무 꼭대기','나무 위 높은 곳에 나뭇가지로 커다란 둥지를 지어요.'],
     [40,'c','','방패연','약 30~100m','가운데 구멍이 뚫린 우리나라 전통 연이에요. 바람을 잘 받아 높이 날아요.'],
     [237,'c','','N서울타워','약 237m','남산 위에 선 탑이에요. 탑만의 높이가 약 237m예요.'],
@@ -1246,7 +1341,7 @@ const sky = {
   ending:{h:'달에 도착!', p:['38만 km를 올라왔어요. 그래도 태양계에서는 바로 옆집 거리예요.'], note:'높이는 공개된 자료를 바탕으로 한 대략적인 값이에요.'}
 };
 ART.sky = {
-'당신':ART.seoul['당신'],
+'여러분':ART.seoul['여러분'],
 '까치':`<path d="M60 116 v-40" stroke="#7A5A3A" stroke-width="6"/><ellipse cx="60" cy="74" rx="28" ry="12" fill="#8A6A4A"/><g stroke="#6E5238" stroke-width="2"><line x1="36" y1="70" x2="84" y2="80"/><line x1="38" y1="80" x2="82" y2="68"/></g>`+`<path d="M34 48 q20 -12 44 -4 l16 -8 l-6 12 q-16 14 -40 10z" fill="#1D1B2A"/><path d="M48 50 q10 6 24 2" fill="#fff"/><path class="fin" d="M50 44 q-4 -24 16 -30 q0 18 -6 30z" fill="#2E4A7A"/><path d="M34 50 l-22 8 l22 -2z" fill="#1D1B2A"/><circle cx="84" cy="44" r="2" fill="#fff"/>`,
 '방패연':`<rect x="24" y="16" width="72" height="84" rx="3" fill="#F5F1E8"/><circle cx="60" cy="54" r="12" fill="#9ED8FF"/><rect x="24" y="16" width="72" height="16" fill="#D8452B"/><circle cx="60" cy="24" r="6" fill="#F2C230"/><g stroke="#8A7F72" stroke-width="1.5"><line x1="24" y1="16" x2="96" y2="100"/><line x1="96" y1="16" x2="24" y2="100"/></g><path d="M60 100 q-10 10 4 20" fill="none" stroke="#8A7F72" stroke-width="2"/>`,
 'N서울타워':ART.seoul['N서울타워'],
@@ -1277,7 +1372,7 @@ ART.sky = {
 '다누리':G.sat('#E0B23A','#2E4A7A')+`<circle cx="60" cy="60" r="4" fill="#CD2E3A"/>`,
 '달':`<circle cx="60" cy="60" r="50" fill="#D9D6CE"/><g fill="#B9B2A8"><circle cx="40" cy="44" r="10"/><circle cx="72" cy="36" r="6"/><circle cx="76" cy="72" r="12"/><circle cx="44" cy="80" r="6"/><circle cx="58" cy="60" r="4"/></g><path d="M60 10 a50 50 0 0 1 0 100 a36 50 0 0 0 0 -100z" fill="#000" opacity=".12"/>`
 };
-MOTION.sky = {'까치':'bob','방패연':'sway','열기구':'bob','줄기러기':'swim','여객기':'swim','루펠대머리수리':'swim','콩코드':'swim','기상 풍선':'bob','가장 높은 곳에서 뛰어내리기':'jelly','국제우주정거장':'crawl','우주인 이소연':'jelly','허블 우주망원경':'crawl','스타링크 위성':'crawl','GPS 위성':'crawl','천리안 위성':'bob','다누리':'crawl','누리호와 아리랑 위성':'bob','별똥별':'crawl','달':'still','한라산':'still','백두산':'still','에베레스트산':'still','N서울타워':'still','롯데월드타워':'still','당신':'bob','오로라':'sway','야광운':'still','카르만 선':'still','오존층':'still','아폴로 11호':'still'};
+MOTION.sky = {'까치':'bob','방패연':'sway','열기구':'bob','줄기러기':'swim','여객기':'swim','루펠대머리수리':'swim','콩코드':'swim','기상 풍선':'bob','가장 높은 곳에서 뛰어내리기':'jelly','국제우주정거장':'crawl','우주인 이소연':'jelly','허블 우주망원경':'crawl','스타링크 위성':'crawl','GPS 위성':'crawl','천리안 위성':'bob','다누리':'crawl','누리호와 아리랑 위성':'bob','별똥별':'crawl','달':'still','한라산':'still','백두산':'still','에베레스트산':'still','N서울타워':'still','롯데월드타워':'still','여러분':'bob','오로라':'sway','야광운':'still','카르만 선':'still','오존층':'still','아폴로 11호':'still'};
 HERO_ART.sky='열기구';
 DECOR.sky = function(ctx){
   const {px,add,R,scatter,strip,HERO}=ctx;
@@ -1351,7 +1446,7 @@ const artwork = {
     [YA(2022.5),'c','','누구나 쓰는 그림 AI','2022년','그림 AI가 무료로 공개되면서 수많은 사람이 쓰게 됐어요.'],
     [YA(2024),'c','','글로 영상 만들기','2024년','글로 설명하면 움직이는 영상까지 만들어 주는 AI가 나왔어요.'],
     [YA(2025),'t','AI가 만든 그림의 주인은 누구일까요? 그림을 배운 AI는 누구의 그림으로 공부했을까요? 나라마다 규칙을 만들고 있어요.'],
-    [YA(2026),'c','','다음 그림','2026년','동굴 벽에서 화면까지, 도구는 바뀌어도 그림을 그리는 건 결국 사람의 마음이에요. 다음 그림은 당신 차례예요.']
+    [YA(2026),'c','','다음 그림','2026년','동굴 벽에서 화면까지, 도구는 바뀌어도 그림을 그리는 건 결국 사람의 마음이에요. 다음 그림은 여러분 차례예요.']
   ],
   ending:{h:'지금에 도착!', p:['4만 년을 내려왔어요. 도구는 흙과 숯에서 카메라와 컴퓨터, AI로 바뀌었어요.'], note:'연도는 공개된 자료를 따랐고, 아주 오래된 그림의 연대는 연구에 따라 달라질 수 있어요.'}
 };
@@ -1456,9 +1551,10 @@ const space = {
   ],
   ending:{h:'가장 먼 곳에 도착!', p:['가장 가까운 별까지는 보이저 1호가 온 거리의 약 1,600배를 더 가야 해요. 우주는 정말 넓어요.'], note:'거리는 평균값이에요. 탐사선 위치는 2026년 기준 대략적인 값이에요.'}
 };
-const PLANET = (id, base, inner, r=40) => `<defs><clipPath id="cp-${id}"><circle cx="60" cy="60" r="${r}"/></clipPath></defs><circle cx="60" cy="60" r="${r}" fill="${base}"/><g clip-path="url(#cp-${id})">${inner}<circle cx="${60+r*.45}" cy="${60+r*.45}" r="${r*1.05}" fill="#000" opacity=".28"/></g>`;
+const PLANET = (id, base, inner, r=40) => `<defs><clipPath id="cp-${id}"><circle cx="60" cy="60" r="${r}"/></clipPath><radialGradient id="pl-${id}" cx="34%" cy="30%" r="80%"><stop offset="0" stop-color="#fff" stop-opacity=".42"/><stop offset=".38" stop-color="#fff" stop-opacity="0"/><stop offset=".72" stop-color="#000" stop-opacity=".18"/><stop offset="1" stop-color="#000" stop-opacity=".6"/></radialGradient></defs><circle cx="60" cy="60" r="${r*1.07}" fill="${base}" opacity=".18"/><circle cx="60" cy="60" r="${r}" fill="${base}"/><g clip-path="url(#cp-${id})">${inner}<circle cx="60" cy="60" r="${r}" fill="url(#pl-${id})"/></g><circle cx="60" cy="60" r="${r-.6}" fill="none" stroke="#fff" stroke-opacity=".22" stroke-width="1.2"/>`;
+const STAR = (c1,c2,glow) => { const id = 'st'+c1.slice(1)+glow.slice(1); return `<defs><radialGradient id="g${id}"><stop offset="0" stop-color="${glow}" stop-opacity=".55"/><stop offset=".5" stop-color="${glow}" stop-opacity=".18"/><stop offset="1" stop-color="${glow}" stop-opacity="0"/></radialGradient><radialGradient id="c${id}" cx="45%" cy="42%" r="62%"><stop offset="0" stop-color="#FFFFFF"/><stop offset=".25" stop-color="${c2}"/><stop offset=".78" stop-color="${c1}"/><stop offset="1" stop-color="${c1}" stop-opacity=".9"/></radialGradient></defs><circle cx="60" cy="60" r="104" fill="url(#g${id})"/><g stroke="${glow}" stroke-width="2" stroke-linecap="round" opacity=".35">${Array.from({length:12},(_,i)=>{const a=i/12*6.283;return `<line x1="${(60+Math.cos(a)*62).toFixed(1)}" y1="${(60+Math.sin(a)*62).toFixed(1)}" x2="${(60+Math.cos(a)*(i%2?78:92)).toFixed(1)}" y2="${(60+Math.sin(a)*(i%2?78:92)).toFixed(1)}"/>`}).join('')}</g><circle cx="60" cy="60" r="58" fill="url(#c${id})"/><g fill="${c1}" opacity=".18">${Array.from({length:18},(_,i)=>{const a=i*2.4,r=8+(i*11)%44;return `<circle cx="${(60+Math.cos(a)*r).toFixed(1)}" cy="${(60+Math.sin(a)*r).toFixed(1)}" r="${3+i%3}"/>`}).join('')}</g>`; };
 ART.space = {
-'태양':`<circle cx="60" cy="60" r="58" fill="#FFB347" opacity=".25"/><circle cx="60" cy="60" r="48" fill="#FF8A2A"/><circle cx="60" cy="60" r="40" fill="#FFB347"/><g fill="#FF7A2A" opacity=".7"><circle cx="44" cy="48" r="5"/><circle cx="72" cy="70" r="4"/><circle cx="68" cy="42" r="3"/></g><path d="M22 60 q-10 -14 2 -26" fill="none" stroke="#FF8A2A" stroke-width="5" stroke-linecap="round"/>`,
+'태양':`<g transform="translate(27 27) scale(.55)">${STAR('#FF8A2A','#FFD27A','#FFB347')}</g>`,
 '파커 태양 탐사선':`<path d="M20 30 h80 l-8 10 h-64z" fill="#F5F1E8"/><rect x="48" y="40" width="24" height="44" rx="4" fill="#9AA0A8"/><rect x="30" y="56" width="18" height="10" fill="#2E4A7A"/><rect x="72" y="56" width="18" height="10" fill="#2E4A7A"/><line x1="60" y1="84" x2="60" y2="104" stroke="#9AA0A8" stroke-width="3"/><path d="M14 24 q46 -20 92 0" fill="none" stroke="#FF8A2A" stroke-width="4" opacity=".7"/>`,
 '수성':PLANET('me','#9A938A',`<g fill="#7A746C"><circle cx="44" cy="44" r="7"/><circle cx="72" cy="56" r="5"/><circle cx="54" cy="76" r="8"/><circle cx="80" cy="36" r="3"/></g>`,26),
 '금성':PLANET('ve','#E8C98A',`<g fill="none" stroke="#F5DDA8" stroke-width="6" opacity=".8"><path d="M20 48 q30 -14 80 4"/><path d="M20 66 q40 -10 80 6"/></g>`,36),
@@ -1961,6 +2057,745 @@ artwork.items.push(
 ART.artwork['올멕 거대 두상'] = `<path d="M24 100 q-6 -60 20 -80 q16 -10 32 0 q26 20 20 80z" fill="#8A8278"/><path d="M26 44 q34 -26 68 0 v10 h-68z" fill="#6E6A66"/><g fill="#5A544E"><ellipse cx="46" cy="64" rx="7" ry="4"/><ellipse cx="74" cy="64" rx="7" ry="4"/></g><path d="M56 70 q4 12 -2 16 h12 q-6 -4 -2 -16" fill="#76706A"/><path d="M46 90 q14 6 28 0" fill="none" stroke="#5A544E" stroke-width="4"/><rect x="16" y="100" width="88" height="10" fill="#6E8C4E"/>`;
 space.items.push([2.45e9,'t','보이저 2호는 1977년에 떠나 약 9년 만에 천왕성에 닿았어요.']);
 
+/* =========================================================
+   여행 8. 누가 더 클까?  (줌 방식: 스크롤하면 화면이 멀어지며 점점 큰 생명이 나온다)
+   L = 크기(m). 가로로 긴 것은 몸길이, 세로로 긴 것은 키.
+   ========================================================= */
+const life = {
+  key:'life', emoji:'🔬', title:'누가 더 클까?', zoom:true,
+  sub:'눈에 보이지도 않는 DNA에서 출발해 지구에서 가장 큰 생명까지. 스크롤할수록 화면이 멀어지며 점점 큰 생명이 나타나요.',
+  things:[
+    ['DNA',2e-9,'폭 약 2nm','생명의 설계도예요. 폭이 머리카락 굵기의 약 4만분의 1이에요.'],
+    ['리보솜',2.5e-8,'약 25nm','세포 속에서 단백질을 만드는 아주 작은 공장이에요.'],
+    ['독감 바이러스',1e-7,'약 100nm','스스로는 살 수 없고, 다른 세포에 들어가야 불어나요.'],
+    ['대장균',2e-6,'약 2μm','우리 장 속에도 사는 세균이에요. 좋은 대장균도 많아요.'],
+    ['적혈구',7.5e-6,'약 7.5μm','피를 빨갛게 만드는 세포예요. 온몸에 산소를 날라요.'],
+    ['백혈구',1.2e-5,'약 12μm','몸에 들어온 세균과 싸우는 세포예요.'],
+    ['사람의 난자',1.2e-4,'약 0.12mm','사람 몸에서 가장 큰 세포예요. 겨우 눈에 보일락 말락 해요.'],
+    ['짚신벌레',2e-4,'약 0.2mm','몸에 난 가는 털을 저어 헤엄치는 한 개의 세포예요.'],
+    ['집먼지진드기',3e-4,'약 0.3mm','이불과 먼지 속에 살아요. 우리 피부 부스러기를 먹어요.'],
+    ['물곰',5e-4,'약 0.5mm','꽁꽁 얼거나 바싹 말라도 살아남는, 가장 튼튼한 동물 중 하나예요.'],
+    ['물벼룩',1.5e-3,'약 1.5mm','연못에 살며 더듬이를 저어 폴짝폴짝 헤엄쳐요.'],
+    ['개미',5e-3,'약 5mm','자기 몸무게보다 훨씬 무거운 먹이를 들어 옮겨요.'],
+    ['무당벌레',7e-3,'약 7mm','진딧물을 잡아먹어서 농부에게 고마운 곤충이에요.'],
+    ['꿀벌',1.3e-2,'약 1.3cm','꽃가루를 옮겨 과일과 채소가 열리게 도와줘요.'],
+    ['청개구리',4e-2,'약 4cm','발가락 끝의 빨판으로 나뭇잎에 착 달라붙어요.'],
+    ['참새',1.4e-1,'약 14cm','우리 동네에서 가장 흔히 보는 작은 새예요.'],
+    ['고양이',4.6e-1,'몸길이 약 46cm','꼬리를 빼고 잰 몸길이예요. 자기 키의 몇 배를 뛰어올라요.'],
+    ['진돗개',5e-1,'어깨 높이 약 50cm','우리나라를 대표하는 개예요. 주인을 잘 따르고 영리해요.'],
+    ['황제펭귄',1.15,'키 약 1.15m','가장 큰 펭귄이에요. 초등학교 1학년쯤 키예요.'],
+    ['사람',1.7,'키 약 1.7m','이 여행의 기준이에요. 이제부터는 사람보다 커요.'],
+    ['타조',2.5,'키 약 2.5m','가장 큰 새예요. 날지 못하지만 자동차만큼 빨리 달려요.'],
+    ['시베리아 호랑이',3,'몸길이 약 3m','꼬리까지 잰 길이예요. 가장 큰 고양잇과 동물이에요.'],
+    ['아프리카코끼리',3.3,'어깨 높이 약 3.3m','땅에 사는 가장 큰 동물이에요.'],
+    ['백상아리',5,'몸길이 약 5m','바다의 커다란 사냥꾼이에요.'],
+    ['기린',5.5,'키 약 5.5m','가장 키가 큰 동물이에요. 목뼈 수는 사람과 똑같이 7개예요.'],
+    ['대왕오징어',10,'몸길이 약 10m','깊은 바다에 사는, 눈이 농구공만 한 오징어예요.'],
+    ['고래상어',12,'몸길이 약 12m','가장 큰 물고기예요. 이빨 대신 작은 플랑크톤을 걸러 먹어요.'],
+    ['대왕고래',30,'몸길이 약 30m','지금 지구에 사는 가장 큰 동물이에요. 심장만 해도 작은 자동차만 해요.'],
+    ['아르헨티노사우루스',35,'몸길이 약 35m','아주 먼 옛날 살았던 가장 큰 공룡 중 하나예요.'],
+    ['사자갈기해파리',37,'촉수까지 약 37m','촉수를 쭉 펴면 대왕고래보다 길어요.'],
+    ['용문사 은행나무',42,'높이 약 42m','경기도 양평에 있는, 천 살이 넘었다고 전해지는 우리나라의 큰 은행나무예요.'],
+    ['자이언트 켈프',45,'길이 약 45m','바닷속에서 하루에 수십 cm씩 자라는 거대한 해초예요.'],
+    ['하이페리온',116,'높이 약 116m','미국에 있는, 세상에서 가장 키 큰 나무예요. 30층 아파트보다 높아요.'],
+    ['판도 사시나무 숲',800,'폭 약 800m','나무 4만여 그루가 뿌리 하나로 이어진 한 생명이에요.'],
+    ['꿀버섯',3800,'폭 약 3.8km','땅속으로 실처럼 퍼진 버섯 한 개체가 축구장 1,000개가 넘는 넓이를 덮고 있어요.'],
+    ['샤크만 해초',180000,'길이 약 180km','호주 바다의 해초 한 포기가 180km나 퍼져 있어요. 서울에서 대전까지쯤 되는 거리예요.']
+  ],
+  ending:{h:'가장 큰 생명까지 왔어요!', p:['DNA에서 해초 초원까지, 약 100조 배 커졌어요. 우리는 그 딱 중간쯤에 있어요.'], note:'크기는 대표적인 값이에요. 같은 종류라도 개체마다 달라요.'},
+  stops:[[-9,'#1B1446'],[-7,'#23306E'],[-5.3,'#2E5A8E'],[-4,'#6FA8C8'],[-3,'#DDEFF5'],[-1.5,'#E8F4E2'],[0,'#DFF3E4'],[1,'#CFEAF7'],[2,'#B8E0F5'],[3,'#9ED0F0'],[5.3,'#7AB8E8']]
+};
+const cell=(c,n)=>`<circle cx="60" cy="60" r="44" fill="${c}"/><circle cx="60" cy="60" r="44" fill="none" stroke="#fff" stroke-opacity=".35" stroke-width="3"/>${n||''}`;
+ART.life = {
+'DNA':`<g fill="none" stroke-width="5" stroke-linecap="round"><path d="M40 4 q40 28 0 56 q-40 28 0 56" stroke="#FF7AA8"/><path d="M80 4 q-40 28 0 56 q40 28 0 56" stroke="#6CE0FF"/></g><g stroke="#FFD84D" stroke-width="3">`+[14,26,38,50,70,82,94,106].map(y=>{const d=Math.abs(Math.sin((y-4)/56*Math.PI))*18;return `<line x1="${60-d}" y1="${y}" x2="${60+d}" y2="${y}"/>`}).join('')+`</g>`,
+'리보솜':`<ellipse cx="60" cy="44" rx="40" ry="30" fill="#8C7CF0"/><ellipse cx="60" cy="86" rx="30" ry="22" fill="#B4A9FF"/><path d="M4 70 q20 -8 40 0 t40 0 t36 0" fill="none" stroke="#FFD84D" stroke-width="4"/>`,
+'독감 바이러스':`<g stroke="#FF8A4A" stroke-width="5" stroke-linecap="round">`+Array.from({length:16},(_,i)=>{const a=i/16*6.283;return `<line x1="${60+Math.cos(a)*36}" y1="${60+Math.sin(a)*36}" x2="${60+Math.cos(a)*52}" y2="${60+Math.sin(a)*52}"/>`}).join('')+`</g><circle cx="60" cy="60" r="38" fill="#E0591C"/><circle cx="48" cy="48" r="8" fill="#FF8A4A"/>`,
+'대장균':`<rect x="10" y="40" width="100" height="40" rx="20" fill="#6FBF73"/><g stroke="#4E9A52" stroke-width="2" fill="none"><path d="M10 60 q-6 20 -10 40"/><path d="M110 60 q6 20 10 40"/><path d="M40 80 q-4 16 -12 30"/></g><rect x="30" y="54" width="40" height="8" rx="4" fill="#4E9A52" opacity=".5"/>`,
+'적혈구':`<ellipse cx="60" cy="60" rx="54" ry="54" fill="#D8352B"/><ellipse cx="60" cy="60" rx="28" ry="28" fill="#B02820"/><ellipse cx="46" cy="40" rx="14" ry="8" fill="#FF6A5A" opacity=".6"/>`,
+'백혈구':cell('#F2EEF8','<g fill="#8C7CF0"><circle cx="44" cy="52" r="12"/><circle cx="66" cy="44" r="10"/><circle cx="70" cy="70" r="12"/></g>'),
+'사람의 난자':cell('#FFE9A8','<circle cx="60" cy="60" r="52" fill="none" stroke="#FFD27A" stroke-width="6" opacity=".6"/><circle cx="58" cy="56" r="10" fill="#E0A814"/>'),
+'짚신벌레':`<path d="M20 70 q10 -44 50 -44 q40 0 40 30 q-6 34 -50 36 q-36 0 -40 -22z" fill="#8FE0B0"/><g stroke="#6FBF73" stroke-width="2">`+Array.from({length:22},(_,i)=>{const a=i/22*6.283;return `<line x1="${62+Math.cos(a)*46}" y1="${58+Math.sin(a)*32}" x2="${62+Math.cos(a)*52}" y2="${58+Math.sin(a)*37}"/>`}).join('')+`</g><circle cx="70" cy="56" r="8" fill="#4E9A52"/><path d="M40 70 q10 -6 20 0" stroke="#4E9A52" stroke-width="3" fill="none"/>`,
+'집먼지진드기':`<ellipse cx="60" cy="64" rx="34" ry="30" fill="#E8D8C0"/><g stroke="#C9B79A" stroke-width="4" stroke-linecap="round">`+[[30,50,10,36],[30,70,8,80],[36,86,20,104],[90,50,110,36],[90,70,112,80],[84,86,100,104],[40,40,26,20],[80,40,94,20]].map(([a,b,c,d])=>`<line x1="${a}" y1="${b}" x2="${c}" y2="${d}"/>`).join('')+`</g><circle cx="60" cy="38" r="8" fill="#C9B79A"/>`,
+'물곰':`<g fill="#E8C8A8"><rect x="14" y="40" width="92" height="46" rx="23"/><g>`+[24,44,64,84].map(x=>`<rect x="${x}" y="80" width="12" height="24" rx="6"/>`).join('')+`</g></g><circle cx="102" cy="58" r="14" fill="#E8C8A8"/><circle cx="106" cy="54" r="2.5" fill="#1D1B3A"/><circle cx="112" cy="60" r="3" fill="#C4786A"/><path d="M30 52 q20 -8 50 0" stroke="#D8B090" stroke-width="3" fill="none"/>`,
+'물벼룩':`<ellipse cx="60" cy="66" rx="34" ry="40" fill="#CFE6F5" opacity=".85"/><ellipse cx="60" cy="70" rx="16" ry="22" fill="#FF8A4A" opacity=".6"/><circle cx="60" cy="30" r="8" fill="#1D1B3A"/><path d="M50 30 q-30 -20 -40 10 M70 30 q30 -20 40 10" fill="none" stroke="#8AB0D0" stroke-width="4"/>`,
+'개미':`<g fill="#2B2B2B"><circle cx="96" cy="58" r="12"/><ellipse cx="68" cy="62" rx="12" ry="9"/><ellipse cx="34" cy="64" rx="22" ry="16"/></g><g stroke="#2B2B2B" stroke-width="3" stroke-linecap="round" fill="none"><path d="M64 68 l-8 30 M70 68 l4 30 M74 66 l16 28 M62 58 l-12 -20"/><path d="M102 48 q10 -16 14 -20 M96 48 q2 -18 8 -24"/></g>`,
+'무당벌레':`<path d="M14 90 a46 44 0 0 1 92 0z" fill="#D8352B"/><line x1="60" y1="46" x2="60" y2="90" stroke="#2B2B2B" stroke-width="3"/><g fill="#2B2B2B"><circle cx="40" cy="66" r="7"/><circle cx="80" cy="66" r="7"/><circle cx="46" cy="82" r="5"/><circle cx="74" cy="82" r="5"/><path d="M40 50 a20 16 0 0 1 40 0z"/></g><g stroke="#2B2B2B" stroke-width="3"><line x1="20" y1="90" x2="12" y2="104"/><line x1="100" y1="90" x2="108" y2="104"/></g>`,
+'꿀벌':ART.ai['꿀벌의 뇌'],
+'청개구리':`<ellipse cx="60" cy="78" rx="40" ry="26" fill="#6FBF3A"/><circle cx="40" cy="50" r="12" fill="#6FBF3A"/><circle cx="80" cy="50" r="12" fill="#6FBF3A"/><circle cx="40" cy="48" r="6" fill="#1D1B3A"/><circle cx="80" cy="48" r="6" fill="#1D1B3A"/><path d="M44 80 q16 8 32 0" fill="none" stroke="#3E8A2A" stroke-width="3"/><g fill="#5AA02E"><ellipse cx="20" cy="100" rx="14" ry="6"/><ellipse cx="100" cy="100" rx="14" ry="6"/></g>`,
+'참새':`<ellipse cx="56" cy="70" rx="32" ry="26" fill="#A87A4E"/><ellipse cx="54" cy="80" rx="22" ry="16" fill="#E8D8C0"/><circle cx="86" cy="50" r="16" fill="#8A5A3A"/><path d="M78 56 q8 6 16 0" fill="#fff"/><circle cx="90" cy="48" r="2.5" fill="#1D1B3A"/><path d="M100 50 l10 3 l-10 3z" fill="#2B2B2B"/><path d="M26 64 l-22 -6 l18 16z" fill="#6E4A2E"/><path d="M40 60 q16 -10 30 6" fill="none" stroke="#6E4A2E" stroke-width="4"/><g stroke="#C4786A" stroke-width="3"><line x1="50" y1="94" x2="48" y2="112"/><line x1="62" y1="94" x2="64" y2="112"/></g>`,
+'고양이':`<ellipse cx="54" cy="80" rx="36" ry="22" fill="#F2A23A"/><circle cx="92" cy="58" r="18" fill="#F2A23A"/><path d="M80 44 l2 -16 l10 12z M98 40 l8 -12 l2 16z" fill="#F2A23A"/><g fill="#1D1B3A"><circle cx="88" cy="56" r="2.5"/><circle cx="100" cy="56" r="2.5"/></g><path d="M18 76 q-16 -30 4 -40" fill="none" stroke="#F2A23A" stroke-width="8" stroke-linecap="round"/><g stroke="#E0853A" stroke-width="4"><line x1="40" y1="64" x2="44" y2="96"/><line x1="56" y1="62" x2="58" y2="98"/></g><g fill="#F2A23A"><rect x="26" y="94" width="10" height="20" rx="5"/><rect x="72" y="94" width="10" height="20" rx="5"/></g>`,
+'진돗개':`<ellipse cx="56" cy="64" rx="34" ry="18" fill="#F2E6D0"/><g fill="#F2E6D0"><rect x="26" y="72" width="10" height="42" rx="5"/><rect x="72" y="72" width="10" height="42" rx="5"/></g><circle cx="92" cy="42" r="16" fill="#F2E6D0"/><path d="M84 30 l2 -18 l10 14z M98 28 l8 -14 l2 18z" fill="#E8D8C0"/><path d="M100 46 l14 2 l-12 6z" fill="#F2E6D0"/><circle cx="112" cy="48" r="2.5" fill="#1D1B3A"/><circle cx="94" cy="40" r="2.5" fill="#1D1B3A"/><path d="M22 56 q-14 -22 6 -26" fill="none" stroke="#F2E6D0" stroke-width="8" stroke-linecap="round"/>`,
+'황제펭귄':`<ellipse cx="60" cy="70" rx="30" ry="46" fill="#2B2B33"/><ellipse cx="60" cy="76" rx="20" ry="36" fill="#F5F1E8"/><circle cx="60" cy="24" r="18" fill="#2B2B33"/><path d="M44 34 q16 10 32 0 q-4 12 -16 12 q-12 0 -16 -12z" fill="#F2C230"/><path d="M58 30 l6 8 l4 -6z" fill="#E0853A"/><g fill="#E0853A"><ellipse cx="50" cy="116" rx="8" ry="3"/><ellipse cx="70" cy="116" rx="8" ry="3"/></g>`,
+'사람':ART.seoul['여러분'],
+'타조':`<ellipse cx="54" cy="56" rx="30" ry="20" fill="#2B2B2B"/><path d="M28 52 q-16 -6 -20 6 q10 4 20 2z" fill="#F5F1E8"/><path d="M78 50 q6 -30 12 -40" stroke="#E8C0A8" stroke-width="6" fill="none"/><circle cx="92" cy="10" r="7" fill="#E8C0A8"/><path d="M98 10 l10 2 l-10 3z" fill="#D8A080"/><g stroke="#E8C0A8" stroke-width="5"><line x1="46" y1="72" x2="44" y2="118"/><line x1="60" y1="72" x2="64" y2="118"/></g>`,
+'시베리아 호랑이':`<ellipse cx="52" cy="78" rx="38" ry="18" fill="#F2A23A"/><circle cx="96" cy="70" r="16" fill="#F2A23A"/><path d="M86 58 l2 -8 l6 6z M102 56 l6 -6 l0 10z" fill="#F2A23A"/><g stroke="#2B2B2B" stroke-width="3">`+[30,42,54,66].map(x=>`<line x1="${x}" y1="62" x2="${x+4}" y2="74"/>`).join('')+`</g><g fill="#F2A23A"><rect x="24" y="88" width="10" height="26" rx="5"/><rect x="70" y="88" width="10" height="26" rx="5"/></g><path d="M14 76 q-12 -10 -12 -24" fill="none" stroke="#F2A23A" stroke-width="6" stroke-linecap="round"/><path d="M100 76 q4 4 8 0" fill="#fff"/><circle cx="100" cy="66" r="2" fill="#1D1B3A"/>`,
+'아프리카코끼리':`<ellipse cx="52" cy="54" rx="42" ry="30" fill="#8A8F98"/><g fill="#8A8F98"><rect x="18" y="70" width="16" height="46" rx="6"/><rect x="40" y="72" width="16" height="44" rx="6"/><rect x="64" y="72" width="16" height="44" rx="6"/></g><circle cx="92" cy="44" r="20" fill="#8A8F98"/><path d="M84 36 q-24 0 -18 30 q10 -4 16 -10z" fill="#7A7F88"/><path d="M108 50 q8 30 -4 60" fill="none" stroke="#8A8F98" stroke-width="10" stroke-linecap="round"/><path d="M104 58 q10 8 4 18" fill="none" stroke="#F5F1E8" stroke-width="4" stroke-linecap="round"/><circle cx="98" cy="40" r="2.5" fill="#1D1B3A"/>`,
+'백상아리':ART.sea['백상아리'],
+'기린':`<g fill="#F2C230"><ellipse cx="40" cy="82" rx="26" ry="14"/><rect x="18" y="88" width="7" height="30"/><rect x="32" y="90" width="7" height="28"/><rect x="46" y="90" width="7" height="28"/><rect x="58" y="88" width="7" height="30"/><path d="M56 78 l18 -60 h10 l-14 64z"/><ellipse cx="86" cy="16" rx="14" ry="8"/></g><g fill="#B8702A"><circle cx="34" cy="80" r="4"/><circle cx="48" cy="84" r="4"/><circle cx="66" cy="56" r="3"/><circle cx="72" cy="36" r="3"/></g><circle cx="88" cy="13" r="2" fill="#1D1B3A"/><path d="M80 8 v-6 M86 8 v-6" stroke="#B8702A" stroke-width="3"/>`,
+'대왕오징어':ART.sea['대왕오징어'],
+'고래상어':`<g class="tail"><path d="M18 60 l-16 -20 q6 20 0 40z" fill="#3A5A7A"/></g><path d="M16 60 q30 -26 80 -18 q18 4 22 18 q-6 14 -24 16 q-48 8 -78 -16z" fill="#4A6A8A"/><g fill="#E8F0F6">`+Array.from({length:18},(_,i)=>`<circle cx="${30+(i%6)*12}" cy="${50+Math.floor(i/6)*8}" r="2"/>`).join('')+`</g><path d="M96 66 h20" stroke="#2B3A4A" stroke-width="3"/><path d="M60 44 l10 -16 l6 18z" fill="#3A5A7A"/>`,
+'대왕고래':ART.sea['대왕고래'],
+'아르헨티노사우루스':`<ellipse cx="52" cy="80" rx="34" ry="16" fill="#8A7A5A"/><path d="M80 74 q16 -40 30 -56" stroke="#8A7A5A" stroke-width="9" fill="none" stroke-linecap="round"/><circle cx="110" cy="18" r="6" fill="#8A7A5A"/><path d="M20 80 q-12 0 -20 8" stroke="#8A7A5A" stroke-width="7" fill="none" stroke-linecap="round"/><g fill="#8A7A5A"><rect x="28" y="88" width="9" height="26" rx="4"/><rect x="44" y="90" width="9" height="24" rx="4"/><rect x="62" y="90" width="9" height="24" rx="4"/><rect x="74" y="88" width="9" height="26" rx="4"/></g>`,
+'사자갈기해파리':`<path d="M26 34 q34 -40 68 0 q-34 8 -68 0z" fill="#D8573E"/><g fill="none" stroke="#F2A07A" stroke-width="1.8" opacity=".85">`+Array.from({length:14},(_,i)=>`<path d="M${30+i*4.5} 36 q${i%2?6:-6} 40 ${i%3-1} 80"/>`).join('')+`</g><g fill="none" stroke="#E8704A" stroke-width="4"><path d="M50 38 q-6 20 2 30"/><path d="M70 38 q6 20 -2 30"/></g>`,
+'용문사 은행나무':`<rect x="52" y="60" width="16" height="58" fill="#6E4A2E"/><path d="M60 4 q44 16 48 56 q-4 22 -48 22 q-44 0 -48 -22 q4 -40 48 -56z" fill="#F2C230"/><path d="M60 4 q22 8 32 30 q-16 -8 -32 -6z" fill="#FFE27A" opacity=".6"/>`,
+'자이언트 켈프':`<g fill="none" stroke-linecap="round"><path d="M40 118 q-12 -40 6 -70 q12 -26 -2 -46" stroke="#8A7A2E" stroke-width="5"/><path d="M76 118 q14 -44 -4 -74 q-10 -22 6 -42" stroke="#6E6A2A" stroke-width="5"/></g><g fill="#A8943A">`+[[46,40],[36,70],[52,96],[70,30],[82,60],[68,90]].map(([x,y],i)=>`<ellipse cx="${x}" cy="${y}" rx="10" ry="4" transform="rotate(${i%2?30:-30} ${x} ${y})"/>`).join('')+`</g>`,
+'하이페리온':`<rect x="54" y="30" width="12" height="90" fill="#8A4A2E"/><g fill="#3E6A3A"><polygon points="60,0 76,34 44,34"/><polygon points="60,14 80,54 40,54"/><polygon points="60,30 84,76 36,76"/></g>`,
+'판도 사시나무 숲':`<rect y="100" width="120" height="20" fill="#8A6A4A"/><path d="M0 108 q30 -6 60 0 t60 0" fill="none" stroke="#6E4A2E" stroke-width="2"/><g>`+Array.from({length:14},(_,i)=>`<rect x="${4+i*8.4}" y="${70+(i%3)*4}" width="2" height="${34-(i%3)*4}" fill="#F5F1E8"/><circle cx="${5+i*8.4}" cy="${66+(i%3)*4}" r="7" fill="${i%2?'#F2C230':'#E0A814'}"/>`).join('')+`</g>`,
+'꿀버섯':`<rect y="96" width="120" height="24" fill="#5A4030"/><g stroke="#F5E8D0" stroke-width="1" opacity=".7" fill="none">`+Array.from({length:10},(_,i)=>`<path d="M${i*12} 100 q6 10 12 4 t12 10"/>`).join('')+`</g><g>`+[20,52,86,106].map((x,i)=>`<rect x="${x-1.5}" y="${86+(i%2)*2}" width="3" height="10" fill="#E8D8C0"/><ellipse cx="${x}" cy="${86+(i%2)*2}" rx="6" ry="3" fill="#C9903A"/>`).join('')+`</g>`,
+'샤크만 해초':`<rect y="92" width="120" height="28" fill="#2E6A8E"/><rect y="104" width="120" height="16" fill="#E8D8A8"/><g fill="#3E8A4A">`+Array.from({length:40},(_,i)=>`<rect x="${i*3}" y="${96+(i%4)}" width="1.5" height="${8-(i%4)}"/>`).join('')+`</g>`
+};
+PARTICLES.life = v => v<1e-4 ? [{k:'mote',c:'180,200,255',n:30}] : v<0.01 ? [{k:'mote',c:'120,140,160',n:16}] : [{k:'mote',c:'255,255,255',n:14}];
+PAGES.life = life;
+/* ---------- 누가 더 클까? 항목 추가 + 그림 ---------- */
+life.things.push(
+  ['헤모글로빈',6.5e-9,'약 6.5nm','적혈구 속에서 산소를 꽉 붙잡아 나르는 단백질이에요.'],
+  ['미토콘드리아',1e-6,'약 1μm','세포 속 발전소예요. 먹은 음식으로 에너지를 만들어요.'],
+  ['꽃가루',2.5e-5,'약 25μm','바람과 벌을 타고 날아다녀요. 봄철 재채기의 범인이기도 해요.'],
+  ['머리카락 굵기',8e-5,'약 0.08mm','사람 머리카락 한 올의 굵기예요. 여기서부터 겨우 눈에 보이기 시작해요.'],
+  ['아메바',4e-4,'약 0.4mm','몸 모양을 마음대로 바꾸며 기어가는 한 개의 세포예요.'],
+  ['벼룩',2.5e-3,'약 2.5mm','자기 몸의 100배 넘게 멀리 뛸 수 있어요.'],
+  ['초파리',3e-3,'약 3mm','과일 근처에 날아드는 작은 파리예요. 과학 실험에 아주 많이 쓰여요.'],
+  ['장수풍뎅이',5.5e-2,'약 5.5cm','우리나라에서 가장 큰 딱정벌레 중 하나예요. 수컷은 멋진 뿔이 있어요.'],
+  ['다람쥐',1.5e-1,'몸길이 약 15cm','볼주머니에 도토리를 가득 넣어 옮겨요.'],
+  ['토끼',4e-1,'몸길이 약 40cm','귀로 몸의 열을 식혀요. 앞니가 평생 자라요.'],
+  ['말',1.6,'어깨 높이 약 1.6m','선 채로 잠을 잘 수 있어요.'],
+  ['바다악어',6,'몸길이 약 6m','지금 사는 가장 큰 파충류예요.'],
+  ['범고래',7,'몸길이 약 7m','무리 지어 사냥하는 똑똑한 바다의 사냥꾼이에요. 사실 돌고래 무리예요.'],
+  ['티라노사우루스',12.3,'몸길이 약 12m','가장 유명한 육식 공룡이에요. 이빨 하나가 바나나만 했어요.'],
+  ['향유고래',16,'몸길이 약 16m','이빨이 있는 동물 중 가장 커요. 아주 깊이 잠수해요.'],
+  ['대나무',20,'높이 약 20m','하루에 1m 가까이 자라기도 해요. 사실 나무가 아니라 풀이에요.'],
+  ['제너럴 셔먼',84,'높이 약 84m','미국에 있는 거대한 세쿼이아예요. 부피로는 세상에서 가장 큰 나무예요.']
+);
+life.things.sort((a,b)=>a[1]-b[1]);
+Object.assign(ART.life, {
+'헤모글로빈':`<g fill="#D8352B"><circle cx="40" cy="40" r="26"/><circle cx="80" cy="40" r="26" opacity=".85"/><circle cx="40" cy="80" r="26" opacity=".85"/><circle cx="80" cy="80" r="26"/></g><g fill="#FFD84D"><circle cx="40" cy="40" r="6"/><circle cx="80" cy="40" r="6"/><circle cx="40" cy="80" r="6"/><circle cx="80" cy="80" r="6"/></g>`,
+'미토콘드리아':`<ellipse cx="60" cy="60" rx="56" ry="30" fill="#FF8A4A"/><ellipse cx="60" cy="60" rx="48" ry="22" fill="#FFB27A"/><path d="M16 60 q8 -18 14 0 t14 0 t14 0 t14 0 t14 0 t14 0 t10 0" fill="none" stroke="#E0591C" stroke-width="4"/>`,
+'꽃가루':`<circle cx="60" cy="60" r="46" fill="#F2C230"/><g fill="#E0A814">`+Array.from({length:26},(_,i)=>{const a=i*2.4,r=12+(i*13)%30;return `<circle cx="${(60+Math.cos(a)*r).toFixed(1)}" cy="${(60+Math.sin(a)*r).toFixed(1)}" r="3"/>`}).join('')+`</g><g stroke="#E0A814" stroke-width="4">`+Array.from({length:20},(_,i)=>{const a=i/20*6.283;return `<line x1="${(60+Math.cos(a)*44).toFixed(1)}" y1="${(60+Math.sin(a)*44).toFixed(1)}" x2="${(60+Math.cos(a)*54).toFixed(1)}" y2="${(60+Math.sin(a)*54).toFixed(1)}"/>`}).join('')+`</g>`,
+'머리카락 굵기':`<rect x="2" y="30" width="116" height="60" rx="30" fill="#3A2E28"/><g stroke="#5A4638" stroke-width="3">`+[20,40,60,80,100].map(x=>`<path d="M${x} 32 l-8 56"/>`).join('')+`</g>`,
+'아메바':`<path d="M20 70 q-10 -30 20 -40 q20 -20 40 0 q30 -6 34 20 q20 14 0 34 q-10 20 -40 10 q-26 10 -40 -4 q-24 -6 -14 -20z" fill="#B8E0C8" opacity=".9"/><circle cx="58" cy="62" r="12" fill="#6FBF73"/><g fill="#8FD0A0"><circle cx="36" cy="54" r="5"/><circle cx="84" cy="76" r="6"/></g>`,
+'벼룩':`<ellipse cx="54" cy="56" rx="34" ry="28" fill="#8A4A2A"/><circle cx="92" cy="50" r="12" fill="#6E3A20"/><g stroke="#6E3A20" stroke-width="5" stroke-linecap="round" fill="none"><path d="M40 80 l-6 30"/><path d="M58 82 l2 28"/><path d="M76 76 q20 10 10 38"/></g><circle cx="96" cy="46" r="2" fill="#fff"/>`,
+'초파리':ART.ai['초파리의 뇌'],
+'장수풍뎅이':`<ellipse cx="54" cy="72" rx="40" ry="26" fill="#6E3A20"/><ellipse cx="48" cy="66" rx="14" ry="8" fill="#9A5A3A" opacity=".6"/><line x1="54" y1="48" x2="54" y2="96" stroke="#3A1E10" stroke-width="2"/><ellipse cx="96" cy="64" rx="14" ry="12" fill="#4A2A18"/><path d="M104 60 q14 -16 8 -40 l-6 4 q2 20 -8 30z" fill="#4A2A18"/><g stroke="#3A1E10" stroke-width="4" stroke-linecap="round"><line x1="30" y1="92" x2="18" y2="112"/><line x1="54" y1="96" x2="54" y2="114"/><line x1="78" y1="92" x2="90" y2="112"/></g>`,
+'다람쥐':`<path d="M24 90 q-24 -40 6 -70 q22 -10 22 20 q-10 20 -4 50z" fill="#C4703A"/><ellipse cx="62" cy="84" rx="24" ry="22" fill="#D8864A"/><circle cx="84" cy="58" r="16" fill="#D8864A"/><path d="M78 44 l2 -10 l8 8z" fill="#C4703A"/><g stroke="#3A2418" stroke-width="3"><path d="M50 70 q10 -6 22 0"/><path d="M48 80 q12 -6 24 0"/></g><circle cx="90" cy="56" r="2.5" fill="#1D1B3A"/><ellipse cx="72" cy="94" rx="6" ry="8" fill="#8B5A2B"/>`,
+'토끼':`<ellipse cx="54" cy="84" rx="34" ry="24" fill="#E9E4DC"/><circle cx="90" cy="68" r="18" fill="#E9E4DC"/><ellipse cx="84" cy="30" rx="6" ry="22" fill="#E9E4DC"/><ellipse cx="98" cy="32" rx="6" ry="22" fill="#E9E4DC"/><ellipse cx="84" cy="30" rx="3" ry="16" fill="#F2B6C6"/><ellipse cx="98" cy="32" rx="3" ry="16" fill="#F2B6C6"/><circle cx="96" cy="66" r="2.5" fill="#1D1B3A"/><circle cx="20" cy="80" r="8" fill="#fff"/>`,
+'말':`<ellipse cx="50" cy="52" rx="36" ry="18" fill="#8A5A3A"/><g fill="#8A5A3A"><rect x="20" y="62" width="9" height="54" rx="4"/><rect x="34" y="64" width="9" height="52" rx="4"/><rect x="60" y="64" width="9" height="52" rx="4"/><rect x="74" y="62" width="9" height="54" rx="4"/><path d="M78 44 l20 -34 l12 6 l-2 14 l-14 24z"/></g><path d="M84 16 q-14 10 -14 30" fill="none" stroke="#3A2418" stroke-width="6"/><path d="M14 50 q-12 10 -8 34" fill="none" stroke="#3A2418" stroke-width="6" stroke-linecap="round"/><circle cx="102" cy="18" r="2" fill="#1D1B3A"/>`,
+'바다악어':`<path d="M2 84 q20 -8 40 -8 h50 q14 0 26 6 q-12 6 -26 6 h-50 q-20 0 -40 -4z" fill="#5E7A3A"/><g fill="#4E6A2E">`+[30,40,50,60,70].map(x=>`<polygon points="${x},76 ${x+4},70 ${x+8},76"/>`).join('')+`</g><g fill="#4E6A2E"><rect x="36" y="86" width="6" height="10"/><rect x="72" y="86" width="6" height="10"/></g><circle cx="98" cy="76" r="2" fill="#FFD84D"/>`,
+'범고래':`<g class="tail"><path d="M16 62 l-14 -14 q4 14 0 30z" fill="#1D1B22"/></g><path d="M14 62 q26 -22 66 -18 q24 4 30 18 q-8 14 -30 16 q-40 4 -66 -16z" fill="#1D1B22"/><path d="M40 70 q30 12 66 -4 q-12 14 -34 14 q-20 0 -32 -10z" fill="#F5F5F5"/><ellipse cx="88" cy="54" rx="8" ry="4" fill="#F5F5F5"/><path d="M58 44 l6 -32 l10 34z" fill="#1D1B22"/>`,
+'티라노사우루스':`<path d="M14 70 q30 -30 60 -20 l20 -14 q18 0 22 12 l-8 6 l-14 -2 l-10 12 q-6 20 -26 24 l-4 26 h-8 l0 -24 l-12 0 l-4 24 h-8 l2 -26 q-20 -6 -30 -18z" fill="#6E7A4A"/><path d="M76 72 l10 8" stroke="#5A6438" stroke-width="4"/><circle cx="102" cy="44" r="2.5" fill="#1D1B3A"/><path d="M104 54 l8 -2" stroke="#fff" stroke-width="2"/>`,
+'향유고래':ART.sea['향유고래'],
+'대나무':`<g>`+[40,60,80].map((x,i)=>`<rect x="${x-3}" y="${6+i*6}" width="6" height="${112-i*6}" fill="#6FA83E"/>`+[30,54,78,100].map(y=>`<rect x="${x-4}" y="${y}" width="8" height="3" fill="#4E8A2E"/>`).join('')).join('')+`</g><g fill="#8FC85A">`+[[30,20],[50,30],[70,16],[90,26],[36,44],[86,50]].map(([x,y],i)=>`<ellipse cx="${x}" cy="${y}" rx="10" ry="3" transform="rotate(${i%2?25:-25} ${x} ${y})"/>`).join('')+`</g>`,
+'제너럴 셔먼':`<path d="M50 118 l2 -84 h16 l2 84z" fill="#A8502A"/><g fill="#3E6A3A"><ellipse cx="60" cy="24" rx="26" ry="16"/><ellipse cx="46" cy="44" rx="18" ry="10"/><ellipse cx="76" cy="50" rx="18" ry="10"/><ellipse cx="60" cy="70" rx="20" ry="8"/></g><path d="M40 118 q20 -10 40 0z" fill="#8A4A2A"/>`,
+'꿀버섯':`<rect y="100" width="120" height="20" fill="#5A4030"/><g stroke="#F5E8D0" stroke-width=".8" opacity=".7" fill="none">`+Array.from({length:12},(_,i)=>`<path d="M${i*10} 104 q5 8 10 3 t10 8"/>`).join('')+`</g><g fill="#3E6A3A">`+Array.from({length:24},(_,i)=>`<polygon points="${2+i*5},100 ${4.5+i*5},${94-(i%3)} ${7+i*5},100"/>`).join('')+`</g>`
+});
+
+/* ---------- 줌 엔진 ---------- */
+const Z = {els:[], labels:[], X:[], STEP:760, info:null, endEl:null};
+function sizeText(L){ if (L<1e-6) return (Math.round(L*1e10)/10)+' nm'; if (L<1e-3) return (Math.round(L*1e7)/10)+' μm'; if (L<1e-2) return (Math.round(L*1e4)/10)+' mm'; if (L<1) return (Math.round(L*1e3)/10)+' cm'; if (L<1000) return (L<10?Math.round(L*100)/100:Math.round(L*10)/10)+' m'; return fmt(L/1000)+' km'; }
+function vsHuman(L){ const r=L/1.7; if (r<1){ const k=1/r; return '사람 키의 '+(k<10?(Math.round(k*10)/10):fmt(k))+'분의 1'; } return '사람 키의 '+(r<10?(Math.round(r*10)/10):fmt(r))+'배'; }
+const uniqIds = (svg, suf) => svg.replace(/id="([^"]+)"/g, `id="$1-${suf}"`).replace(/url\(#([^)]+)\)/g, `url(#$1-${suf})`);
+function buildZ(page){
+  cur = page; mobile = innerWidth < 720; HERO = 0;
+  const track = $('#track'); track.className = 'zoom' + (mobile?' mobile':''); track.innerHTML=''; track.style.width=''; track.style.transform='';
+  const T = page.things;
+  const EX = t => t[1] * ((page.ext||{})[t[0]] || 1);
+  Z.X=[0]; for (let i=1;i<T.length;i++) Z.X.push(Z.X[i-1] + EX(T[i-1])*0.62 + EX(T[i])*0.62);
+  const stage = document.createElement('div'); stage.className='zstage'; stage.innerHTML='<div class="zhills"><svg viewBox="0 0 1200 200" preserveAspectRatio="none"><path d="M0 200 V120 Q150 60 300 110 T600 100 T900 90 T1200 110 V200z" fill="#8DB9A0"/><path d="M0 200 V150 Q200 110 400 145 T800 135 T1200 150 V200z" fill="#7AAA8C"/></svg></div><div class="zgrass"></div><div class="zground"></div><div class="zruler"><div class="zrl"></div><span></span></div><div class="zprog"><i></i></div>';
+  Z.els = T.map(t=>{ const d=document.createElement('div'); d.className='zit'; d.innerHTML = `<svg viewBox="0 0 120 120" preserveAspectRatio="${page.float?'xMidYMid':'xMidYMax'} meet" aria-hidden="true"><g class="zg">${uniqIds((ART[page.key]||{})[t[0]]||'', 'z'+T.indexOf(t))}</g></svg>`; stage.appendChild(d); return d; });
+  Z.els.forEach((d,i)=>d.style.setProperty('--zd', (-(i*0.77)%5).toFixed(2)+'s'));
+  Z.labels = T.map(t=>{ const d=document.createElement('div'); d.className='zlab'; d.textContent=t[0]; stage.appendChild(d); return d; });
+  track.appendChild(stage);
+  const hero = document.createElement('section'); hero.className='zhero';
+  hero.innerHTML = `<div class="hero-art${page.float?' zh-free':''}">${page.float ? `<svg viewBox="-50 -50 220 220" aria-hidden="true" style="overflow:visible">${uniqIds((ART[page.key]||{})[page.heroArt||T[0][0]]||'', 'hero')}</svg>` : art(page.key, page.heroArt||T[0][0])}</div><h1>${page.title}</h1><p>${page.sub}</p><div class="cue">아래로 스크롤하거나 ▶ 버튼을 눌러요</div>`;
+  track.appendChild(hero);
+  const info = document.createElement('aside'); info.className='zinfo'; info.setAttribute('aria-live','polite'); track.appendChild(info); Z.info = info;
+  const nav = document.createElement('div'); nav.className='znav';
+  nav.innerHTML = `<button type="button" id="zPrev" aria-label="이전"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button><button type="button" id="zNext" aria-label="다음"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>`;
+  track.appendChild(nav);
+  const end = document.createElement('section'); end.className='zend';
+  end.innerHTML = `<h2>${page.ending.h}</h2>${page.ending.p.map(x=>`<p>${x}</p>`).join('')}<div class="btns"><button type="button" id="share">링크 복사하기</button><button type="button" id="toTop">처음으로 돌아가기</button><a class="b" href="#/">다른 여행 떠나기</a></div><small>${page.ending.note}</small>`;
+  track.appendChild(end); Z.endEl = end;
+  Z.STEP = Math.max(1100, Math.round(innerHeight*2));
+  $('#hspacer').style.height = (Z.STEP*(T.length+1) + innerHeight)+'px';
+  const go = d => { const base = Z.glide ? Z.glide.to/Z.STEP : Math.round(scrollY/Z.STEP); const i = Math.max(0, Math.min(T.length, Math.round(base) + d)); zGlide(i*Z.STEP); };
+  $('#zPrev').onclick = ()=>go(-1); $('#zNext').onclick = ()=>go(1);
+  $('#share').addEventListener('click', async e=>{ const b=e.currentTarget; try { await navigator.clipboard.writeText(location.href); b.textContent='복사했어요!'; } catch(_){ b.textContent='주소창의 링크를 복사해 주세요'; } setTimeout(()=>b.textContent='링크 복사하기', 2500); });
+  $('#toTop').addEventListener('click', ()=>scrollTo({top:0, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'}));
+  $('#mini').querySelectorAll('button').forEach(b=>b.remove());
+  stage.classList.toggle('zfloat', !!page.float);
+  Z.lastInfo = -1; Z.pos = null;
+  updateZ();
+}
+addEventListener('keydown', e=>{ if (!cur||!cur.zoom) return; if (e.key==='ArrowRight'||e.key==='ArrowDown'&&e.altKey){ $('#zNext').click(); e.preventDefault(); } if (e.key==='ArrowLeft'){ $('#zPrev').click(); e.preventDefault(); } });
+function renderZ(P){
+  const SY = P*Z.STEP;
+  const T = cur.things, W = innerWidth, H = innerHeight;
+  // 스크롤 한 칸 = 한 생명. 각 생명에서 잠깐 머물도록 부드럽게.
+  let raw = SY / Z.STEP - 1;            // 첫 칸은 제목 화면
+  const heroK = Math.max(0, Math.min(1, -raw)); raw = Math.max(0, Math.min(T.length-1, raw));
+  const i0 = Math.floor(raw), i1 = Math.min(T.length-1, i0+1), f = raw - i0;
+  const e = f<.5 ? 4*f*f*f : 1 - Math.pow(-2*f+2,3)/2;
+  const L = Math.exp(lerp(Math.log(T[i0][1]), Math.log(T[i1][1]), e));
+  const camX = lerp(Z.X[i0], Z.X[i1], e);
+  const ground = H*(cur.float?0.52:0.74), ppm = Math.min(H*(cur.float?0.36:0.42), W*0.42)/L, cx = W*(mobile?0.5:0.56);
+  for (let i=0;i<T.length;i++){
+    const h = T[i][1]*ppm, sx = cx + (Z.X[i]-camX)*ppm;
+    const el = Z.els[i], lab = Z.labels[i];
+    const big = Math.max(W,H)*1.6, fade = Math.max(0, Math.min(1, (big*1.35 - h)/(big*0.35)));
+    if (h < 1.5 || sx + h/2 < -40 || sx - h/2 > W + 40 || fade <= 0){ el.style.display='none'; lab.style.display='none'; continue; }
+    el.style.display=''; el.style.opacity = fade;
+    if (!el._bs || h/el._bs > 1.45 || h/el._bs < 0.6){ el._bs = Math.max(2, h); el.style.width = el.style.height = el._bs+'px'; }
+    el.style.transform = `translate3d(${(sx - h/2).toFixed(2)}px,${(cur.float ? ground - h/2 : ground - h).toFixed(2)}px,0) scale(${(h/el._bs).toFixed(5)})`;
+    if (h > 26 && Math.abs(i - raw) < 3.5){ lab.style.display=''; lab.style.left=sx+'px'; lab.style.top=(cur.float ? ground + h/2 + 10 : ground+10)+'px'; lab.style.opacity = i===Math.round(raw) ? 1 : .6; } else lab.style.display='none';
+  }
+  const lv = Math.log10(L);
+  { const target = Math.min(170, W*0.3) / ppm, p10 = Math.pow(10, Math.floor(Math.log10(target)));
+    const nice = [5,2,1].map(k=>k*p10).find(v=>v<=target) || p10;
+    const rl = $('#track .zruler'); rl.querySelector('.zrl').style.width = (nice*ppm)+'px'; rl.querySelector('span').textContent = (cur.fmt||sizeText)(nice); }
+  const hk = Math.max(0, Math.min(1, (lv+0.5)/1.5)) * (1 - Math.max(0, Math.min(1, (lv-2)/0.8)));  // 50cm~100m 구간에 언덕
+  const gk = Math.max(0, Math.min(1, (lv+3)/1.2)) * (1 - Math.max(0, Math.min(1, (lv-0.3)/1)));  // 곤충~작은 동물 구간에 풀
+  $('#track .zhills').style.opacity = cur.float?0:hk*0.9; $('#track .zgrass').style.opacity = cur.float?0:gk;
+  $('#track .zgrass').style.setProperty('--gs', Math.max(6, Math.min(80, 0.03*ppm))+'px');
+  $('#track .zprog i').style.width = (raw/(T.length-1)*100)+'%';
+  $('#zPrev').disabled = SY < 5; $('#zNext').disabled = SY >= Z.STEP*T.length - 5;
+  let c0=cur.stops[0][1], c1=c0, t=0;
+  for (let k=1;k<cur.stops.length;k++){ if (lv<=cur.stops[k][0]){ c0=cur.stops[k-1][1]; c1=cur.stops[k][1]; t=(lv-cur.stops[k-1][0])/(cur.stops[k][0]-cur.stops[k-1][0]); break; } if (k===cur.stops.length-1){ c0=c1=cur.stops[k][1]; t=0; } }
+  t=Math.max(0,Math.min(1,t));
+  $('#backdrop').style.background = cur.float ? `radial-gradient(ellipse at 50% 52%, ${mix(c0,c1,Math.min(1,t+.25))}, ${mix(c0,c1,t)} 70%)` : `linear-gradient(to bottom, transparent 74%, rgba(0,0,0,.1) 74%), ${mix(c0,c1,t)}`;
+  const dark = lum(c0,c1,t) < 0.42;
+  $('#exp').style.setProperty('--xink', dark ? '#F4F2FF' : '#1D1B3A');
+  const ci = Math.round(raw);
+  if (ci !== Z.lastInfo){ Z.els.forEach((el,k)=>el.classList.toggle('cur', k===ci)); if (!RM()){ Z.info.classList.remove('pop'); void Z.info.offsetWidth; Z.info.classList.add('pop'); } Z.lastInfo = ci; const th=T[ci], prev=T[ci-1];
+    Z.info.innerHTML = `<div class="zk">${ci+1} / ${T.length}</div><div class="zn">${th[0]}</div><div class="zs">${th[2]}</div><p>${th[3]}</p>${th[4]?`<div class="zf"><b>알고 있나요?</b> ${th[4]}</div>`:''}${prev?`<div class="zc">${prev[0]}보다 약 ${(r=>r<10?Math.round(r*10)/10:fmt(r))(th[1]/prev[1])}배 커요</div>`:''}`;
+  }
+  const heroEl = $('#track .zhero'); heroEl.style.background = mix(c0,c1,t); heroEl.style.opacity = heroK; heroEl.style.pointerEvents = heroK>.5?'auto':'none';
+  const endK = Math.max(0, Math.min(1, SY/Z.STEP - T.length + .2));
+  Z.endEl.style.opacity = endK; Z.endEl.style.pointerEvents = endK>.5?'auto':'none';
+  Z.info.style.opacity = (1-heroK) * (1-endK); Z.info.style.visibility = endK > .98 ? 'hidden' : '';
+  $('#track .zruler').style.opacity = 1-endK;
+  $('#hudV').textContent = (cur.fmt||sizeText)(L); $('#hudS').textContent = (cur.cmp||vsHuman)(L);
+  FX.cfg = PARTICLES[cur.key](L); FX.axis='y';
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) fxFrame(true);
+  sndUpdate(L, raw/(T.length-1));
+}function zGlide(to){
+  if (RMZ()) { scrollTo(0, to); return; }
+  const from = scrollY, dur = Math.min(2400, 1450 + Math.abs(to-from)/Z.STEP*150), t0 = performance.now();
+  Z.glide = {to};
+  const ease = t => -(Math.cos(Math.PI*t) - 1)/2;
+  const step = now => { if (!Z.glide || Z.glide.to !== to) return;
+    const t = Math.min(1, (now - t0)/dur); scrollTo(0, from + (to-from)*ease(t));
+    if (t < 1) requestAnimationFrame(step); else Z.glide = null; };
+  requestAnimationFrame(step);
+}
+['wheel','touchstart','keydown'].forEach(ev=>addEventListener(ev, e=>{ if (Z.glide && !(ev==='keydown' && (e.key==='ArrowRight'||e.key==='ArrowLeft'))) Z.glide = null; }, {passive:true}));
+function updateZ(){
+  Z.goal = scrollY / Z.STEP;
+  if (Z.pos == null || RMZ()) { Z.pos = Z.goal; renderZ(Z.pos); return; }
+  if (!Z.anim) Z.anim = requestAnimationFrame(zTick);
+}
+const RMZ = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
+function zTick(){
+  Z.anim = 0; if (!cur || !cur.zoom) return;
+  const d = Z.goal - Z.pos;
+  Z.pos = Math.abs(d) < 0.0008 ? Z.goal : Z.pos + d*(Math.abs(d) > 1.5 ? 0.22 : 0.12);
+  renderZ(Z.pos);
+  if (Z.pos !== Z.goal) Z.anim = requestAnimationFrame(zTick);
+}
+
+
+/* =========================================================
+   여행 9. 우주의 크기 (줌 방식, 떠 있는 배치)
+   ========================================================= */
+const LY = 9.461e15;
+function cosmoSize(L){ if (L < 1e3) return sizeText(L); if (L < 1e15) return kmText(L/1000); const y = L/LY; return (y<10 ? (Math.round(y*10)/10) : krNum(y))+' 광년'; }
+function cosmoCmp(L){
+  if (L < 2e5){ return vsHuman(L); }
+  if (L < 5e11){ const r = L/1.2742e7; return r<1 ? '지구 지름의 '+(1/r<10?(Math.round(10/r)/10):fmt(1/r))+'분의 1' : '지구 지름의 '+(r<10?(Math.round(r*10)/10):fmt(r))+'배'; }
+  const s = L/2.998e8, d = s/86400, y = d/365.25;
+  if (d < 1) return '빛으로 건너는 데 '+Math.round(s/3600)+'시간';
+  if (y < 1) return '빛으로 건너는 데 '+Math.round(d)+'일';
+  return '빛으로 건너는 데 '+(y<10?(Math.round(y*10)/10):krNum(y))+'년';
+}
+const cosmos = {
+  key:'cosmos', emoji:'🌌', title:'우주의 크기', zoom:true, float:true, heroArt:'태양',
+  ext:{'토성':2.4,'천왕성':1.3,'태양':1.6,'시리우스':1.6,'북극성':1.6,'알데바란':1.6,'리겔':1.6,'베텔게우스':1.6,'큰개자리 VY':1.6,'공룡을 멸종시킨 소행성':1.4,'첼랴빈스크 운석':1.3,'디모르포스':1.2},
+  fmt:cosmoSize, cmp:cosmoCmp,
+  sub:'우주를 떠도는 먼지 한 톨에서 출발해 행성, 태양, 거대한 별, 은하를 지나 우리가 볼 수 있는 우주 끝까지 가요.',
+  things:[
+    ['우주 먼지',1e-5,'약 0.01mm','별과 별 사이를 떠도는 아주 작은 먼지예요. 우리 몸을 이루는 원소도 이런 먼지에서 왔어요.'],
+    ['별똥별의 씨앗',1e-3,'약 1mm','모래알만 한 돌이 공기와 부딪혀 타면 밤하늘의 별똥별이 돼요.'],
+    ['운석',0.1,'약 10cm','우주에서 떨어져 땅까지 닿은 돌이에요. 2014년 진주에도 운석이 떨어졌어요.'],
+    ['우주비행사',1.8,'약 1.8m','우주복을 입은 사람이에요. 이 여행의 기준이에요.'],
+    ['보이저 1호',3.7,'안테나 지름 약 3.7m','지금 사람이 만든 것 중 가장 멀리 가 있는 탐사선이에요.'],
+    ['허블 우주망원경',13.2,'길이 약 13m','대형 버스만 한 망원경이 지구 둘레를 돌며 우주를 찍어요.'],
+    ['첼랴빈스크 운석',19,'약 19m','2013년 러시아 하늘에서 폭발해 수천 개의 유리창을 깼어요.'],
+    ['누리호',47.2,'높이 약 47m','우리 손으로 만든 로켓이에요. 아파트 15층쯤 높이예요.'],
+    ['국제우주정거장',109,'폭 약 109m','축구장만 한 우주 집이에요. 90분마다 지구를 한 바퀴 돌아요.'],
+    ['디모르포스',160,'지름 약 160m','2022년, 탐사선을 일부러 부딪쳐 궤도를 바꾼 작은 소행성이에요. 지구를 지키는 연습이었어요.'],
+    ['아포피스',340,'지름 약 340m','2029년에 지구 아주 가까이 스쳐 지나갈 소행성이에요. 부딪치지는 않아요.'],
+    ['베누',490,'지름 약 490m','탐사선이 흙을 떠서 2023년 지구로 가져왔어요.'],
+    ['류구',900,'지름 약 900m','팽이처럼 생긴 소행성이에요. 일본 탐사선이 돌 조각을 가져왔어요.'],
+    ['공룡을 멸종시킨 소행성',1e4,'지름 약 10km','6,600만 년 전 지구에 부딪쳐 공룡 시대를 끝냈어요.'],
+    ['핼리 혜성의 핵',1.5e4,'길이 약 15km','얼음과 먼지 덩어리예요. 태양에 다가오면 긴 꼬리가 생겨요.'],
+    ['포보스',2.2e4,'지름 약 22km','화성의 감자 모양 달이에요. 조금씩 화성에 다가가고 있어요.'],
+    ['서울',3.7e4,'동서 약 37km','비교용이에요. 서울을 우주에 띄우면 포보스보다 조금 커요.'],
+    ['세레스',9.4e5,'지름 약 940km','소행성대에서 가장 큰 천체예요.'],
+    ['한반도',1.1e6,'길이 약 1,100km','비교용이에요. 한반도를 세로로 잰 길이는 세레스와 비슷해요.'],
+    ['명왕성',2.377e6,'지름 약 2,377km','한반도 두 배쯤이에요. 하트 모양 얼음 평원이 있어요.'],
+    ['달',3.474e6,'지름 약 3,474km','지구의 약 4분의 1 크기예요.'],
+    ['수성',4.879e6,'지름 약 4,879km','가장 작은 행성이에요. 목성의 달 가니메데보다도 작아요.'],
+    ['화성',6.779e6,'지름 약 6,779km','지구의 절반쯤이에요.'],
+    ['금성',1.2104e7,'지름 약 12,104km','지구와 크기가 거의 같아서 “쌍둥이 행성”이라고 불러요.'],
+    ['지구',1.2742e7,'지름 약 12,742km','우리 집이에요. 이제부터는 지구와 비교해요.'],
+    ['해왕성',4.9244e7,'지름 약 49,000km','지구 4개를 나란히 놓은 크기예요.'],
+    ['천왕성',5.0724e7,'지름 약 51,000km','해왕성보다 아주 조금 커요.'],
+    ['토성',1.1646e8,'지름 약 116,000km','고리까지 치면 지구 20개를 늘어놓은 것보다 길어요.'],
+    ['목성',1.3982e8,'지름 약 140,000km','가장 큰 행성이에요. 지구 11개를 나란히 놓은 너비예요.'],
+    ['태양',1.3927e9,'지름 약 139만 km','지구 109개를 나란히 놓아야 태양 지름이 돼요. 태양계 무게의 99.8%가 태양이에요.'],
+    ['시리우스',2.38e9,'지름 태양의 약 1.7배','밤하늘에서 가장 밝은 별이에요.'],
+    ['북극성',5.2e10,'지름 태양의 약 37배','늘 북쪽 하늘에 떠 있어서 길잡이가 돼 줘요.'],
+    ['알데바란',6.1e10,'지름 태양의 약 44배','황소자리의 붉은 눈이에요.'],
+    ['리겔',1.1e11,'지름 태양의 약 79배','오리온자리 발끝에서 푸르게 빛나요.'],
+    ['지구가 도는 길',2.99e11,'지름 약 3억 km','비교용이에요. 지구가 1년 동안 태양 둘레를 도는 길의 지름이에요.'],
+    ['베텔게우스',1.06e12,'지름 태양의 약 760배','오리온자리 어깨의 붉은 별이에요. 태양 자리에 두면 화성 궤도를 넘어 목성 근처까지 닿아요.'],
+    ['큰개자리 VY',1.98e12,'지름 태양의 약 1,400배','알려진 가장 큰 별 후보 중 하나예요. 크기는 연구마다 달라요.'],
+    ['태양계 행성들의 길',9e12,'지름 약 90억 km','비교용이에요. 해왕성이 도는 길까지의 크기예요.'],
+    ['태양권',3.6e13,'지름 약 360억 km','태양에서 부는 바람이 닿는 거대한 거품이에요. 보이저 1호가 2012년에 이 바깥으로 나갔어요.'],
+    ['오르트 구름',3*LY,'지름 약 3광년(추정)','태양계를 멀리서 감싼 얼음 조각들의 공이에요. 혜성의 고향이에요.'],
+    ['가장 가까운 별까지',4.24*LY,'약 4.2광년','비교용이에요. 태양 다음으로 가까운 별 프록시마 센타우리까지의 거리예요.'],
+    ['오리온 성운',24*LY,'지름 약 24광년','새 별들이 태어나는 가스 구름이에요. 맨눈으로도 희미하게 보여요.'],
+    ['좀생이별',40*LY,'지름 약 40광년','플레이아데스 성단이에요. 파랗고 젊은 별들이 모여 있어요.'],
+    ['대마젤란은하',1.4e4*LY,'지름 약 1만 4천 광년','우리 은하 곁을 도는 작은 은하예요. 남반구에서 맨눈으로 보여요.'],
+    ['우리은하',1e5*LY,'지름 약 10만 광년','별이 1,000억 개가 넘게 모인 우리 은하예요. 태양은 그중 하나예요.'],
+    ['안드로메다은하',2.2e5*LY,'지름 약 22만 광년','우리 은하의 이웃이에요. 약 45억 년 뒤 우리 은하와 합쳐질 거예요.'],
+    ['국부 은하군',1e7*LY,'지름 약 1,000만 광년','우리 은하와 안드로메다를 포함한 은하 수십 개의 동네예요.'],
+    ['라니아케아 초은하단',5.2e8*LY,'지름 약 5억 광년','은하 10만 개가 모인 거대한 무리예요. 하와이 말로 “헤아릴 수 없는 하늘”이라는 뜻이에요.'],
+    ['관측 가능한 우주',9.3e10*LY,'지름 약 930억 광년','우리가 볼 수 있는 우주 전체예요. 그 너머에 무엇이 있는지는 아직 아무도 몰라요.']
+  ],
+  ending:{h:'볼 수 있는 우주 끝까지 왔어요!', p:['먼지 한 톨에서 우주 전체까지, 약 10의 31제곱 배 커졌어요. 우리는 그 사이 어딘가에 있어요.'], note:'크기는 대표적인 값이에요. 먼 별과 우주의 크기는 연구에 따라 달라질 수 있어요.'},
+  stops:[[-5,'#141A3A'],[0,'#10163A'],[5,'#0C1232'],[7,'#0A0F2C'],[9,'#1A0E22'],[12,'#1E0C1C'],[16,'#0C0A24'],[20,'#0A0820'],[24,'#06051A'],[27,'#020208']]
+};
+const SPH = (id, base, inner) => PLANET('z'+id, base, inner||'', 58);
+const ROCK = (c, d) => `<path d="M8 64 q-4 -30 22 -48 q24 -16 54 -8 q30 12 30 44 q2 30 -26 48 q-30 16 -58 2 q-24 -12 -22 -38z" fill="${c}"/><g fill="${d}">`+[[40,40,8],[76,34,6],[70,74,10],[36,82,6],[92,62,5]].map(([x,y,r])=>`<circle cx="${x}" cy="${y}" r="${r}"/>`).join('')+`</g><path d="M30 24 q20 -10 40 -6" fill="none" stroke="#fff" stroke-width="3" opacity=".2"/>`;
+const GALAXY = (c, core, arms=2) => `<ellipse cx="60" cy="60" rx="60" ry="${arms?44:30}" fill="${c}" opacity=".18"/><g fill="none" stroke="${c}" stroke-linecap="round" opacity=".85">`+Array.from({length:arms},(_,k)=>`<path d="M60 60 q30 -${6} 40 12 q6 22 -18 32 q-34 10 -56 -10" stroke-width="7" transform="rotate(${k*180/arms*(arms===2?1:1)} 60 60)"/>`).join('')+`</g><circle cx="60" cy="60" r="12" fill="${core}"/><circle cx="60" cy="60" r="20" fill="${core}" opacity=".35"/>`+Array.from({length:30},(_,i)=>{const a=i*2.3,r=10+(i*17)%48;return `<circle cx="${(60+Math.cos(a)*r).toFixed(1)}" cy="${(60+Math.sin(a)*r*.7).toFixed(1)}" r="1.2" fill="#fff" opacity=".8"/>`}).join('');
+ART.cosmos = {
+'우주 먼지':`<g fill="#B8A898">`+[[40,50,18],[70,44,14],[56,72,16],[84,70,10],[32,74,9]].map(([x,y,r])=>`<circle cx="${x}" cy="${y}" r="${r}"/>`).join('')+`</g><g fill="#8A7A6A" opacity=".6"><circle cx="46" cy="54" r="6"/><circle cx="62" cy="76" r="5"/></g>`,
+'별똥별의 씨앗':ROCK('#8A8278','#6E6A66'),
+'운석':ROCK('#3A3432','#2B2624')+`<path d="M20 40 q20 -24 60 -20" fill="none" stroke="#8A5A3A" stroke-width="4" opacity=".6"/>`,
+'우주비행사':ART.sky['우주인 이소연'],
+'보이저 1호':ART.space['보이저 1호'],
+'허블 우주망원경':ART.sky['허블 우주망원경'],
+'첼랴빈스크 운석':ROCK('#6E5A4A','#5A4838')+`<path d="M110 10 l-40 40" stroke="#FFB347" stroke-width="10" stroke-linecap="round" opacity=".6"/>`,
+'누리호':G.rocket('#F2F2F2','#2E4A6E'),
+'국제우주정거장':ART.sky['국제우주정거장'],
+'디모르포스':ROCK('#9A938A','#7A746C')+`<path d="M4 4 l30 30" stroke="#D9DDE3" stroke-width="5"/><circle cx="36" cy="36" r="6" fill="#FFD84D"/>`,
+'아포피스':ROCK('#8A7A6A','#6E6050'),
+'베누':`<path d="M60 4 l54 56 l-54 56 l-54 -56z" fill="#5A544E"/><g fill="#8A8278">`+[[40,46,7],[72,36,5],[66,76,8],[36,74,5],[86,58,4],[54,58,6]].map(([x,y,r])=>`<circle cx="${x}" cy="${y}" r="${r}"/>`).join('')+`</g>`,
+'류구':`<path d="M60 6 l52 54 l-52 54 l-52 -54z" fill="#4A4540"/><path d="M8 60 h104" stroke="#6E6A66" stroke-width="4"/><g fill="#6E6A66">`+[[40,40,6],[76,36,5],[66,80,7],[40,78,5]].map(([x,y,r])=>`<circle cx="${x}" cy="${y}" r="${r}"/>`).join('')+`</g>`,
+'공룡을 멸종시킨 소행성':ROCK('#5A4A40','#4A3A30')+`<path d="M114 6 q-40 20 -60 50" stroke="#FF8A2A" stroke-width="14" stroke-linecap="round" opacity=".5"/>`,
+'핼리 혜성의 핵':`<path d="M10 70 q-4 -30 30 -40 q40 -10 64 8 q14 18 -8 38 q-30 20 -64 10 q-20 -6 -22 -16z" fill="#4A4540"/><g fill="#6E6A66"><circle cx="46" cy="50" r="7"/><circle cx="80" cy="60" r="6"/></g><path d="M100 36 q14 -8 20 -20" stroke="#CFEFFF" stroke-width="6" stroke-linecap="round" opacity=".6"/>`,
+'포보스':ROCK('#8A7A6A','#6E6050')+`<circle cx="30" cy="56" r="14" fill="#6E6050"/>`,
+'서울':`<rect x="4" y="4" width="112" height="112" rx="20" fill="#6FA46E" opacity=".9"/><path d="M4 66 q30 -12 56 0 t56 -6" fill="none" stroke="#4A90D9" stroke-width="8"/><g fill="#5A7896"><rect x="30" y="36" width="8" height="22"/><rect x="42" y="28" width="6" height="30"/><rect x="74" y="80" width="8" height="18"/><polygon points="84,98 86,70 88,98"/></g><text x="60" y="108" text-anchor="middle" font-family="Black Han Sans, sans-serif" font-size="12" fill="#fff">SEOUL</text>`,
+'세레스':SPH('ce2','#8A8680',`<g fill="#6E6A66"><circle cx="40" cy="44" r="10"/><circle cx="76" cy="70" r="8"/></g><circle cx="58" cy="54" r="5" fill="#fff"/>`),
+'한반도':`<g transform="translate(25 1) scale(.114)"><path d="M1.7 328.7 L5.6 326.0 L6.6 319.7 L8.4 317.2 L13.2 318.5 L15.7 317.7 L8.7 316.4 L7.3 315.2 L5.6 310.2 L19.7 297.9 L20.2 295.9 L21.5 294.8 L27.2 290.6 L32.7 289.0 L35.0 283.0 L39.7 280.6 L43.6 276.8 L47.2 271.6 L50.4 274.4 L58.8 273.9 L59.2 272.9 L56.7 269.2 L57.5 266.6 L75.8 258.5 L77.5 255.6 L78.8 255.1 L82.2 255.9 L84.4 255.3 L88.3 256.8 L88.8 253.3 L91.5 252.7 L92.7 248.7 L98.9 247.4 L100.0 242.2 L100.9 241.5 L103.9 243.9 L109.6 243.1 L106.7 238.9 L109.7 235.2 L114.7 233.2 L115.9 231.4 L120.8 233.0 L125.8 230.2 L127.1 230.1 L129.8 232.3 L135.5 230.1 L135.7 228.6 L133.3 228.6 L134.2 227.2 L138.5 225.5 L140.9 220.3 L143.1 219.1 L142.9 217.8 L145.8 214.3 L144.7 212.4 L156.7 204.7 L159.4 199.2 L163.2 195.1 L165.1 190.9 L169.8 185.2 L172.4 183.3 L174.6 183.4 L173.6 185.5 L176.3 184.8 L176.3 182.2 L174.6 176.6 L177.9 171.1 L180.7 163.8 L181.0 162.5 L179.9 158.6 L183.9 153.4 L188.0 153.3 L192.5 149.9 L188.8 146.4 L192.6 146.3 L197.4 150.4 L199.0 147.0 L203.5 145.3 L205.2 141.5 L208.6 139.9 L209.9 143.4 L212.7 143.7 L217.6 146.7 L220.3 151.9 L218.1 152.3 L218.1 154.6 L218.9 155.7 L222.5 157.4 L222.0 158.8 L228.5 161.5 L225.0 163.1 L222.6 166.2 L224.9 167.8 L226.6 166.9 L228.5 168.3 L230.6 165.4 L233.6 167.2 L236.5 166.9 L237.2 168.1 L235.7 169.5 L238.4 170.5 L244.3 170.1 L248.1 171.7 L251.8 170.1 L255.9 171.6 L257.3 170.9 L257.4 173.1 L258.5 174.2 L264.8 177.0 L266.8 175.3 L269.0 176.1 L278.5 175.6 L281.5 176.9 L282.8 176.3 L284.1 173.9 L289.1 172.9 L291.5 175.0 L293.7 172.9 L294.5 174.0 L294.8 178.7 L297.6 177.9 L297.3 180.1 L298.6 181.1 L300.5 181.1 L301.8 180.0 L302.9 180.7 L301.9 182.1 L305.1 182.4 L308.3 179.5 L316.4 165.5 L317.6 161.7 L313.5 154.0 L306.2 148.8 L305.0 144.5 L300.8 135.8 L298.1 135.0 L297.3 133.6 L295.2 123.5 L296.3 120.6 L314.3 116.7 L322.4 117.4 L325.9 119.2 L329.6 119.0 L333.4 120.4 L336.7 119.2 L338.3 119.9 L341.8 117.0 L349.8 117.0 L350.7 115.2 L358.4 115.6 L365.2 117.4 L368.1 116.5 L370.0 111.1 L375.0 109.8 L377.9 106.4 L378.0 104.6 L379.9 105.7 L382.4 105.1 L389.6 98.0 L389.5 96.5 L387.2 95.7 L387.4 94.5 L389.6 93.3 L390.0 90.9 L390.9 90.2 L388.3 88.9 L388.3 88.2 L391.6 87.6 L392.1 86.1 L391.0 84.1 L391.6 82.6 L397.0 81.1 L397.9 77.8 L398.8 77.3 L399.7 78.5 L400.7 78.0 L399.9 75.5 L401.7 75.5 L403.5 77.2 L407.3 75.9 L413.9 80.9 L415.3 83.0 L416.8 82.3 L417.6 79.6 L419.5 78.8 L419.8 75.2 L426.1 76.2 L428.7 75.7 L430.7 72.4 L431.3 61.5 L433.4 59.4 L431.7 57.1 L432.5 55.7 L434.5 55.3 L434.1 53.8 L435.4 52.3 L433.0 49.6 L433.0 46.5 L440.0 27.2 L440.4 23.8 L444.7 22.4 L442.7 20.4 L447.0 19.2 L450.7 23.3 L452.9 23.9 L461.9 21.8 L462.8 22.7 L462.6 24.1 L460.2 27.9 L463.4 29.3 L471.2 29.8 L472.6 33.3 L471.5 45.7 L473.0 49.1 L477.4 53.3 L478.0 55.0 L483.4 59.4 L486.1 60.1 L486.4 63.8 L488.1 65.1 L489.3 64.5 L489.6 63.0 L488.3 61.5 L489.3 60.0 L492.0 58.9 L493.2 60.1 L494.3 66.9 L497.9 75.4 L503.4 79.9 L504.3 81.7 L504.8 87.9 L507.7 90.5 L499.6 93.7 L499.4 90.2 L492.7 86.4 L489.2 86.5 L489.5 87.8 L487.1 89.1 L484.6 87.6 L484.4 89.3 L482.7 90.9 L482.9 93.0 L484.4 93.9 L484.0 95.8 L481.4 94.4 L480.8 95.6 L481.6 96.8 L478.8 98.6 L478.4 100.8 L476.6 101.7 L477.2 98.1 L476.6 96.4 L475.5 96.3 L470.4 101.8 L468.3 102.7 L468.0 109.9 L466.0 110.1 L464.9 112.7 L461.7 111.0 L459.6 111.0 L458.0 112.1 L457.5 114.8 L456.4 115.0 L455.8 116.4 L454.9 120.4 L454.3 120.7 L453.3 118.6 L452.4 118.9 L452.3 121.0 L450.9 121.7 L452.4 123.8 L450.4 125.5 L449.4 130.1 L448.6 130.8 L445.4 128.9 L444.0 129.6 L443.0 134.3 L443.1 137.6 L440.5 143.5 L439.7 144.1 L438.5 142.2 L437.4 142.2 L434.4 144.1 L431.7 151.6 L429.6 152.5 L427.7 155.0 L426.0 162.4 L424.4 165.1 L425.3 167.4 L424.7 170.6 L425.2 173.5 L429.6 178.0 L431.3 177.9 L433.0 180.7 L436.1 181.4 L436.8 182.4 L435.2 187.5 L433.1 190.7 L429.4 207.7 L430.7 211.5 L430.0 214.4 L430.7 222.1 L433.6 225.6 L432.8 226.1 L432.6 229.0 L431.1 230.9 L431.4 232.9 L429.7 236.5 L428.3 235.5 L418.2 236.0 L416.8 237.1 L416.6 239.0 L414.0 240.5 L406.8 241.9 L400.8 245.5 L396.9 252.6 L394.3 249.2 L391.4 249.4 L389.3 252.4 L388.6 256.2 L386.7 259.6 L386.6 263.1 L379.0 272.7 L375.3 272.6 L371.0 274.0 L361.8 282.8 L354.2 285.4 L353.2 286.5 L348.1 286.9 L346.7 288.9 L345.6 288.9 L345.5 288.0 L344.0 288.7 L342.6 290.3 L342.5 292.8 L345.6 294.3 L346.5 296.0 L346.3 299.9 L343.4 302.0 L340.2 301.3 L336.6 303.3 L335.4 305.7 L331.6 306.5 L328.0 309.6 L322.5 310.3 L320.3 313.3 L319.5 317.2 L317.5 316.7 L314.4 312.3 L311.6 314.4 L312.1 317.1 L308.9 317.1 L305.8 318.4 L304.6 317.3 L294.1 315.5 L293.4 318.0 L290.7 319.6 L288.8 322.5 L286.1 321.7 L284.9 323.9 L284.3 329.8 L283.6 330.7 L276.4 331.4 L277.4 332.4 L277.2 333.4 L274.7 334.6 L271.9 334.3 L269.4 335.2 L268.1 338.4 L266.8 339.3 L263.7 336.9 L262.4 339.0 L258.8 341.6 L257.8 343.9 L255.5 345.3 L254.0 349.3 L254.8 355.0 L258.1 356.3 L259.5 358.2 L259.8 360.5 L256.8 364.8 L255.5 369.0 L258.9 385.6 L258.8 388.4 L257.3 389.8 L255.6 388.4 L257.2 382.8 L253.5 376.7 L252.5 376.3 L248.0 380.7 L244.2 382.2 L244.3 382.9 L247.9 384.3 L250.2 383.2 L251.3 383.6 L251.8 385.2 L248.0 387.0 L246.6 385.7 L245.3 385.8 L245.8 387.6 L243.7 395.9 L245.4 399.8 L250.1 403.4 L251.6 403.2 L251.8 400.7 L253.2 400.5 L254.8 404.3 L256.4 405.4 L262.4 404.8 L267.8 408.2 L274.4 408.3 L284.7 423.9 L286.7 423.6 L287.7 426.6 L290.5 428.2 L294.7 434.2 L300.8 435.6 L310.2 447.2 L316.0 444.5 L318.4 448.3 L321.1 450.3 L322.1 452.1 L322.5 457.5 L328.6 469.4 L331.2 477.4 L338.2 491.1 L343.7 505.5 L366.8 539.8 L378.0 552.1 L378.7 558.7 L381.5 560.3 L384.6 569.5 L387.9 573.1 L393.7 582.9 L395.3 587.6 L399.1 591.8 L402.9 607.0 L407.0 612.7 L407.3 613.9 L405.6 618.2 L406.9 630.3 L410.3 642.8 L410.5 646.9 L409.6 650.8 L406.4 658.3 L408.3 670.7 L407.9 679.2 L407.4 681.0 L404.0 685.7 L403.5 687.7 L403.2 699.8 L404.9 703.2 L406.0 709.2 L407.0 710.3 L406.1 712.7 L403.2 714.5 L403.1 715.8 L407.2 720.4 L408.8 720.7 L416.9 711.8 L418.2 712.8 L419.5 718.3 L415.4 726.1 L414.3 735.5 L412.2 741.5 L412.4 745.2 L408.0 756.4 L409.9 760.0 L408.9 768.7 L405.6 772.8 L404.6 768.7 L403.6 767.0 L402.5 766.8 L401.9 768.6 L403.6 769.8 L404.0 772.4 L403.6 773.8 L401.3 774.8 L401.8 779.3 L400.4 781.8 L401.6 783.3 L401.5 784.6 L398.3 786.1 L396.1 788.4 L394.2 788.4 L392.7 793.4 L393.2 795.3 L388.3 804.4 L382.4 805.0 L382.7 809.9 L380.9 810.8 L377.9 807.9 L375.9 810.2 L374.6 814.0 L374.0 814.5 L372.7 812.5 L372.9 815.4 L371.7 814.6 L370.1 815.6 L368.9 812.7 L369.6 806.3 L366.4 811.8 L365.3 811.9 L364.8 807.9 L363.5 811.9 L356.3 811.7 L355.5 809.0 L354.8 811.7 L354.0 812.1 L352.1 811.2 L351.3 809.5 L349.1 810.4 L348.8 805.7 L347.5 806.8 L347.5 808.4 L344.2 805.0 L342.6 805.7 L342.6 801.5 L341.3 798.6 L339.4 802.1 L341.3 807.9 L343.3 810.9 L343.1 813.2 L345.3 813.9 L341.4 814.3 L339.6 811.2 L334.1 809.6 L330.8 810.5 L331.7 812.5 L324.4 815.1 L323.0 819.3 L332.3 814.9 L333.2 819.1 L331.5 821.0 L327.4 820.8 L326.9 821.7 L328.6 824.0 L327.9 830.9 L329.3 831.4 L330.1 829.6 L331.2 830.9 L328.1 835.7 L326.3 836.2 L323.9 836.1 L324.0 834.5 L326.4 833.7 L321.6 833.2 L319.4 831.1 L319.3 830.3 L321.9 829.0 L320.1 825.3 L317.5 829.2 L315.7 829.3 L314.0 827.0 L311.3 826.2 L310.1 827.9 L310.0 830.9 L304.6 830.8 L303.1 830.0 L302.9 827.6 L298.0 826.8 L297.8 816.4 L299.0 811.9 L295.5 816.4 L293.7 816.6 L295.1 820.1 L294.1 820.8 L291.9 820.8 L289.9 822.1 L287.7 818.1 L286.6 823.8 L284.9 825.3 L280.1 825.5 L277.6 824.1 L273.3 824.0 L271.3 821.0 L270.5 826.0 L266.7 829.3 L265.1 830.1 L262.4 825.9 L261.2 825.4 L259.8 828.6 L261.9 834.4 L266.3 838.8 L269.7 835.8 L274.2 835.9 L275.7 835.1 L273.0 847.4 L270.2 848.4 L266.3 846.9 L264.8 850.2 L263.8 850.2 L264.8 852.9 L265.0 858.2 L262.9 856.3 L259.6 855.3 L258.7 853.8 L258.3 851.5 L260.6 845.4 L258.3 839.9 L256.7 839.2 L257.0 837.7 L255.8 835.1 L255.6 831.0 L252.6 836.0 L243.3 837.6 L248.0 840.6 L242.9 842.7 L242.6 844.0 L245.6 844.3 L246.1 845.3 L245.3 846.1 L246.4 850.0 L251.2 853.8 L252.9 856.3 L250.3 856.4 L253.5 857.7 L254.2 860.9 L252.6 862.3 L250.1 862.5 L245.3 859.8 L241.9 861.4 L241.5 862.2 L242.6 864.6 L244.4 865.3 L247.4 864.5 L249.1 865.9 L244.0 871.5 L242.5 870.8 L240.2 872.6 L241.5 875.5 L239.3 875.5 L231.9 865.3 L227.9 867.2 L228.4 868.7 L224.8 867.4 L224.1 865.9 L224.5 863.6 L226.8 862.0 L229.4 857.6 L231.1 856.3 L229.6 862.5 L233.8 861.6 L234.9 860.0 L234.9 857.0 L233.3 852.9 L236.0 849.5 L237.4 850.5 L237.6 853.6 L239.1 854.8 L240.4 854.3 L242.6 850.2 L240.5 845.9 L237.3 847.9 L233.9 843.4 L230.1 850.9 L225.0 851.2 L222.1 854.6 L215.0 858.8 L214.8 861.8 L213.2 864.6 L213.7 865.9 L209.4 870.4 L209.5 874.5 L208.8 875.2 L206.7 874.1 L206.0 875.0 L206.1 878.2 L199.1 874.9 L198.5 873.0 L198.9 863.1 L198.3 861.8 L196.6 861.4 L194.8 864.2 L195.6 867.7 L193.2 868.6 L195.3 872.1 L191.2 875.0 L192.6 875.7 L192.5 876.7 L189.6 876.4 L189.0 878.6 L185.1 880.4 L182.7 890.0 L180.8 889.5 L176.2 890.6 L176.7 885.9 L172.9 885.1 L173.6 881.9 L174.6 881.8 L175.9 878.6 L175.2 877.3 L172.6 876.7 L173.2 873.0 L171.8 872.8 L172.2 870.4 L173.8 869.1 L177.8 868.6 L175.6 866.6 L177.7 863.7 L176.7 863.2 L175.1 864.6 L172.9 863.9 L171.8 865.9 L165.9 866.6 L165.7 865.0 L162.4 861.6 L160.7 863.0 L158.3 861.1 L158.0 860.1 L158.8 859.1 L160.5 859.1 L160.1 858.1 L156.4 855.8 L156.2 852.9 L157.9 845.0 L160.2 845.2 L163.2 850.2 L162.2 852.2 L164.2 859.1 L171.7 861.5 L172.3 859.8 L169.4 859.3 L167.6 857.0 L167.8 854.8 L165.5 856.4 L164.9 848.9 L170.4 849.4 L170.8 852.9 L177.3 857.7 L177.7 857.2 L176.1 855.0 L182.7 857.4 L184.0 857.0 L178.9 853.6 L179.5 852.9 L175.2 848.1 L169.4 847.2 L167.8 846.1 L165.8 846.7 L164.0 846.0 L163.8 845.1 L166.0 843.1 L168.4 843.5 L171.4 842.1 L175.0 844.9 L177.2 845.4 L177.1 841.7 L178.1 840.4 L180.0 839.9 L185.4 841.2 L184.9 839.9 L187.5 839.1 L186.5 837.8 L184.7 837.4 L180.5 837.8 L180.5 834.5 L181.6 831.7 L181.0 830.2 L179.9 829.9 L177.9 831.7 L178.4 835.1 L175.6 841.8 L173.5 841.3 L174.6 839.2 L173.5 838.6 L171.1 839.9 L168.9 839.4 L168.1 840.8 L164.5 840.9 L164.2 839.9 L167.0 836.3 L167.3 832.6 L168.5 830.9 L166.7 828.5 L166.4 824.9 L169.4 821.9 L166.6 821.5 L164.3 823.1 L164.8 826.2 L163.7 827.3 L159.9 826.2 L160.9 825.5 L158.8 822.7 L162.5 822.7 L162.3 820.6 L164.5 818.3 L164.0 816.2 L160.3 811.7 L158.9 811.2 L159.4 813.4 L158.9 814.7 L157.7 814.7 L156.6 813.2 L157.3 812.1 L155.3 809.3 L155.0 807.7 L156.2 806.3 L157.8 806.1 L159.2 806.8 L159.9 808.4 L160.9 807.7 L162.1 804.3 L162.7 806.4 L162.2 810.3 L163.2 810.4 L163.9 812.6 L167.5 813.9 L167.2 816.1 L168.6 818.0 L170.6 813.3 L170.8 810.0 L167.7 808.0 L166.9 805.8 L164.3 802.6 L163.7 801.2 L164.8 798.9 L163.6 797.4 L163.7 796.1 L159.4 796.7 L160.3 795.5 L164.6 794.8 L163.2 794.0 L165.1 791.6 L165.1 787.3 L167.5 783.0 L169.1 785.1 L171.2 785.4 L168.1 780.6 L172.1 770.1 L174.0 767.5 L182.0 765.7 L184.3 763.1 L185.9 762.7 L189.8 766.5 L188.0 761.2 L186.9 760.4 L175.6 762.3 L171.7 759.8 L172.0 756.0 L176.9 751.7 L182.2 748.6 L184.5 745.4 L184.8 742.5 L187.4 740.7 L193.0 740.8 L196.9 743.9 L197.6 740.8 L190.5 736.0 L190.7 735.2 L192.7 733.5 L198.1 733.7 L199.9 731.2 L201.3 730.7 L199.1 728.8 L193.0 731.4 L183.4 731.0 L183.2 726.9 L180.1 725.4 L176.6 726.0 L176.2 722.9 L193.9 721.0 L202.2 716.4 L203.8 715.3 L203.9 713.9 L197.7 715.8 L194.7 718.2 L189.8 720.0 L188.6 719.4 L184.9 712.4 L186.0 711.5 L183.4 710.1 L181.6 706.9 L180.2 706.3 L178.7 706.9 L178.6 705.8 L176.8 704.7 L175.3 704.9 L174.6 707.4 L174.0 706.9 L174.3 704.0 L177.0 702.6 L179.4 701.8 L182.6 702.7 L180.9 700.1 L178.4 699.4 L177.3 698.0 L179.9 691.3 L181.0 690.5 L175.6 687.7 L180.3 685.7 L181.1 684.7 L180.6 683.4 L176.2 682.6 L174.6 680.9 L175.6 680.1 L174.4 678.0 L177.5 676.7 L179.0 674.4 L183.6 672.7 L179.2 672.7 L176.4 675.9 L175.1 676.1 L173.6 673.3 L173.2 670.3 L175.6 667.1 L172.2 666.0 L171.2 660.4 L175.5 659.7 L176.1 657.4 L173.3 655.0 L175.1 652.9 L174.4 651.6 L172.5 651.2 L172.1 649.5 L172.7 648.3 L174.5 648.0 L172.9 645.4 L169.6 648.3 L170.2 649.9 L170.1 656.2 L168.5 659.3 L164.0 657.1 L164.8 649.8 L163.9 649.3 L164.2 646.7 L163.4 645.7 L162.1 646.0 L160.6 650.0 L158.8 650.1 L161.0 653.9 L161.5 655.6 L160.7 657.1 L162.1 659.0 L159.8 659.8 L158.3 661.7 L157.8 659.0 L158.8 656.6 L156.5 652.7 L157.2 650.7 L156.6 648.1 L153.1 651.5 L149.0 652.7 L148.0 652.1 L147.3 649.8 L151.0 649.4 L151.8 648.8 L151.8 647.3 L150.9 645.8 L147.4 644.0 L146.8 647.6 L145.4 649.6 L145.0 643.9 L148.0 638.4 L149.6 641.8 L151.7 641.8 L150.1 639.1 L153.3 639.6 L153.8 638.4 L150.6 637.7 L150.5 636.4 L151.8 634.3 L150.0 632.8 L150.1 631.4 L153.4 629.6 L153.1 632.7 L156.7 632.5 L157.5 623.9 L159.4 623.3 L159.2 626.9 L160.5 631.7 L158.8 634.3 L159.4 637.1 L157.2 638.8 L157.3 639.6 L158.0 641.1 L160.9 639.5 L163.0 641.0 L160.9 635.3 L161.8 634.3 L163.8 636.4 L164.6 635.0 L166.9 634.3 L164.8 632.3 L166.7 631.8 L168.1 627.8 L167.5 626.1 L164.7 625.8 L162.9 624.5 L162.7 623.5 L164.2 624.0 L164.7 622.5 L164.2 621.6 L161.5 621.3 L162.9 620.0 L165.9 621.0 L165.9 619.2 L170.2 619.7 L170.8 621.0 L169.2 623.8 L169.7 625.4 L172.0 624.2 L172.8 626.4 L171.8 628.8 L171.8 633.3 L173.2 635.8 L176.1 625.2 L179.9 630.1 L181.1 630.2 L179.2 625.8 L174.0 620.3 L174.3 619.2 L175.0 619.3 L177.7 622.3 L180.3 622.2 L179.8 620.9 L175.5 618.4 L174.6 614.5 L177.3 615.1 L184.5 620.4 L185.3 621.8 L184.2 624.0 L185.1 626.3 L185.0 628.8 L186.2 627.5 L186.4 623.4 L187.6 621.1 L188.9 620.5 L195.0 621.8 L198.0 624.4 L197.0 630.7 L199.4 628.3 L200.7 629.0 L201.2 633.3 L200.7 636.1 L202.2 641.2 L200.7 642.6 L202.3 644.6 L204.0 639.6 L203.4 637.1 L206.5 637.7 L203.1 633.0 L209.6 630.7 L213.4 628.1 L214.8 624.8 L213.7 623.3 L217.3 621.8 L217.5 620.7 L212.8 622.0 L211.8 626.8 L207.3 627.0 L201.3 622.4 L200.3 619.7 L205.0 619.2 L203.9 617.9 L207.1 618.5 L204.9 613.0 L205.5 610.4 L204.6 610.0 L203.9 610.9 L203.0 615.9 L202.2 616.3 L201.5 615.5 L198.4 616.2 L194.8 615.1 L194.5 613.0 L194.6 609.9 L196.6 606.7 L203.4 605.0 L203.9 602.4 L200.7 604.1 L198.9 603.5 L198.4 601.5 L190.6 607.5 L189.3 607.0 L189.3 606.1 L190.8 603.6 L187.9 603.8 L188.1 601.4 L191.9 598.7 L188.8 598.2 L187.1 594.6 L188.2 593.8 L191.2 593.8 L194.5 595.2 L195.8 594.6 L195.8 596.8 L196.9 598.0 L197.8 597.6 L199.9 592.6 L203.9 593.2 L202.5 591.4 L193.0 589.4 L189.6 586.8 L189.4 585.6 L192.0 582.3 L191.8 581.6 L187.6 581.1 L185.7 583.6 L183.7 582.0 L185.5 578.6 L182.2 576.0 L182.1 572.8 L182.8 571.4 L185.8 570.4 L186.0 569.6 L183.0 570.3 L182.6 569.3 L182.8 565.1 L179.3 559.3 L177.0 544.5 L177.3 543.2 L178.4 543.0 L182.7 544.5 L186.3 543.5 L187.8 545.4 L187.4 552.8 L189.8 554.8 L194.6 556.2 L188.7 551.4 L190.4 545.7 L189.2 540.6 L190.4 537.1 L189.8 536.3 L187.8 537.2 L186.6 540.1 L181.9 542.6 L169.5 535.2 L166.4 530.8 L164.9 531.0 L155.5 535.5 L150.7 535.6 L147.4 537.0 L146.6 538.1 L148.0 543.2 L147.4 546.7 L143.6 545.9 L141.8 540.0 L139.9 539.8 L139.3 533.0 L135.9 534.6 L134.9 531.4 L131.7 528.8 L130.5 529.9 L132.7 532.6 L133.8 537.7 L131.4 536.0 L128.7 535.5 L126.6 533.5 L121.8 525.7 L119.4 524.8 L119.0 520.7 L102.9 516.8 L101.5 517.5 L101.4 519.1 L102.9 520.8 L106.4 522.6 L109.1 522.2 L109.9 522.8 L109.4 524.7 L112.6 524.7 L111.0 527.5 L113.7 526.7 L114.2 527.5 L109.9 530.1 L108.6 530.1 L105.6 527.6 L105.3 529.8 L106.4 534.4 L105.0 536.3 L106.6 537.7 L105.8 539.0 L103.9 539.4 L104.7 543.5 L101.9 543.2 L101.2 542.6 L101.7 541.8 L100.8 541.3 L99.3 541.7 L99.1 542.9 L97.5 542.7 L96.8 542.0 L97.2 540.5 L95.5 542.1 L93.2 546.9 L86.1 548.4 L84.2 552.0 L83.1 552.4 L82.1 551.4 L84.4 543.9 L86.5 544.5 L90.7 542.6 L85.5 541.8 L86.5 540.4 L91.7 537.7 L95.6 538.7 L97.1 538.2 L97.4 535.7 L95.0 536.0 L93.5 534.2 L96.0 530.6 L92.3 529.6 L90.9 528.0 L89.3 528.7 L89.8 530.1 L86.1 530.8 L90.9 534.0 L90.8 535.7 L87.2 533.5 L83.3 533.5 L85.5 535.7 L80.0 539.1 L79.4 537.7 L74.5 537.7 L80.0 532.2 L79.4 530.5 L75.9 528.5 L76.1 526.8 L74.6 527.1 L72.1 531.9 L69.5 533.2 L63.5 532.5 L60.5 530.4 L56.6 529.4 L56.1 528.2 L56.5 526.1 L53.9 527.5 L54.9 524.7 L60.5 522.1 L66.1 524.0 L69.4 523.0 L70.2 522.0 L69.6 521.2 L67.9 522.0 L64.7 519.8 L64.0 516.5 L71.5 515.1 L72.5 515.4 L73.4 517.8 L75.0 518.0 L75.6 514.6 L77.2 513.7 L76.5 512.2 L66.7 510.2 L56.6 513.8 L46.5 506.9 L44.9 509.3 L39.2 510.2 L29.9 508.5 L29.1 507.4 L29.6 506.3 L35.3 505.2 L36.9 504.4 L37.5 502.4 L41.4 501.4 L44.1 497.3 L45.9 496.9 L47.2 497.8 L49.3 501.0 L54.9 497.4 L53.0 496.5 L48.8 497.1 L45.4 494.2 L46.0 485.5 L49.8 479.1 L51.4 474.9 L53.3 473.8 L53.5 475.8 L56.8 470.2 L57.2 468.5 L55.3 466.4 L55.2 462.6 L54.0 461.6 L54.3 460.8 L56.9 461.6 L58.5 460.9 L60.2 463.1 L63.7 460.6 L65.7 461.9 L66.4 457.6 L64.9 455.5 L65.3 453.4 L66.4 453.8 L68.0 456.8 L69.8 456.5 L69.8 453.0 L71.7 454.7 L76.7 453.0 L79.4 454.3 L84.8 450.5 L90.6 451.4 L92.2 449.3 L95.8 451.4 L96.8 454.7 L97.8 454.6 L98.8 452.1 L104.0 456.9 L107.6 456.8 L105.6 454.1 L102.3 453.4 L97.4 447.9 L93.5 447.2 L91.0 442.3 L88.3 444.5 L90.0 446.3 L88.8 447.1 L86.4 448.3 L83.8 446.5 L82.6 448.3 L80.5 447.9 L79.4 446.5 L79.0 447.2 L80.0 449.3 L77.6 449.7 L74.9 447.2 L76.7 444.5 L75.6 443.7 L76.0 442.8 L74.7 440.7 L73.4 440.5 L73.8 442.8 L72.7 446.0 L70.5 446.1 L69.2 443.7 L67.1 442.3 L66.4 439.6 L67.6 430.8 L71.5 422.5 L71.3 421.4 L77.0 411.9 L81.8 411.7 L78.1 411.0 L78.9 405.3 L78.3 404.8 L79.9 403.5 L82.7 403.1 L81.6 400.7 L82.8 398.7 L84.5 397.9 L88.1 398.5 L86.8 395.4 L90.7 389.0 L88.6 388.0 L88.7 384.9 L87.6 383.5 L89.2 384.3 L91.9 381.5 L83.9 380.1 L85.9 376.0 L82.7 376.6 L83.0 374.0 L87.0 369.8 L88.4 366.1 L91.3 364.2 L90.9 361.6 L78.2 367.9 L74.3 363.7 L72.2 362.7 L73.3 360.9 L68.1 360.9 L69.1 363.6 L64.8 363.4 L63.3 359.7 L59.3 359.6 L52.2 353.8 L51.3 353.7 L50.6 355.4 L47.7 353.8 L46.1 349.6 L43.6 347.8 L39.9 347.0 L39.6 346.0 L37.3 345.8 L35.4 341.8 L34.9 343.8 L36.1 346.6 L35.3 350.8 L36.3 351.2 L35.9 352.8 L34.1 353.5 L35.2 355.6 L33.0 355.3 L31.3 356.2 L27.7 358.8 L26.8 361.0 L25.7 360.2 L26.1 358.9 L24.7 357.1 L27.4 353.0 L27.5 350.3 L25.7 350.6 L24.6 348.5 L22.6 347.6 L22.9 343.4 L20.8 341.3 L20.9 338.6 L10.7 336.9 L9.3 337.5 L7.7 333.5 L5.0 332.8 L1.7 328.7Z M147.7 989.9 L149.1 985.9 L150.4 983.3 L154.0 980.7 L156.3 976.4 L158.5 975.8 L159.5 973.6 L171.3 969.8 L173.3 967.9 L181.1 967.1 L186.3 964.7 L187.6 965.0 L197.7 963.6 L200.2 964.1 L202.3 966.5 L206.1 968.1 L207.3 969.3 L208.1 972.3 L208.8 973.4 L209.9 972.2 L210.5 973.5 L208.9 974.9 L209.4 976.9 L208.3 978.7 L204.2 982.7 L202.1 986.8 L201.6 989.0 L198.8 989.6 L196.8 989.4 L193.7 992.0 L185.7 993.5 L183.0 995.9 L179.7 996.7 L176.2 996.3 L172.2 997.1 L168.9 996.1 L161.3 996.2 L159.0 997.3 L157.6 1000.0 L156.3 1000.2 L155.0 999.6 L153.2 996.5 L150.8 995.6 L148.5 993.1 L147.7 989.9Z M332.3 833.1 L332.8 832.0 L335.1 830.1 L339.1 829.0 L339.9 829.0 L343.3 830.8 L344.7 830.9 L344.7 830.3 L343.3 829.3 L342.4 827.8 L342.0 824.5 L343.0 824.6 L348.5 821.4 L347.6 819.5 L348.1 817.7 L349.3 816.7 L350.7 817.3 L351.1 819.1 L350.6 823.4 L351.8 826.5 L351.8 827.8 L350.3 832.2 L352.8 831.4 L352.8 834.3 L352.5 835.5 L351.8 836.2 L350.8 835.9 L352.2 839.4 L352.4 840.9 L351.8 841.2 L350.4 840.7 L348.0 839.3 L347.5 841.3 L346.1 843.0 L345.7 844.3 L348.6 846.4 L347.3 847.5 L341.6 849.4 L339.9 849.5 L342.5 847.4 L341.5 846.9 L341.0 846.0 L341.4 843.4 L339.0 844.7 L338.3 844.1 L338.0 841.8 L338.5 841.3 L340.5 840.9 L341.0 839.8 L341.5 836.5 L340.4 835.8 L339.6 836.8 L336.8 838.1 L335.5 839.2 L332.5 835.0 L332.3 833.1Z M143.1 879.7 L144.1 876.4 L146.3 873.7 L148.5 873.5 L149.7 870.6 L150.4 869.7 L152.6 868.7 L152.8 867.2 L153.8 868.4 L155.0 868.6 L156.2 867.8 L156.6 866.3 L156.0 865.0 L154.0 863.4 L154.5 862.5 L155.8 862.4 L157.1 863.2 L159.1 864.6 L160.4 866.6 L162.6 865.3 L162.7 866.2 L165.0 870.2 L165.1 871.5 L164.5 874.6 L162.3 879.1 L161.5 879.7 L159.4 877.7 L159.1 879.8 L151.5 884.1 L147.3 884.7 L146.4 884.5 L146.2 883.6 L147.4 881.8 L147.0 881.2 L144.8 879.7 L144.7 881.8 L143.1 879.7Z M279.8 834.9 L280.0 833.1 L280.9 831.3 L282.6 830.4 L283.0 828.2 L283.5 827.6 L285.8 826.0 L287.0 826.4 L288.6 828.6 L288.5 829.9 L287.8 831.2 L286.1 833.1 L287.2 836.5 L289.6 837.5 L290.5 839.3 L295.8 837.8 L299.1 838.5 L299.5 839.6 L298.6 843.0 L298.7 846.2 L297.7 847.2 L298.3 849.2 L298.0 850.2 L296.8 850.4 L294.3 849.1 L291.6 850.0 L289.9 844.1 L288.6 843.3 L287.5 844.1 L286.1 848.7 L285.0 848.7 L283.1 847.8 L282.6 846.9 L282.3 844.0 L279.8 834.9Z M164.0 547.3 L164.3 546.2 L164.2 541.5 L164.5 540.4 L165.3 540.1 L167.2 537.9 L168.6 537.6 L172.3 541.0 L174.8 542.3 L175.8 543.3 L176.2 544.9 L175.7 547.7 L176.7 550.4 L177.0 554.0 L176.7 554.9 L177.9 556.9 L176.8 557.5 L176.0 559.6 L175.2 560.3 L174.1 560.2 L172.6 558.9 L171.6 559.6 L167.4 559.8 L165.9 559.1 L164.2 556.9 L166.7 556.3 L167.9 554.8 L164.0 547.3Z M163.1 573.4 L163.4 572.6 L164.5 572.8 L168.1 570.3 L172.4 570.1 L174.0 569.2 L174.6 567.0 L175.7 566.6 L176.6 567.5 L179.6 568.6 L181.1 571.0 L179.8 572.0 L177.7 572.2 L175.1 573.4 L173.5 575.3 L170.0 577.9 L168.2 577.8 L167.9 576.5 L167.3 576.2 L166.7 576.6 L166.5 575.5 L165.3 576.3 L163.8 575.8 L164.3 575.2 L163.1 573.4Z M159.8 661.8 L161.9 659.6 L163.5 659.1 L164.5 660.8 L164.6 661.4 L163.7 662.7 L165.1 666.4 L165.3 667.3 L165.0 668.2 L167.0 670.7 L165.4 670.7 L165.3 671.2 L167.0 672.0 L167.0 674.1 L169.2 679.2 L168.4 678.8 L163.7 678.9 L163.5 677.4 L164.7 675.5 L162.9 676.6 L162.1 676.2 L162.3 674.7 L163.7 672.6 L163.2 672.1 L162.1 673.3 L161.7 672.5 L160.9 672.9 L161.3 670.5 L161.0 666.8 L159.8 661.8Z M186.0 886.3 L185.8 882.7 L186.7 880.5 L189.4 879.8 L190.3 880.1 L192.1 881.9 L193.3 886.1 L194.0 887.6 L195.5 889.1 L196.1 890.8 L195.4 891.0 L193.7 890.2 L192.9 891.1 L189.5 889.9 L189.5 889.2 L190.2 888.7 L190.1 887.9 L187.5 887.7 L186.0 886.3Z M516.1 569.3 L516.8 567.7 L518.2 566.8 L523.9 565.4 L525.3 566.4 L525.2 569.0 L524.3 571.8 L523.4 573.7 L521.8 574.4 L519.8 574.1 L517.9 572.9 L516.6 571.3 L516.1 569.3Z M223.0 873.5 L225.3 872.1 L230.4 871.3 L232.8 872.0 L233.7 873.6 L233.4 875.5 L232.3 877.0 L227.6 878.2 L226.3 878.0 L223.5 876.2 L224.0 874.5 L223.0 873.5Z M272.6 857.5 L273.1 855.6 L275.2 853.4 L275.8 850.9 L274.6 849.5 L274.7 848.7 L276.6 848.2 L277.4 848.6 L277.6 849.5 L276.3 851.5 L277.1 851.8 L277.8 853.0 L279.0 856.9 L278.9 859.8 L278.3 861.2 L277.5 862.0 L275.7 861.6 L272.9 858.6 L272.6 857.5Z M41.1 370.5 L42.6 367.9 L43.6 368.3 L44.2 367.3 L43.1 366.2 L43.2 365.7 L44.2 365.5 L44.4 364.7 L44.0 364.3 L44.0 362.6 L45.3 361.9 L45.2 360.4 L46.1 359.6 L46.1 358.8 L47.5 358.6 L49.7 359.5 L48.4 360.7 L50.3 364.9 L46.3 367.3 L44.6 369.2 L41.1 370.5Z M24.9 525.5 L25.7 522.0 L27.7 522.7 L32.1 521.1 L34.3 522.0 L35.2 523.0 L35.1 524.5 L34.0 525.3 L32.4 524.4 L30.0 524.7 L30.0 525.8 L32.2 526.7 L30.5 528.0 L27.3 527.5 L24.9 525.5Z M290.7 834.0 L291.2 832.5 L293.7 828.7 L295.0 828.3 L295.4 829.4 L294.5 832.2 L294.6 833.1 L295.0 833.3 L296.4 830.8 L297.2 830.6 L298.2 832.0 L298.8 834.8 L300.1 836.4 L299.2 836.7 L295.6 835.7 L293.7 836.3 L292.5 836.2 L291.4 835.4 L290.7 834.0Z M152.4 542.9 L153.4 539.8 L154.4 538.8 L155.5 538.5 L158.3 539.8 L161.3 540.0 L162.0 540.8 L161.5 542.6 L160.1 543.8 L158.4 543.9 L155.1 543.2 L152.7 544.0 L152.4 542.9Z M139.3 813.9 L140.4 809.8 L142.7 808.7 L143.7 806.7 L145.1 805.7 L146.8 805.3 L148.0 805.7 L145.6 807.1 L145.0 807.9 L145.3 810.0 L146.4 811.8 L144.6 813.0 L143.6 814.9 L140.4 814.5 L139.3 813.9Z M153.2 834.5 L153.6 834.0 L156.5 833.3 L157.1 832.2 L158.1 831.9 L158.5 830.6 L157.6 828.7 L158.5 828.2 L161.2 829.3 L162.3 830.4 L162.2 831.0 L160.3 831.9 L160.2 833.0 L160.3 833.4 L163.4 834.1 L163.6 836.3 L162.0 837.8 L161.2 837.4 L161.9 836.3 L161.7 835.9 L159.2 834.4 L154.6 835.5 L153.2 834.5Z M194.6 881.3 L196.9 877.3 L200.2 876.0 L201.2 876.2 L201.6 877.5 L201.2 878.1 L202.6 879.3 L203.2 880.7 L200.3 880.5 L199.9 881.1 L197.8 882.1 L196.4 884.5 L195.9 883.9 L195.7 882.0 L194.6 881.3Z M126.2 845.0 L126.5 843.8 L127.1 842.9 L128.9 841.9 L130.0 842.3 L134.5 840.9 L135.4 841.9 L135.5 844.0 L133.8 843.4 L133.1 844.3 L131.0 844.1 L130.6 844.4 L130.0 846.9 L128.4 848.2 L127.4 848.1 L126.8 847.4 L126.2 845.0Z M133.8 833.1 L137.1 829.0 L139.0 829.2 L139.7 827.3 L140.4 827.1 L141.9 828.9 L141.9 831.7 L140.4 833.7 L139.2 834.1 L137.4 833.1 L133.8 833.7 L133.8 833.1Z M140.4 843.0 L144.2 843.0 L146.1 844.2 L147.8 844.5 L148.7 845.6 L149.0 848.7 L148.5 849.6 L147.5 849.7 L145.8 847.7 L143.7 848.2 L140.4 843.0Z M157.2 550.1 L157.9 549.4 L159.0 546.3 L160.3 545.3 L160.7 545.8 L161.6 549.0 L164.9 552.1 L165.1 553.1 L164.2 554.2 L162.6 554.3 L157.2 550.1Z M128.2 851.2 L128.8 850.5 L131.1 849.5 L133.0 847.2 L134.9 849.6 L135.3 850.7 L134.8 852.3 L133.6 853.9 L132.5 854.4 L128.9 852.9 L128.2 851.2Z M140.0 835.7 L140.2 834.9 L141.4 834.3 L143.8 834.6 L143.9 832.9 L144.6 832.1 L146.2 832.1 L146.9 832.9 L147.0 833.5 L146.0 834.2 L146.3 835.8 L146.1 836.7 L144.8 837.0 L144.3 837.6 L144.1 839.7 L143.2 840.2 L142.5 840.1 L142.3 839.1 L140.0 835.7Z M177.7 600.2 L178.5 598.5 L178.3 597.3 L179.3 596.1 L179.4 594.9 L178.9 593.4 L177.8 591.7 L179.3 592.1 L180.6 591.2 L180.4 592.1 L180.7 592.9 L183.2 594.1 L184.0 595.8 L183.5 596.7 L179.5 600.0 L177.7 600.2Z M319.9 837.4 L321.5 836.5 L324.1 838.0 L327.5 837.3 L328.3 838.0 L328.5 839.3 L328.1 840.1 L328.4 840.6 L328.0 841.2 L327.2 840.9 L326.9 841.3 L328.2 842.0 L327.1 843.7 L325.8 843.7 L324.9 842.2 L324.2 842.1 L324.2 840.8 L322.8 840.3 L323.5 839.7 L323.7 838.9 L321.5 837.8 L320.1 838.1 L319.9 837.4Z M147.5 810.6 L147.9 809.8 L149.0 809.4 L150.6 810.3 L152.1 809.6 L152.7 810.3 L153.6 810.2 L153.8 810.8 L152.5 811.5 L152.2 812.3 L153.1 813.3 L154.6 813.7 L155.1 814.4 L155.9 816.6 L155.6 817.5 L155.3 817.8 L153.8 816.8 L153.4 816.2 L153.5 814.8 L151.0 814.3 L148.7 813.2 L147.5 810.6Z M38.9 468.3 L39.2 466.6 L43.2 464.5 L43.6 465.4 L45.8 466.4 L47.9 470.6 L42.9 468.9 L41.4 467.8 L39.6 469.2 L38.9 468.3Z M195.0 886.4 L197.2 885.7 L198.6 886.1 L201.3 884.6 L205.7 885.9 L204.4 888.8 L203.0 888.8 L201.6 889.7 L200.6 887.7 L200.0 887.4 L197.4 887.9 L195.0 886.4Z M202.2 902.6 L203.2 899.8 L204.9 898.7 L206.2 899.0 L208.3 901.5 L207.4 904.2 L206.4 904.8 L205.2 904.9 L203.6 903.7 L202.9 904.3 L202.2 902.6Z M175.0 904.6 L175.7 903.1 L177.1 902.1 L178.4 902.1 L179.9 903.1 L182.4 903.1 L183.7 904.3 L183.5 904.7 L183.0 904.4 L182.8 904.8 L181.0 904.3 L177.5 907.4 L175.9 907.3 L175.1 906.1 L175.0 904.6Z M250.1 874.7 L250.4 873.9 L250.2 872.9 L250.6 872.7 L252.9 873.9 L254.7 873.0 L256.4 874.9 L256.8 876.5 L254.7 878.2 L253.4 878.6 L253.0 878.3 L252.9 877.4 L251.3 876.1 L251.4 875.7 L250.1 874.7Z M137.4 864.4 L137.8 863.8 L140.0 863.6 L140.9 862.9 L141.3 862.0 L139.6 857.9 L140.2 857.5 L142.8 859.5 L143.1 862.1 L142.8 864.1 L142.3 864.6 L139.4 866.7 L138.6 866.9 L137.4 866.1 L138.3 865.9 L139.1 864.8 L137.4 864.4Z M270.3 866.6 L270.8 865.8 L273.6 864.9 L274.6 865.7 L275.8 868.1 L275.7 869.1 L276.8 869.6 L277.2 870.2 L277.0 870.8 L275.4 871.2 L273.1 869.8 L270.3 866.6Z M178.4 900.5 L179.0 898.1 L179.5 897.8 L179.0 896.8 L179.3 896.5 L182.2 897.4 L183.8 898.7 L183.8 899.5 L183.3 900.0 L183.0 901.2 L181.3 901.4 L181.6 902.1 L181.2 902.4 L180.0 902.1 L178.4 900.5Z M213.5 884.4 L214.8 883.7 L216.2 881.9 L217.0 882.5 L217.9 884.2 L218.5 884.5 L220.3 884.1 L221.9 886.2 L219.5 886.0 L220.1 886.6 L217.3 888.7 L217.2 887.8 L218.1 886.9 L217.8 886.5 L216.1 886.1 L216.1 885.2 L215.6 884.8 L213.5 884.4Z M73.0 549.6 L75.4 546.8 L76.5 546.3 L77.3 546.6 L77.7 545.1 L82.3 543.1 L79.0 547.2 L76.2 549.3 L73.5 550.4 L73.0 549.6Z M86.7 855.4 L86.7 854.0 L88.3 850.8 L89.6 850.2 L90.2 851.2 L91.8 850.9 L92.0 851.3 L87.9 857.1 L87.2 856.8 L86.7 855.4Z M169.4 596.2 L169.4 593.6 L170.1 592.7 L171.5 591.9 L173.3 592.1 L174.1 592.6 L174.4 593.9 L173.2 594.6 L172.1 596.7 L171.2 596.9 L169.4 596.2Z M141.9 597.4 L142.2 595.4 L143.2 593.2 L144.4 594.6 L147.5 596.8 L146.2 598.5 L144.5 598.9 L143.7 598.5 L143.0 597.2 L141.9 597.4Z M185.4 905.8 L186.0 902.3 L185.4 901.3 L186.1 900.3 L188.1 901.0 L188.3 902.0 L187.5 902.7 L187.4 903.4 L188.8 905.3 L188.2 905.7 L187.7 908.1 L186.9 908.3 L185.5 907.2 L185.4 905.8Z M23.5 366.2 L23.6 365.5 L26.2 363.5 L29.7 362.9 L31.0 363.0 L31.6 363.7 L31.4 364.6 L29.8 366.1 L28.7 366.2 L27.3 365.2 L23.5 366.2Z M357.1 815.1 L357.4 814.4 L358.2 813.9 L359.9 814.0 L360.4 815.3 L360.4 817.8 L360.1 819.9 L359.5 820.6 L359.1 820.8 L358.9 820.3 L357.1 815.1Z M142.2 841.2 L143.0 840.6 L145.0 840.2 L146.7 839.2 L147.5 839.5 L148.3 840.8 L147.7 841.7 L147.9 843.0 L146.5 843.8 L142.2 841.2Z M136.2 859.4 L136.5 857.5 L137.1 856.6 L139.7 861.6 L139.4 862.7 L137.1 863.4 L136.5 862.9 L136.2 859.4Z M136.5 889.9 L137.5 888.5 L140.2 889.1 L141.4 888.9 L141.9 889.2 L142.0 891.0 L140.4 892.1 L139.7 891.4 L138.8 892.0 L137.1 891.3 L136.5 889.9Z M311.4 856.7 L311.7 855.2 L312.5 854.8 L315.1 856.2 L315.1 856.8 L317.1 856.3 L315.9 858.0 L314.0 858.0 L312.3 859.0 L312.4 857.4 L311.4 856.7Z" fill="#6FBF73" stroke="#3E8A4A" stroke-width="7" stroke-linejoin="round"/><circle cx="600" cy="596" r="9" fill="#6FBF73"/></g>`,
+
+'명왕성':SPH('pl2','#C8A88A',`<path d="M56 60 q-14 -18 0 -24 q8 -2 10 6 q2 -8 10 -6 q14 6 0 24 l-10 16z" fill="#F5E8D8"/>`),
+'달':SPH('mo2','#D9D6CE',`<g fill="#B9B2A8"><circle cx="40" cy="44" r="12"/><circle cx="76" cy="36" r="8"/><circle cx="72" cy="76" r="14"/><circle cx="38" cy="84" r="8"/></g>`),
+'수성':SPH('me2','#9A938A',`<g fill="#7A746C"><circle cx="44" cy="44" r="9"/><circle cx="76" cy="56" r="7"/><circle cx="54" cy="82" r="10"/></g>`),
+'화성':SPH('ma2','#D2643A',`<ellipse cx="60" cy="6" rx="30" ry="10" fill="#fff" opacity=".9"/><path d="M20 60 q30 -12 70 6 q-30 16 -70 -6z" fill="#A84A2A" opacity=".8"/>`),
+'금성':SPH('ve2','#E8C98A',`<g fill="none" stroke="#F5DDA8" stroke-width="8" opacity=".8"><path d="M0 44 q40 -18 120 6"/><path d="M0 70 q50 -14 120 8"/></g>`),
+'지구':SPH('ea2','#3A7AD8',`<path d="M20 36 q20 -24 44 -6 q-6 26 -34 28z M68 64 q26 -12 44 8 q-14 30 -44 14z M44 90 q12 -6 18 6 q-8 8 -18 -6z" fill="#5FB35F"/><path d="M10 52 q40 -12 100 6" fill="none" stroke="#fff" stroke-width="7" opacity=".6"/>`),
+'해왕성':SPH('ne2','#3A5AD8',`<ellipse cx="46" cy="50" rx="14" ry="8" fill="#2A3A9A"/><path d="M0 76 q50 -12 120 6" fill="none" stroke="#8AA6FF" stroke-width="4" opacity=".7"/>`),
+'천왕성':SPH('ur2','#9ADCE0',`<rect x="0" y="54" width="120" height="8" fill="#BFEFF0" opacity=".6"/>`)+`<ellipse cx="60" cy="60" rx="10" ry="74" fill="none" stroke="#CFEFF0" stroke-width="3" opacity=".6" transform="rotate(8 60 60)"/>`,
+'토성':`<ellipse cx="60" cy="60" rx="140" ry="26" fill="none" stroke="#C9B08A" stroke-width="14" opacity=".55" transform="rotate(-14 60 60)"/>`+SPH('sa2','#E8D0A0',`<rect x="0" y="40" width="120" height="10" fill="#D0B080"/><rect x="0" y="66" width="120" height="8" fill="#D0B080"/>`)+`<path d="M-80 90 q140 30 280 -60" fill="none" stroke="#E8D8B0" stroke-width="12" stroke-linecap="round" opacity=".85"/>`,
+'목성':SPH('ju2','#D8B48A',`<rect x="0" y="22" width="120" height="10" fill="#B8865A"/><rect x="0" y="42" width="120" height="12" fill="#E8D0A8"/><rect x="0" y="62" width="120" height="12" fill="#B8865A"/><rect x="0" y="86" width="120" height="8" fill="#C89A6A"/><ellipse cx="80" cy="74" rx="12" ry="7" fill="#C4503A"/>`),
+'태양':STAR('#FF9A2A','#FFD27A','#FFB347')+`<g fill="#FF7A2A" opacity=".6"><circle cx="40" cy="36" r="5"/><circle cx="74" cy="80" r="4"/></g>`,
+'시리우스':STAR('#EAF2FF','#FFFFFF','#9FC8FF'),
+'북극성':STAR('#FFF2C8','#FFFFFF','#FFE9A8'),
+'알데바란':STAR('#FF8A4A','#FFB27A','#FF7A3A'),
+'리겔':STAR('#9FC0FF','#E0ECFF','#6FA0FF'),
+'지구가 도는 길':`<circle cx="60" cy="60" r="56" fill="none" stroke="#6FC8F0" stroke-width="2" stroke-dasharray="5 5"/><circle cx="60" cy="60" r="3" fill="#FFB347"/><circle cx="116" cy="60" r="2.5" fill="#3A7AD8"/>`,
+'베텔게우스':STAR('#E0502A','#FF8A5A','#FF5A2A'),
+'큰개자리 VY':STAR('#C8302A','#FF6A4A','#D8402A')+`<g fill="#FF7A5A" opacity=".25"><circle cx="20" cy="30" r="16"/><circle cx="100" cy="96" r="20"/></g>`,
+'태양계 행성들의 길':`<g fill="none" stroke-width="1.2" opacity=".7">`+[8,12,16,22,32,44,52,58].map((r,i)=>`<circle cx="60" cy="60" r="${r}" stroke="${['#9A938A','#E8C98A','#3A7AD8','#D2643A','#D8B48A','#E8D0A0','#9ADCE0','#3A5AD8'][i]}"/>`).join('')+`</g><circle cx="60" cy="60" r="3" fill="#FFB347"/>`,
+'태양권':`<path d="M60 4 q56 0 56 56 q0 40 -40 56 q-20 4 -40 0 q-40 -16 -34 -56 q2 -56 58 -56z" fill="#8C7CF0" opacity=".2"/><path d="M60 4 q56 0 56 56 q0 40 -40 56 q-20 4 -40 0 q-40 -16 -34 -56 q2 -56 58 -56z" fill="none" stroke="#B4A9FF" stroke-width="2"/><circle cx="60" cy="56" r="2.5" fill="#FFB347"/>`,
+'오르트 구름':ART.space['오르트 구름'],
+'가장 가까운 별까지':`<circle cx="6" cy="60" r="5" fill="#FFB347"/><circle cx="114" cy="60" r="4" fill="#FF6A4A"/><path d="M14 60 h92" stroke="#fff" stroke-width="1.5" stroke-dasharray="4 5" opacity=".7"/>`,
+'오리온 성운':`<g opacity=".85"><path d="M20 70 q-10 -40 30 -50 q40 -10 50 30 q10 40 -30 50 q-40 6 -50 -30z" fill="#FF6A9A" opacity=".45"/><path d="M36 64 q0 -26 26 -30 q24 0 26 24 q0 26 -26 28 q-24 0 -26 -22z" fill="#8FD0FF" opacity=".5"/><path d="M50 60 q6 -14 20 -8 q8 12 -6 20 q-12 2 -14 -12z" fill="#FFE9A8" opacity=".7"/></g><g fill="#fff">`+[[56,58],[62,56],[60,62],[64,60]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="1.8"/>`).join('')+`</g>`,
+'좀생이별':`<circle cx="60" cy="60" r="56" fill="#6FA0FF" opacity=".12"/><g fill="#CFE0FF">`+[[40,40,5],[62,34,6],[80,46,5],[50,62,4],[72,66,6],[44,80,4],[86,78,3],[30,58,3]].map(([x,y,r])=>`<circle cx="${x}" cy="${y}" r="${r}"/><circle cx="${x}" cy="${y}" r="${r*2.4}" opacity=".2"/>`).join('')+`</g>`,
+'대마젤란은하':`<ellipse cx="60" cy="60" rx="56" ry="30" fill="#CFE0FF" opacity=".15" transform="rotate(-20 60 60)"/><ellipse cx="60" cy="60" rx="44" ry="14" fill="#E8F0FF" opacity=".5" transform="rotate(-20 60 60)"/><circle cx="84" cy="44" r="6" fill="#FF7AA8" opacity=".7"/>`+Array.from({length:30},(_,i)=>{const a=i*2.1,r=6+(i*13)%42;return `<circle cx="${(60+Math.cos(a)*r).toFixed(1)}" cy="${(60+Math.sin(a)*r*.5).toFixed(1)}" r="1" fill="#fff"/>`}).join(''),
+'우리은하':GALAXY('#B4C8FF','#FFE9A8',2)+`<circle cx="84" cy="78" r="2.5" fill="#FFD84D"/><text x="90" y="92" font-size="8" fill="#FFD84D" font-family="sans-serif">태양</text>`,
+'안드로메다은하':`<g transform="rotate(-30 60 60) scale(1 .55) translate(0 48)">`+GALAXY('#E0D0FF','#FFF2C8',2)+`</g>`,
+'국부 은하군':`<g opacity=".95"><g transform="translate(20 30) scale(.3)">${GALAXY('#B4C8FF','#FFE9A8',2)}</g><g transform="translate(66 60) scale(.36)">${GALAXY('#E0D0FF','#FFF2C8',2)}</g></g><g fill="#CFE0FF">`+[[20,80],[40,96],[90,24],[100,96],[60,20],[30,60],[96,60]].map(([x,y])=>`<ellipse cx="${x}" cy="${y}" rx="4" ry="2.5"/>`).join('')+`</g>`,
+'라니아케아 초은하단':`<g fill="none" stroke="#8C7CF0" stroke-width="1.5" opacity=".7">`+Array.from({length:14},(_,i)=>{const a=i/14*6.283;return `<path d="M60 60 q${(Math.cos(a+0.6)*30).toFixed(1)} ${(Math.sin(a+0.6)*30).toFixed(1)} ${(Math.cos(a)*56).toFixed(1)} ${(Math.sin(a)*56).toFixed(1)}"/>`}).join('')+`</g><g fill="#E8E0FF">`+Array.from({length:60},(_,i)=>{const a=i*2.4,r=(i*11)%56;return `<circle cx="${(60+Math.cos(a)*r).toFixed(1)}" cy="${(60+Math.sin(a)*r).toFixed(1)}" r="1.3"/>`}).join('')+`</g><circle cx="60" cy="60" r="4" fill="#FFD84D"/>`,
+'관측 가능한 우주':`<circle cx="60" cy="60" r="58" fill="#1A0E30"/><g fill="none" stroke="#8C7CF0" stroke-width="1" opacity=".6">`+Array.from({length:24},(_,i)=>{const a=i*1.7,b=i*2.9;return `<line x1="${(60+Math.cos(a)*50).toFixed(1)}" y1="${(60+Math.sin(a)*50).toFixed(1)}" x2="${(60+Math.cos(b)*30).toFixed(1)}" y2="${(60+Math.sin(b)*30).toFixed(1)}"/>`}).join('')+`</g><g fill="#FFB8E0">`+Array.from({length:70},(_,i)=>{const a=i*2.4,r=(i*7)%56;return `<circle cx="${(60+Math.cos(a)*r).toFixed(1)}" cy="${(60+Math.sin(a)*r).toFixed(1)}" r="1.1"/>`}).join('')+`</g><circle cx="60" cy="60" r="58" fill="none" stroke="#FF7AA8" stroke-width="3" opacity=".6"/>`
+};
+PARTICLES.cosmos = v => [{k:'spark',c:'255,255,255',n:70}];
+PAGES.cosmos = cosmos;
+
+/* ---------- 상식 추가 ---------- */
+(function(){
+  const addFact = (list, map) => list.forEach(t=>{ if (map[t[0]]) t[4] = map[t[0]]; });
+  addFact(life.things, {
+    'DNA':'사람 세포 하나에 든 DNA를 쭉 펴면 약 2m나 돼요.',
+    '독감 바이러스':'비누로 30초 넘게 손을 씻으면 바이러스를 크게 줄일 수 있어요.',
+    '대장균':'조건이 좋으면 약 20분마다 둘로 나뉘며 불어나요.',
+    '적혈구':'적혈구는 약 1분이면 온몸을 한 바퀴 돌아요.',
+    '백혈구':'몸이 아프면 백혈구 수가 늘어나 싸울 준비를 해요.',
+    '꽃가루':'꽃가루는 껍질이 아주 단단해서 오래된 화석으로도 남아요.',
+    '머리카락 굵기':'머리카락은 한 달에 약 1cm씩 자라요.',
+    '물곰':'2007년에는 우주 공간에 내보냈다가 살아 돌아온 물곰도 있었어요.',
+    '개미':'지구에 사는 개미는 약 2경 마리로 추정돼요.',
+    '꿀벌':'꿀벌 한 마리가 평생 모으는 꿀은 찻숟가락 하나도 안 돼요.',
+    '무당벌레':'위험하면 다리 마디에서 쓴맛 나는 노란 물을 내서 몸을 지켜요.',
+    '참새':'참새는 걷지 않고 두 발을 모아 콩콩 뛰어다녀요.',
+    '고양이':'고양이는 하루에 12~16시간쯤 자요.',
+    '진돗개':'진돗개는 천연기념물이에요.',
+    '황제펭귄':'아빠 펭귄이 발 위에 알을 올려 두 달 넘게 품어요.',
+    '사람':'사람 몸은 약 37조 개의 세포로 이뤄져 있어요.',
+    '타조':'타조 알 하나는 달걀 20개보다 무거워요.',
+    '시베리아 호랑이':'호랑이 줄무늬는 사람 지문처럼 저마다 달라요.',
+    '아프리카코끼리':'코끼리 코에는 근육이 수만 개나 있어서 땅콩도 집어요.',
+    '기린':'기린 혀는 50cm쯤 되고, 가시 많은 나뭇잎도 감아 먹어요.',
+    '대왕고래':'새끼도 태어날 때 약 7m예요. 버스 반 대 길이예요.',
+    '하이페리온':'나무를 지키기 위해 정확한 위치는 비밀로 하고 있어요.',
+    '판도 사시나무 숲':'이 숲은 수천 년 넘게 살아왔을 것으로 봐요.',
+    '티라노사우루스':'티라노사우루스가 살던 때와 지금 사이의 시간은, 스테고사우루스가 살던 때와 티라노사우루스 사이보다 짧아요.'
+  });
+  addFact(cosmos.things, {
+    '우주 먼지':'지구에는 날마다 수십 톤의 우주 먼지가 조용히 떨어져요.',
+    '우주비행사':'우주 밖에서 입는 우주복은 무게가 100kg이 넘어요.',
+    '허블 우주망원경':'1990년에 올라가 30년 넘게 우주 사진을 찍고 있어요.',
+    '국제우주정거장':'2000년부터 지금까지 사람이 쉬지 않고 머물고 있어요.',
+    '베누':'먼 미래에 지구와 부딪칠 가능성이 아주 조금 있어서 과학자들이 지켜보고 있어요.',
+    '공룡을 멸종시킨 소행성':'부딪친 자리는 멕시코에 있는 지름 약 180km의 커다란 구덩이예요.',
+    '핼리 혜성의 핵':'약 76년마다 돌아와요. 다음에는 2061년에 볼 수 있어요.',
+    '달':'달은 1년에 약 3.8cm씩 지구에서 멀어지고 있어요.',
+    '수성':'수성의 1년은 88일밖에 안 돼요.',
+    '화성':'화성의 하루는 약 24시간 40분으로 지구와 비슷해요.',
+    '금성':'금성은 거꾸로 돌아서 해가 서쪽에서 떠요.',
+    '지구':'지구는 완전한 공이 아니라 가운데가 조금 불룩해요.',
+    '목성':'목성 안에는 지구가 1,300개 넘게 들어가요.',
+    '토성':'물보다 가벼워서, 거대한 욕조가 있다면 둥둥 뜰 거예요.',
+    '태양':'태양 속에는 지구가 약 130만 개 들어가요.',
+    '시리우스':'약 8.6광년 떨어져 있어요. 지금 보는 빛은 8년도 더 전에 출발한 빛이에요.',
+    '북극성':'북극성은 사실 별 여러 개가 모여 있는 별이에요.',
+    '베텔게우스':'언젠가 초신성으로 폭발할 거예요. 그때는 낮에도 보일 만큼 밝아질 수 있어요.',
+    '오리온 성운':'약 1,300광년 떨어져 있어요.',
+    '좀생이별':'맨눈으로는 보통 6~7개의 별이 보여요.',
+    '우리은하':'태양은 우리은하 중심을 약 2억 3천만 년에 한 바퀴 돌아요.',
+    '안드로메다은하':'약 250만 광년 떨어져 있어서, 지금 보는 빛은 사람의 조상이 살던 때 출발했어요.',
+    '관측 가능한 우주':'우주의 나이는 약 138억 년이에요.'
+  });
+})();
+history.items.push(
+  [Y(1899),'k','서울에 전차가 달리다','1899년 서울에 처음으로 전차가 다니기 시작했어요. 사람들이 구경하러 몰려들었어요.'],
+  [Y(-550),'k','같은 시대, 다른 곳','이 무렵 중국에서는 공자가 태어났어요. 그의 가르침은 나중에 조선의 바탕이 됐어요.'],
+  [Y(-800),'k','울타리를 두른 마을','청동기 사람들은 마을 둘레에 도랑과 울타리를 두르기도 했어요. 부여 송국리 유적이 대표적이에요.'],
+  [Y(-1200),'k','쌀 창고가 생기다','벼농사가 퍼지면서 곡식을 모아 두는 창고와 큰 마을이 생겼어요.'],
+  [Y(-1650),'k','고인돌은 어떻게 만들었을까','수십 톤 돌을 옮기려면 수백 명이 힘을 모아야 했어요. 그래서 고인돌은 힘센 지배자가 있었다는 증거예요.'],
+  [Y(-2200),'k','같은 시대, 다른 곳','이 무렵 이집트에는 이미 거대한 피라미드가 서 있었어요.'],
+  [Y(-5800),'k','움집','신석기 사람들은 땅을 파고 기둥을 세운 움집에서 살았어요. 서울 암사동 유적에서 볼 수 있어요.'],
+  [Y(-7300),'k','농사의 시작','이 무렵 세계 여러 곳에서 농사가 시작됐어요. 서아시아에서는 밀과 보리를 길렀어요.'],
+  [330000,'k','우리와 같은 사람','지금의 우리와 같은 종인 호모 사피엔스는 약 30만 년 전 아프리카에서 나타났어요.'],
+  [420000,'k','함께하는 사냥','사람들은 무리를 지어 사슴, 멧돼지 같은 동물을 사냥했어요.'],
+  [620000,'k','추웠다 따뜻했다','지구에는 추운 빙하기와 따뜻한 시기가 여러 번 번갈아 찾아왔어요.']
+);
+artwork.items.push(
+  [YA(50),'k','종이가 생기다','105년 무렵 중국에서 종이 만드는 법이 널리 퍼졌어요. 그 전에는 비단이나 대나무에 썼어요.'],
+  [YA(1600),'k','기름 물감','기름에 갠 물감은 천천히 말라서, 색을 겹겹이 섞어 칠할 수 있어요.'],
+  [YA(1815),'k','돌판으로 찍는 그림','돌판에 기름 성분으로 그림을 그려 여러 장 찍어 내는 방법이 널리 퍼졌어요.'],
+  [YA(1928),'k','소리 나는 만화 영화','1928년 소리가 나는 만화 영화가 나오면서 애니메이션이 큰 인기를 얻었어요.'],
+  [YA(1955),'k','팝아트','광고, 만화, 통조림 같은 일상 물건을 그림 소재로 쓰는 미술이 나타났어요.'],
+  [YA(1962),'k','위성으로 보는 화면','1962년 인공위성으로 대서양 건너 텔레비전 화면을 처음 실시간으로 보냈어요.'],
+  [YA(1980),'k','픽셀','화면 그림은 아주 작은 네모 점 “픽셀”로 이뤄져요. 옛날 게임 캐릭터가 네모난 이유예요.'],
+  [YA(2003),'k','웹툰의 탄생','2000년대 우리나라에서 세로로 내려 보는 인터넷 만화가 생겼어요. 지금은 전 세계로 퍼졌어요.']
+);
+
+seoul.items.push(
+  [-200.0,'k',"걸어서 지구 중심까지","쉬지 않고 걸어도 지구 중심까지는 약 두 달이 걸려요. 거리가 6,371km나 되거든요."],
+  [204.9,'k',"엘리베이터로 지구 중심까지","시속 100km 엘리베이터가 있다면 지구 중심까지 약 64시간, 거의 사흘이 걸려요."],
+  [299.9,'k',"지진은 왜 일어날까","지구 겉의 땅껍질은 여러 조각으로 나뉘어 있어요. 이 조각들이 서로 밀고 부딪칠 때 땅이 흔들려요."],
+  [600.5,'k',"우리나라의 큰 지진","2016년 경주에서 규모 5.8, 2017년 포항에서 규모 5.4 지진이 있었어요. 우리나라도 지진에서 안전하지 않아요."],
+  [701.5,'k',"백두산은 잠자는 화산","백두산은 946년 무렵 아주 크게 분화했어요. 지금도 다시 깨어날 수 있는 화산이에요."],
+  [945.0,'k',"한라산과 제주도","제주도는 화산이 여러 번 터지며 만들어진 섬이에요. 까만 현무암이 그 흔적이에요."],
+  [4798.0,'k',"용암의 온도","땅 위로 흘러나온 용암은 약 700~1,200℃예요."],
+  [5644.0,'k',"다이아몬드의 고향","다이아몬드는 땅속 150km보다 깊은 곳에서 엄청난 열과 누르는 힘을 받아 만들어져요."],
+  [6362.0,'k',"석탄은 옛날 숲","석탄은 수억 년 전 숲의 나무와 풀이 땅에 묻혀 오랫동안 눌려서 생겼어요."],
+  [7085.0,'k',"석유는 옛날 바다","석유는 아주 먼 옛날 바다의 작은 생물들이 쌓이고 묻혀서 만들어졌어요."],
+  [8542.0,'k',"땅속의 민물","지구의 민물 가운데 약 30%가 땅속에 스며 있어요. 이걸 지하수라고 해요."],
+  [259600.0,'k',"흙 1cm의 시간","흙 1cm가 새로 쌓이는 데 수백 년이 걸리기도 해요. 그래서 흙은 소중해요."],
+  [789800.0,'k',"땅속 농부, 지렁이","지렁이는 흙을 먹고 뱉으며 굴을 파요. 덕분에 흙에 공기와 물이 잘 들어가요."],
+  [927000.0,'k',"돌의 세 가지 종류","녹았다 굳은 돌, 쌓여서 굳은 돌, 열과 힘에 눌려 바뀐 돌. 모든 돌은 이 셋 중 하나예요."],
+  [1314000.0,'k',"화석은 어디서 나올까","화석은 주로 모래와 진흙이 쌓여 굳은 돌에서 나와요."],
+  [1560000.0,'k',"대리석의 비밀","대리석은 석회암이 땅속 열과 누르는 힘을 받아 바뀐 돌이에요."],
+  [1684000.0,'k',"지구의 무게 3분의 1","지구 무게의 약 3분의 1이 쇠예요. 대부분 핵에 모여 있어요."],
+  [2398000.0,'k',"자석의 방향이 뒤집힌다","지구 자석의 남북은 가끔 뒤바뀌어요. 마지막으로 뒤집힌 건 약 78만 년 전이에요."],
+  [2601000.0,'k',"지진이 알려 준 비밀","어떤 지진파는 액체를 지나가지 못해요. 그래서 과학자들은 외핵이 녹아 있다는 걸 알아냈어요."],
+  [2810000.0,'k',"움직이는 대륙","약 2억 년 전에는 모든 대륙이 하나로 붙어 있었어요. 이 커다란 땅을 판게아라고 불러요."],
+  [3266000.0,'k',"자라는 히말라야","인도 땅이 아시아를 계속 밀고 있어서 히말라야는 지금도 조금씩 높아지고 있어요."],
+  [3426000.0,'k',"지구 속 열의 정체","지구 속 열의 절반쯤은 땅속 원소들이 천천히 부서지며 내는 열이에요."],
+  [3682000.0,'k',"지구의 나이","지구는 약 46억 년 전에 태어났어요."],
+  [4737000.0,'k',"가장 오래된 알갱이","호주에서 발견된 지르콘이라는 작은 광물 알갱이는 약 44억 년이나 됐어요."],
+  [4928000.0,'k',"금은 어디에","지구의 금은 대부분 아주 깊은 곳으로 가라앉아 있어요. 우리가 캐는 금은 겉에 남은 조금이에요."],
+  [5578000.0,'k',"온천의 비밀","온천물은 땅속 깊이 스며든 빗물이 뜨거운 바위에 데워져 다시 올라온 거예요."],
+  [5725000.0,'k',"땅이 흔들릴 때","지진이 나면 책상 밑으로 들어가 머리를 보호하고, 흔들림이 멈추면 넓은 곳으로 나가요."],
+  [6284000.0,'k',"땅속 지도 만들기","땅속을 직접 볼 수 없으니, 소리나 진동을 보내서 되돌아오는 신호로 지도를 그려요."]
+);
+ai.items.push(
+  [4.485,'k',"스팸 메일 거르기","광고 메일을 알아서 걸러 주는 건 오래전부터 쓰인 대표적인 AI 기술이에요."],
+  [18.7,'k',"추천의 비밀","동영상 추천은 “나와 비슷한 걸 본 사람들이 좋아한 것”을 찾아 보여 주는 방식이에요."],
+  [41.08,'k',"배우기와 써먹기","AI는 먼저 많은 예시로 공부하고(학습), 그다음 새 문제에 답해요(추론)."],
+  [107.9,'k',"답만 외운 AI","연습 문제의 답만 외운 AI는 새 문제를 못 풀어요. 이걸 “과적합”이라고 해요."],
+  [218.8,'k',"치우친 데이터","AI는 배운 데이터를 닮아요. 데이터가 한쪽으로 치우치면 AI의 판단도 치우쳐요."],
+  [655.5,'k',"그럴듯한 거짓말","AI가 없는 사실을 그럴듯하게 지어내기도 해요. 그래서 중요한 정보는 꼭 확인해야 해요."],
+  [2066.0,'k',"글을 조각내 읽기","AI는 글을 “토큰”이라는 작은 조각으로 쪼개서 읽고 써요."],
+  [5046.0,'k',"음성 비서의 세 단계","말을 글로 바꾸고, 뜻을 이해하고, 대답을 다시 목소리로 바꿔요."],
+  [13510.0,'k',"자율주행차의 눈","카메라와 레이더 같은 센서로 주변 차와 사람을 살펴요."],
+  [39960.0,'k',"칩 하나의 계산","요즘 AI 칩 하나는 1초에 천조 번이 넘는 계산을 해요."],
+  [100400.0,'k',"20와트의 뇌","사람 뇌는 전구 하나 정도인 약 20와트로 움직여요. AI보다 훨씬 전기를 아껴 써요."],
+  [9343000.0,'k',"칭찬으로 배우기","잘하면 점수를 주고 못하면 점수를 빼며 스스로 배우게 하는 방법도 있어요. 이걸 강화학습이라고 해요."],
+  [277800000.0,'k',"그림을 그리는 AI","그림 AI는 지지직거리는 잡음에서 시작해 조금씩 잡음을 걷어 내며 그림을 찾아가요."],
+  [58940000000.0,'k',"바둑의 경우의 수","바둑에서 나올 수 있는 판의 수는 우주 전체의 원자 수보다 많아요."],
+  [91300000000.0,'k',"데이터 센터의 물","AI를 돌리는 컴퓨터는 뜨거워져서, 식히는 데 물과 전기가 많이 들어요."],
+  [141500000000.0,'k',"AI가 만든 것 확인하기","AI가 만든 글과 그림은 사실인지, 누구의 것인지 꼭 확인해야 해요."],
+  [851400000000.0,'k',"번역 AI의 공부법","번역 AI는 문법 규칙을 외우지 않고, 두 언어로 된 수많은 문장을 보며 배워요."],
+  [73840000000000.0,'k',"AI도 전기를 먹어요","큰 AI 하나를 공부시키는 데 수백억 원이 넘게 들기도 해요."]
+);
+sea.items.push(
+  [483.2,'k',"지구는 물의 행성","지구 겉면의 약 71%가 바다예요."],
+  [934.9,'k',"물은 대부분 짜다","지구에 있는 물의 약 97%가 바닷물이에요."],
+  [1407.0,'k',"바닷물 속 소금","바닷물 1L에는 소금이 약 35g 들어 있어요."],
+  [1840.0,'k',"숨 쉬는 공기의 절반","우리가 마시는 산소의 절반쯤은 바다의 아주 작은 식물 플랑크톤이 만들어요."],
+  [2217.0,'k',"빛이 닿는 곳","햇빛은 약 200m 아래로는 거의 들어가지 못해요."],
+  [2817.0,'k',"빨간색이 숨는 바다","물속에서는 빨간빛이 가장 먼저 사라져요. 그래서 깊은 바다에서 빨간 생물은 오히려 잘 안 보여요."],
+  [3506.0,'k',"물속의 소리","물속에서 소리는 공기보다 약 4배 빠르게 퍼져요."],
+  [5274.0,'k',"바다의 평균 깊이","바다의 평균 깊이는 약 3,700m예요. 롯데월드타워 6개를 쌓은 깊이예요."],
+  [5746.0,'k',"서해의 갯벌","서해는 밀물과 썰물의 높이 차가 커서 넓은 갯벌이 생겨요. 인천은 차이가 9m가 넘기도 해요."],
+  [6500.0,'k',"동해의 깊이","동해는 가장 깊은 곳이 3,700m가 넘는 깊은 바다예요."],
+  [6850.0,'k',"바다는 난방기","바닷물의 흐름은 따뜻한 물과 차가운 물을 옮겨 지구 온도를 골고루 나눠요."],
+  [7468.0,'k',"산호초의 힘","산호초는 바다 넓이의 1%도 안 되지만, 바다 생물의 약 4분의 1이 기대어 살아요."],
+  [7856.0,'k',"뇌가 없는 해파리","해파리는 뇌도 심장도 없지만 5억 년 넘게 바다에서 살아왔어요."],
+  [8142.0,'k',"사라지지 않는 플라스틱","바다에 버린 플라스틱은 수백 년 동안 잘게 부서질 뿐 사라지지 않아요."],
+  [9452.0,'k',"가장 깊은 곳의 쓰레기","세상에서 가장 깊은 바다 밑바닥에서도 비닐봉지가 발견됐어요."],
+  [10070.0,'k',"스스로 빛나는 생물","깊은 바다 생물 중에는 스스로 빛을 내는 생물이 아주 많아요."],
+  [10340.0,'k',"바다는 왜 짤까","빗물과 강물이 돌 속 소금기를 조금씩 녹여 바다로 옮겨 왔기 때문이에요."]
+);
+sky.items.push(
+  [233.1,'k',"하늘은 왜 파랄까","햇빛 중 파란빛이 공기 알갱이에 부딪쳐 더 많이 흩어지기 때문이에요."],
+  [2523.0,'k',"노을은 왜 붉을까","해가 낮을 때는 빛이 공기를 더 길게 지나와서, 파란빛은 흩어지고 붉은빛만 남아요."],
+  [3405.0,'k',"구름의 정체","구름은 아주 작은 물방울이나 얼음 알갱이가 모인 거예요."],
+  [5381.0,'k',"구름의 무게","뭉게구름 하나에 든 물의 무게는 수백 톤이 넘기도 해요."],
+  [9520.0,'k',"번개의 온도","번개는 약 3만℃로, 태양 겉면보다 약 5배 뜨거워요."],
+  [10230.0,'k',"천둥까지 세어 보기","번개를 보고 천둥이 들릴 때까지 3초가 걸리면 번개는 약 1km 떨어져 있어요."],
+  [11070.0,'k',"무지개의 비밀","햇빛이 물방울 속에서 꺾이고 반사되며 여러 색으로 나뉘어 무지개가 돼요."],
+  [49190.0,'k',"비행기는 어떻게 뜰까","날개 모양 때문에 위쪽 공기가 더 빨리 흘러, 날개를 위로 들어 올리는 힘이 생겨요."],
+  [59660.0,'k',"둥근 비행기 창문","모서리가 둥글어야 힘이 한곳에 몰리지 않아 창문이 튼튼해요."],
+  [64220.0,'k',"비행기 안의 공기","비행기 안 공기는 약 2,000m 산 위와 비슷하게 맞춰 둬요."],
+  [224800.0,'k',"빵빵해지는 과자 봉지","높이 올라가면 바깥 공기가 누르는 힘이 약해져서 과자 봉지가 부풀어요."],
+  [383000.0,'k',"산 위의 라면","높은 산에서는 물이 100℃보다 낮은 온도에서 끓어서 라면이 잘 안 익어요."],
+  [612200.0,'k',"별똥별이 타는 곳","별똥별은 대부분 땅에서 70~100km 높이에서 타 버려요."],
+  [779000.0,'k',"터지는 기상 풍선","날씨를 재는 풍선은 30km 넘게 올라가면 커지다 못해 터져요."],
+  [837300.0,'k',"히말라야를 넘는 새","줄기러기는 봄가을마다 히말라야 산맥을 넘어 날아가요."],
+  [943600.0,'k',"가장 높이 난 새","아프리카의 한 독수리는 약 11km 높이에서 비행기와 부딪친 기록이 있어요."],
+  [1370000.0,'k',"우주는 조용해요","우주에는 소리를 전할 공기가 없어서 아무 소리도 들리지 않아요."],
+  [3404000.0,'k',"우주에서 커지는 키","우주에서는 등뼈 사이가 늘어나 키가 몇 cm 커져요. 지구에 오면 다시 줄어요."],
+  [19550000.0,'k',"흐르지 않는 눈물","우주에서는 눈물이 흘러내리지 않고 눈가에 동그랗게 뭉쳐요."],
+  [22200000.0,'k',"우리별 1호","1992년 우리나라 첫 인공위성 우리별 1호가 우주로 올라갔어요."],
+  [25200000.0,'k',"누리호의 성공","2022년 누리호가 우리 기술로 만든 위성을 궤도에 올렸어요."],
+  [30440000.0,'k',"멀어지는 달","달은 1년에 약 3.8cm씩 지구에서 멀어지고 있어요."],
+  [33420000.0,'k',"달의 까만 하늘","달에는 공기가 없어서 낮에도 하늘이 까매요."],
+  [69140000.0,'k',"날카로운 달 먼지","달 먼지는 바람에 깎이지 않아서 유리 조각처럼 날카로워요."],
+  [100700000.0,'k',"달의 얼음","달의 남극 근처 늘 그늘진 구덩이에는 얼음이 숨어 있어요."],
+  [123200000.0,'k',"일식의 우연","태양은 달보다 약 400배 크지만 약 400배 멀어서, 하늘에서는 크기가 거의 같아 보여요."],
+  [189100000.0,'k',"머리 위 공기의 무게","우리 머리 위 공기는 손톱만 한 넓이마다 약 1kg의 힘으로 누르고 있어요."],
+  [210200000.0,'k',"태풍의 눈","태풍 한가운데 “눈”에서는 오히려 바람이 잔잔하고 하늘이 맑기도 해요."],
+  [234300000.0,'k',"눈송이의 모양","눈 결정은 대부분 육각형이에요. 똑같이 생긴 눈송이는 찾기 어려워요."],
+  [259600000.0,'k',"빗방울의 속도","큰 빗방울은 1초에 약 9m 빠르기로 떨어져요."],
+  [283700000.0,'k',"빛의 속도","빛은 1초에 지구를 7바퀴 반이나 돌 수 있어요."],
+  [304000000.0,'k',"우주 쓰레기 조심","작은 나사 하나도 총알보다 빠르게 날아서, 우주에서는 큰 위험이 돼요."],
+  [327200000.0,'k',"구름 위는 늘 맑음","비가 와도 구름 위로 올라가면 해가 쨍쨍해요."],
+  [351100000.0,'k',"하늘의 세 층","땅에서부터 날씨가 생기는 층, 오존층이 있는 층, 별똥별이 타는 층이 차례로 쌓여 있어요."]
+);
+space.items.push(
+  [51450000.0,'k',"햇빛이 오는 시간","태양빛이 지구까지 오는 데 약 8분 20초 걸려요. 지금 보는 태양은 8분 전 모습이에요."],
+  [87810000.0,'k',"태양은 어떻게 빛날까","태양은 가장 가벼운 원소인 수소를 헬륨으로 바꾸며 엄청난 빛과 열을 내요."],
+  [101600000.0,'k',"태양의 나이","태양은 약 46억 살이에요. 앞으로 약 50억 년 더 빛날 거예요."],
+  [161200000.0,'k',"가장 뜨거운 행성","태양에 가장 가까운 건 수성이지만, 가장 뜨거운 건 두꺼운 구름에 갇힌 금성이에요."],
+  [177800000.0,'k',"금성의 하루","금성은 아주 천천히 돌아서 하루가 1년보다 길어요."],
+  [192200000.0,'k',"화성의 파란 노을","화성에서는 노을이 붉지 않고 파래요."],
+  [207300000.0,'k',"화성의 큰 협곡","화성에는 길이 약 4,000km의 거대한 협곡이 있어요. 한반도 길이의 네 배쯤이에요."],
+  [221000000.0,'k',"소행성대의 무게","소행성대의 돌을 모두 합쳐도 달 무게의 3%쯤밖에 안 돼요."],
+  [1322000000.0,'k',"목성의 큰 소용돌이","목성의 붉은 점은 지구보다 큰 폭풍이에요. 수백 년째 불고 있어요."],
+  [2736000000.0,'k',"목성의 달들","목성에는 달이 90개가 넘어요."],
+  [4130000000.0,'k',"토성의 고리","토성 고리는 얼음과 돌 조각 수십억 개로 이뤄져 있어요."],
+  [4372000000.0,'k',"누워서 도는 천왕성","천왕성은 옆으로 누운 채 태양을 돌아요."],
+  [4756000000.0,'k',"가장 센 바람","해왕성에는 시속 2,000km가 넘는 바람이 불어요."],
+  [13730000000.0,'k',"명왕성에 간 탐사선","2015년 뉴호라이즌스호가 명왕성을 처음 가까이서 찍었어요."],
+  [16220000000.0,'k',"사람이 가장 멀리 간 곳","사람이 가장 멀리 가 본 곳은 달 뒤편, 지구에서 약 40만 km 떨어진 곳이에요."],
+  [18800000000.0,'k',"빛으로도 먼 오르트 구름","빛의 속도로 가도 오르트 구름 끝까지는 1년이 훨씬 넘게 걸려요."]
+);
+/* ---------- 움직임: 나타나기, 숫자 세기, 제목 글자 ---------- */
+const RM = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
+let REV_IO = null;
+function countUp(el){
+  const node = el.querySelector('.nb'); if (!node || node.dataset.done) return; node.dataset.done = 1;
+  const txt = node.textContent, m = txt.match(/\d[\d,]*(\.\d+)?/); if (!m) return;
+  const target = parseFloat(m[0].replace(/,/g,'')), dec = (m[1]||'').length - (m[1]?1:0), comma = m[0].includes(',');
+  if (!isFinite(target) || target === 0) return;
+  const pre = txt.slice(0, m.index), post = txt.slice(m.index + m[0].length), t0 = performance.now(), D = 1100;
+  const show = v => { let s = dec ? v.toFixed(dec) : String(Math.round(v)); if (comma) s = Number(s).toLocaleString('en-US', {minimumFractionDigits:dec, maximumFractionDigits:dec}); node.textContent = pre + s + post; };
+  const step = now => { const k = Math.min(1, (now - t0)/D), e = 1 - Math.pow(1-k, 3); show(target*e); if (k<1) requestAnimationFrame(step); else node.textContent = txt; };
+  requestAnimationFrame(step);
+}
+function setupReveal(){
+  const title = document.querySelector('#track .hero h1, #track .zhero h1');
+  if (title && !title.dataset.split && !RM()){
+    title.dataset.split = 1; const t = title.textContent;
+    title.innerHTML = [...t].map((c,i)=> c===' ' ? ' ' : `<span class="hl" style="animation-delay:${(i*0.05).toFixed(2)}s">${c}</span>`).join('');
+  }
+  if (REV_IO) REV_IO.disconnect();
+  if (RM() || !('IntersectionObserver' in window)) return;
+  const revIn = el => { if (el.classList.contains('in')) return; el.classList.add('in'); if (el.classList.contains('numc')) setTimeout(()=>countUp(el), 60); REV_IO && REV_IO.unobserve(el); };
+  window.revIn = revIn;
+  REV_IO = new IntersectionObserver(es=>{ es.forEach(e=>{ if (e.isIntersecting) revIn(e.target); }); }, {rootMargin: cur && cur.horizontal ? '0px 18% 0px 18%' : '18% 0px 18% 0px'});
+  document.querySelectorAll('#track .it').forEach(el=>{ el.classList.add('rv'); REV_IO.observe(el); });
+}
+
+/* ---------- 상식 카드 더하기 ---------- */
+history.items.push(
+  [Y(1926),'k','6·10 만세 운동','1926년 순종의 장례일에 학생들이 거리에서 만세를 외쳤어요.'],
+  [Y(1840),'k','실학','백성의 삶에 실제로 도움이 되는 학문을 연구하자는 생각이 퍼졌어요.'],
+  [Y(1750),'k','균역법','1750년, 백성이 내던 군포를 2필에서 1필로 줄여 부담을 덜었어요.'],
+  [Y(1510),'k','조선의 과거 시험','나라의 관리를 뽑는 시험이에요. 3년마다 치렀고, 합격하기가 아주 어려웠어요.'],
+  [Y(1345),'k','목화씨 이야기','1363년 무렵 문익점이 목화씨를 들여와, 사람들이 따뜻한 무명옷을 입게 됐어요.'],
+  [Y(1060),'k','고려의 학교','국자감이라는 나라 학교가 있었고, 최충이 세운 사립 학교도 인기가 많았어요.'],
+  [Y(895),'k','후삼국 시대','신라가 약해지며 후백제와 후고구려가 생겨 다시 세 나라로 나뉘었어요.'],
+  [Y(140),'k','세 나라가 자라다','고구려, 백제, 신라가 이 무렵 점점 힘을 키워 나갔어요.'],
+  [Y(-3400),'k','세계 최초의 글자','약 5,000년 전 메소포타미아에서 쐐기 모양 글자가 만들어졌어요.'],
+  [470000,'k','전곡리 주먹도끼','1978년 연천 전곡리에서 한 미군 병사가 주먹도끼를 찾아내 세계를 놀라게 했어요.'],
+  [670000,'k','한반도의 첫 사람','한반도에 사람이 살기 시작한 건 수십만 년 전으로 봐요. 정확한 시기는 아직 연구 중이에요.']
+);
+sky.items.push(
+  [2500,'k','산에 오르면 왜 추울까?','높이 올라갈수록 공기가 옅고 땅에서 올라오는 열이 적어서, 100m마다 약 0.65℃씩 추워져요.'],
+  [9700,'k','비행기 구름','비행기 엔진에서 나온 수증기가 차가운 하늘에서 얼어 하얀 줄이 생겨요.'],
+  [49000,'k','과학 풍선','과학 풍선은 약 40~50km까지 올라가 하늘을 관측해요.'],
+  [225000,'k','우주정거장의 하루','해가 45분마다 뜨고 져서, 우주인들은 시계에 맞춰 자고 일어나요.'],
+  [380000,'k','오로라','태양에서 온 알갱이가 높은 하늘의 공기와 부딪혀 초록, 빨강 빛을 내요. 우주정거장에서는 발아래로 보여요.'],
+  [610000,'k','허블의 높이','허블 망원경은 약 540km 높이에서 지구를 돌아요.'],
+  [780000,'k','위성끼리 부딪힐까?','위성들은 정해진 길을 돌지만, 너무 가까워지면 엔진을 살짝 켜서 피해요.'],
+  [940000,'k','우주는 어디서 시작할까?','공기는 1,000km 위까지도 아주 조금 남아 있어서, 우주가 딱 어디서 시작하는지는 정하기 나름이에요.'],
+  [3200000,'k','밴앨런대','지구 둘레에는 해로운 알갱이가 갇힌 띠가 있어요. 우주선은 이곳을 재빨리 지나가요.'],
+  [17200000,'k','우리나라 위치 위성','우리나라도 한국형 위성항법시스템(KPS)을 준비하고 있어요.'],
+  [19500000,'k','GPS 위성은 몇 개일까?','약 30개의 GPS 위성이 지구를 둘러싸고 돌아요.'],
+  [33300000,'k','천리안 위성','정지 궤도에서 한반도의 날씨를 쉬지 않고 지켜보는 우리 위성이에요.'],
+  [101000000,'k','다누리가 찍은 지구','다누리는 달 궤도에서 지구와 달이 함께 나온 사진도 찍어 보냈어요.'],
+  [194000000,'k','달의 하루','달의 낮과 밤은 각각 약 2주씩 이어져요.'],
+  [232000000,'k','달의 흙','달에는 흙과 돌만 있고 생물은 없어요. 가져온 달 돌로 달의 나이를 알아냈어요.'],
+  [255000000,'k','달에서 지구 보기','달에서 보면 지구는 하늘의 거의 같은 자리에 떠 있고, 모양만 바뀌어요.'],
+  [304000000,'k','아폴로 11호','1969년 7월, 닐 암스트롱이 처음으로 달에 발을 디뎠어요.'],
+  [352000000,'k','달까지 걸어가면?','쉬지 않고 걸어도 약 9년이 걸려요.']
+);
+artwork.items.push(
+  [38000,'k','그림 속 동물','동굴 벽화에는 말, 들소, 사슴이 가장 많고 사람은 드물게 나와요.'],
+  [48270,'k','이집트 그림의 규칙','얼굴은 옆모습, 눈과 몸은 앞모습으로 그리는 규칙이 있었어요.'],
+  [48540,'k','파피루스','이집트 사람들은 강가 풀로 만든 파피루스에 글과 그림을 남겼어요.'],
+  [48790,'k','무늬의 시작','토기와 청동기에 선과 도형 무늬를 새기며 꾸미기 시작했어요.'],
+  [49430,'k','그리스 조각','사람 몸을 아주 사실적으로 조각했어요. 원래는 알록달록 색칠돼 있었어요.'],
+  [49935,'k','실크로드','비단길을 따라 그림, 종이, 물감 기술이 동쪽과 서쪽을 오갔어요.'],
+  [51195,'k','고려청자의 빛깔','중국에서도 고려청자의 푸른빛을 천하제일이라고 칭찬했어요.'],
+  [51335,'k','손으로 만든 책','중세 수도원에서는 손으로 책을 베껴 쓰며 금색으로 화려한 그림을 넣었어요.'],
+  [51705,'k','민화','조선 사람들은 호랑이, 까치, 책장 그림을 집에 걸어 복을 빌었어요.'],
+  [51858,'k','인상파','빛에 따라 변하는 순간의 색을 빠른 붓질로 그렸어요. 모네가 대표 화가예요.'],
+  [51920,'k','바우하우스','“쓸모 있고 아름다운 디자인”을 가르친 독일 학교예요. 지금의 가구와 글꼴에도 영향을 줬어요.'],
+  [51950.5,'k','추상화','무엇을 그렸는지보다 색과 선 자체의 느낌을 표현했어요.'],
+  [51960.5,'k','애니메이션의 원리','조금씩 다른 그림을 1초에 여러 장 빠르게 넘기면 움직이는 것처럼 보여요.'],
+  [51982,'k','컴퓨터로 만든 영화 장면','1980년대부터 영화에 컴퓨터로 만든 장면이 쓰이기 시작했어요.'],
+  [51990.5,'k','사진 고치는 프로그램','1990년 무렵 사진을 컴퓨터로 고치는 프로그램이 나와 디자인 방식이 바뀌었어요.'],
+  [52000.5,'k','휴대폰 카메라','2000년대 휴대폰에 카메라가 들어가며 누구나 사진을 찍게 됐어요.']
+);
+space.items.push(
+  [1.3e7,'k','태양의 크기','태양 속에는 지구가 약 130만 개 들어가요.'],
+  [3.9e7,'k','태양의 흑점','태양 표면의 검은 점은 주변보다 조금 덜 뜨거운 곳이에요.'],
+  [1.6e9,'k','타이탄','토성의 달 타이탄에는 짙은 공기와 메테인 호수가 있어요.'],
+  [1.8e9,'k','카시니 탐사선','13년 동안 토성을 조사하고, 2017년 토성 속으로 뛰어들어 임무를 마쳤어요.'],
+  [2.0e9,'k','토성의 육각형','토성 북극에는 육각형 모양의 거대한 구름 소용돌이가 있어요.'],
+  [7.2e9,'k','명왕성의 하트','명왕성에는 하트 모양의 커다란 얼음 평원이 있어요.'],
+  [2.18e10,'k','창백한 푸른 점','1990년 보이저 1호가 아주 먼 곳에서 찍은 지구는 작은 점 하나였어요.'],
+  [2.29e10,'k','아껴 쓰는 전기','보이저는 전기가 점점 줄어서 장비를 하나씩 끄며 버티고 있어요.']
+);
+/* 줌 여행: 알고 있나요? 더하기 */
+(function(){
+  const TIP = {
+    life:{'DNA':'사람 세포 하나에 든 DNA를 쭉 펴면 약 2m나 돼요.','독감 바이러스':'손만 잘 씻어도 많은 바이러스를 막을 수 있어요.','대장균':'우리 몸에는 몸 세포 수만큼이나 많은 세균이 함께 살아요.','적혈구':'적혈구는 약 120일 동안 일하고 새것으로 바뀌어요.','머리카락 굵기':'머리카락은 한 달에 약 1cm씩 자라요.','물곰':'우주 공간에 내보냈다가 다시 가져와도 살아남은 물곰이 있어요.','개미':'지구에는 개미가 약 2경 마리 산다고 봐요.','청개구리':'주변 색에 따라 몸 색을 조금 바꿀 수 있어요.','고양이':'하루에 12~16시간쯤 잠을 자요.','진돗개':'천연기념물로 지정된 우리나라 토종개예요.','황제펭귄':'아빠 펭귄이 두 달 넘게 굶으며 발 위에 알을 품어요.','사람':'어른 몸에는 뼈가 206개 있어요.','타조':'타조 알은 달걀 20개쯤 되는, 가장 큰 새알이에요.','아프리카코끼리':'코에만 근육이 수만 개 있어요.','기린':'혀 길이가 약 50cm나 돼요.','대왕고래':'울음소리가 수백 km 떨어진 곳까지 전해져요.','티라노사우루스':'사람이 나타나기 훨씬 전, 약 6,600만 년 전에 사라졌어요.','하이페리온':'물을 끌어올리는 데 한계가 있어서, 나무는 120~130m보다 크기 어렵다고 봐요.','제너럴 셔먼':'나이는 약 2,200살로 추정해요.','샤크만 해초':'약 4,500년 동안 퍼져 왔다고 봐요.','꿀벌':'꿀 한 숟가락을 모으려면 꿀벌 여러 마리가 평생 일해야 해요.','판도 사시나무 숲':'뿌리는 수천 년 넘게 살아 왔다고 봐요.'},
+    cosmos:{'우주 먼지':'지구에는 날마다 수십 톤의 우주 먼지가 내려앉아요.','별똥별의 씨앗':'8월 중순에는 한 시간에 수십 개의 별똥별을 볼 수 있어요.','운석':'대부분의 운석은 소행성이 부서진 조각이에요.','우주비행사':'우주에 가면 등뼈가 늘어나 키가 몇 cm 커져요.','국제우주정거장':'밤하늘에서 맨눈으로 볼 수 있는 가장 큰 인공 물체예요.','누리호':'2022년 발사 성공으로, 우리 위성을 우리 로켓으로 쏘아 올릴 수 있게 됐어요.','달':'달은 1년에 약 3.8cm씩 지구에서 멀어지고 있어요.','지구':'지구는 완벽한 공이 아니라 적도 쪽이 살짝 불룩해요.','목성':'목성의 대적점은 지구가 쏙 들어갈 만큼 큰 폭풍이에요.','토성':'토성은 물보다 가벼워서, 아주 큰 욕조가 있다면 둥둥 뜰 거예요.','금성':'금성은 거꾸로 돌아서 해가 서쪽에서 떠요.','화성':'화성의 노을은 파란색이에요.','태양':'햇빛이 지구까지 오는 데 약 8분 20초 걸려요.','베텔게우스':'언젠가 초신성으로 폭발할 거예요. 그때는 아주 밝게 보일 수 있어요.','북극성':'가장 밝은 별은 아니에요. 밝기로는 50번째쯤이에요.','우리은하':'태양이 우리은하 중심을 한 바퀴 도는 데 약 2억 3천만 년이 걸려요.','안드로메다은하':'지금 보는 안드로메다의 빛은 약 250만 년 전에 출발했어요.','관측 가능한 우주':'우주는 지금도 점점 넓어지고 있어요.','핼리 혜성의 핵':'약 76년마다 돌아와요. 다음은 2061년이에요.','공룡을 멸종시킨 소행성':'부딪친 자국이 멕시코에 지름 약 180km 구덩이로 남아 있어요.','세레스':'소행성대 전체 무게의 약 3분의 1이 세레스예요.','명왕성':'명왕성의 1년은 지구의 약 248년이에요.'}
+  };
+  for (const k of ['life','cosmos']) PAGES[k].things.forEach(t=>{ if (!t[4] && TIP[k][t[0]]) t[4] = TIP[k][t[0]]; });
+})();
+
+/* '여러분': 여러 사람이 함께 선 그림 (누가 더 클까의 '사람'은 한 명 그대로) */
+(function(){
+  const one = ART.seoul['여러분'];
+  const recolor = (svg, shirt, hair, pants) => svg.replace(/#3355FF|#2F5BFF|#3D5AFE/g, shirt).replace(/#3A2A20|#2B1E16|#5A3E28/g, hair).replace(/#1D1B3A|#2B2F4A/g, pants);
+  const group = `<g transform="translate(-14 14) scale(.78)">${recolor(one,'#E0591C','#2B1E16','#3A3E48')}</g><g transform="translate(40 14) scale(.78)">${recolor(one,'#2FA35A','#8A5A3A','#2B2F4A')}</g><g transform="translate(13 4) scale(.86)">${one}</g>`;
+  ART.seoul['여러분'] = group; ART.sky['여러분'] = group;
+})();
+/* =========================================================
+   그림 미리 그려 두기: 무거운 질감 필터가 들어간 그림을
+   화면에 닿기 전에 미리 한 장의 이미지로 구워 두면,
+   빠르게 스크롤해도 매번 다시 계산하지 않아 끊기지 않아요.
+   ========================================================= */
+const PR = {io:null, q:[], rest:[], urls:[], gen:0, running:false};
+function prerenderArts(horiz){
+  PR.gen++; if (PR.io) PR.io.disconnect(); PR.q = []; PR.rest = [];
+  PR.urls.forEach(u=>URL.revokeObjectURL(u)); PR.urls = [];
+  if (!('IntersectionObserver' in window) || !window.Blob || !URL.createObjectURL) return;
+  const figs = [...document.querySelectorAll('#track .fig .art > svg')];
+  if (!figs.length) return;
+  const gen = PR.gen;
+  PR.io = new IntersectionObserver(es=>es.forEach(e=>{ if (e.isIntersecting){ PR.io.unobserve(e.target); PR.q.push(e.target); prPump(gen); } }),
+    {rootMargin: horiz ? '0px 300% 0px 300%' : '300% 0px 300% 0px'});
+  figs.forEach(sv=>PR.io.observe(sv));
+  PR.rest = figs.slice();
+  setTimeout(()=>prPump(gen), 400);
+}
+function prPump(gen){
+  if (PR.running || gen !== PR.gen) return;
+  PR.running = true;
+  const idle = window.requestIdleCallback || (f=>setTimeout(()=>f({timeRemaining:()=>8}), 16));
+  const next = () => { while (PR.q.length){ const s = PR.q.shift(); if (s.isConnected && !s.dataset.r) return s; } while (PR.rest.length){ const s = PR.rest.shift(); if (s.isConnected && !s.dataset.r) return s; } return null; };
+  const tick = async () => {
+    if (gen !== PR.gen){ PR.running = false; return; }
+    const s = next(); if (!s){ PR.running = false; return; }
+    try { await rasterize(s, gen); } catch(_){}
+    idle(tick);
+  };
+  idle(tick);
+}
+async function rasterize(sv, gen){
+  sv.dataset.r = 1;
+  const w = parseFloat(getComputedStyle(sv).width) || 150;
+  const px = Math.round(w * Math.min(2.5, (window.devicePixelRatio||1)) * 1.08);
+  const vb = sv.getAttribute('viewBox') || '0 0 120 120';
+  const fdef = document.getElementById('paint').outerHTML;
+  const src = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${vb}" width="${px}" height="${px}"><defs>${fdef}</defs>${sv.innerHTML}</svg>`;
+  const url = URL.createObjectURL(new Blob([src], {type:'image/svg+xml'}));
+  const im = new Image(); im.decoding = 'async'; im.src = url;
+  try { await im.decode(); } catch(_){ URL.revokeObjectURL(url); return; }
+  let outURL = null;
+  try {
+    const cv = document.createElement('canvas'); cv.width = cv.height = px;
+    cv.getContext('2d').drawImage(im, 0, 0, px, px);
+    const blob = await new Promise(r=>cv.toBlob(r, 'image/png'));
+    if (blob){ outURL = URL.createObjectURL(blob); URL.revokeObjectURL(url); }
+  } catch(_){}
+  if (!outURL) outURL = url;               // 캔버스가 막히면 SVG 이미지 그대로 사용
+  if (gen !== PR.gen || !sv.isConnected){ URL.revokeObjectURL(outURL); return; }
+  PR.urls.push(outURL);
+  const out = new Image(); out.className = 'rast'; out.alt = ''; out.style.width = w+'px'; out.src = outURL;
+  try { await out.decode(); } catch(_){}
+  if (sv.isConnected) sv.replaceWith(out);
+}
+
 /* ---------- 가로 스크롤 엔진 ---------- */
 function makeItemEl(page, it, idx){
   const type = it[1]; let el;
@@ -1973,6 +2808,9 @@ function makeItemEl(page, it, idx){
   } else if (type==='n'){
     el = document.createElement('div'); el.className='it numc'; el.style.setProperty('--acc', ['#3355FF','#E0591C','#2FA35A','#C8356E','#7A4FD8','#0E8FA8'][idx%6]);
     el.innerHTML = `<div class="nb">${it[2]}</div><div class="nl">${it[3]}</div>${it[4]?`<p>${it[4]}</p>`:''}`;
+  } else if (type==='k'){
+    el = document.createElement('div'); el.className='it numc kc';
+    el.innerHTML = `<div class="kt"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2V16h5v-.1c0-.8.4-1.5 1-2A6 6 0 0 0 12 3z"/></svg>상식 한 스푼</div><div class="kh">${it[2]}</div><p>${it[3]}</p>`;
   } else if (type==='q'){
     el = document.createElement('div'); el.className='it quiz';
     el.innerHTML = `<div class="qt">잠깐, 퀴즈!</div><div class="qq">${it[2]}</div><div class="opts">${it[3].map((o,i)=>`<button type="button" data-i="${i}">${o}</button>`).join('')}</div><div class="ans"><b>정답이에요!</b> ${it[5]}</div>`;
@@ -2052,6 +2890,7 @@ function buildH(page){
   $('#share').addEventListener('click', async e=>{ const b=e.currentTarget; try { await navigator.clipboard.writeText(location.href); b.textContent='복사했어요!'; } catch(_){ b.textContent='주소창의 링크를 복사해 주세요'; } setTimeout(()=>b.textContent='링크 복사하기', 2500); });
   $('#toTop').addEventListener('click', ()=>scrollTo({top:0, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'}));
   $('#mini').querySelectorAll('button').forEach(b=>b.remove());
+  prerenderArts(!!page.horizontal);
   stopsY = page.stops.map(([v,c])=>[WARP.f(page.scale.y(v)), c]);
   update();
 }
@@ -2071,6 +2910,8 @@ let cur = null, HERO = 700, mobile = false, stopsY = [], ticking = false;
 
 function build(page){
   $('#exp').classList.toggle('is-h', !!page.horizontal);
+  $('#exp').classList.toggle('is-z', !!page.zoom);
+  if (page.zoom){ $('#hspacer').style.height='0px'; return buildZ(page); }
   if (page.horizontal) return buildH(page);
   $('#hspacer').style.height='0px'; $('#track').style.width=''; $('#track').style.transform='';
   cur = page; mobile = innerWidth < 720;
@@ -2098,7 +2939,10 @@ function build(page){
     } else if (type==='n'){
       el = document.createElement('div'); el.className='it numc'; el.style.setProperty('--acc', ['#3355FF','#E0591C','#2FA35A','#C8356E','#7A4FD8','#0E8FA8'][els.length%6]);
       el.innerHTML = `<div class="nb">${it[2]}</div><div class="nl">${it[3]}</div>${it[4]?`<p>${it[4]}</p>`:''}`;
-    } else if (type==='q'){
+    } else if (type==='k'){
+    el = document.createElement('div'); el.className='it numc kc';
+    el.innerHTML = `<div class="kt"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2V16h5v-.1c0-.8.4-1.5 1-2A6 6 0 0 0 12 3z"/></svg>상식 한 스푼</div><div class="kh">${it[2]}</div><p>${it[3]}</p>`;
+  } else if (type==='q'){
       el = document.createElement('div'); el.className='it quiz';
       el.innerHTML = `<div class="qt">잠깐, 퀴즈!</div><div class="qq">${it[2]}</div><div class="opts">${it[3].map((o,i)=>`<button type="button" data-i="${i}">${o}</button>`).join('')}</div><div class="ans"><b>정답이에요!</b> ${it[5]}</div>`;
       el.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{
@@ -2180,6 +3024,7 @@ function build(page){
   buildMini(page);
   $('#toTop').addEventListener('click', ()=>scrollTo({top: page.reverse ? document.documentElement.scrollHeight : 0, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'}));
 
+  prerenderArts(!!page.horizontal);
   stopsY = page.stops.map(([v,c])=>[WARP.f(page.scale.y(v)), c]);
   update();
 }
@@ -2217,6 +3062,8 @@ function colAt(y){ if (y<0 && cur.heroBg){ const [a,b,t]=colorAt(0); const k=Mat
 function update(){
   ticking = false;
   if (!cur) return;
+  if (cur.zoom) return updateZ();
+  revealPassed();
   const H = !!cur.horizontal;
   if (H) $('#track').style.transform = `translate3d(${-Math.round(scrollY)}px,0,0)`;
   FX.axis = H ? 'x' : 'y';
@@ -2241,7 +3088,7 @@ function update(){
 }
 addEventListener('scroll', ()=>{ if (!ticking){ ticking=true; requestAnimationFrame(update); } }, {passive:true});
 let rt; addEventListener('resize', ()=>{ clearTimeout(rt); rt=setTimeout(()=>{
-  if (!cur) return; const was = innerWidth<720; if (cur.horizontal || was!==mobile || Math.abs(innerHeight*0.9-HERO)>120){ const p=scrollY/document.documentElement.scrollHeight; build(cur); scrollTo(0,p*document.documentElement.scrollHeight); }
+  if (!cur) return; const was = innerWidth<720; if (cur.horizontal || cur.zoom || was!==mobile || Math.abs(innerHeight*0.9-HERO)>120){ const p=scrollY/document.documentElement.scrollHeight; build(cur); scrollTo(0,p*document.documentElement.scrollHeight); }
 },200); });
 
 
@@ -2282,6 +3129,8 @@ function sndUpdate(v, prog){
   if (cur.key==='sea'){ freq = 900*Math.pow(1-prog,1.5)+90; vol=.3; drone = prog>.4?.025:0; pitch=65; }
   if (cur.key==='sky'){ freq = 1600*(1-prog)+220; vol=.26*(1-prog)+.05; drone = prog>.5?.03:0; pitch=98; }
   if (cur.key==='artwork'){ freq = 900; vol=.12; drone=.025; pitch = 110*Math.pow(2, Math.round(prog*7)/12); }
+  if (cur.key==='cosmos'){ freq = 260 - prog*120; vol=.08; drone=.045; pitch = 55*Math.pow(2, Math.round(prog*12)/12); }
+  if (cur.key==='life'){ freq = 300 + prog*900; vol=.12; drone=.03; pitch = 98*Math.pow(2, Math.round(prog*12)/12); }
   if (cur.key==='space'){ freq = 220; vol=.07; drone=.04; pitch = 55+prog*20; }
   SND.f.frequency.setTargetAtTime(freq, t, .3); SND.g.gain.setTargetAtTime(vol, t, .3);
   SND.og.gain.setTargetAtTime(drone, t, .5); SND.o1.frequency.setTargetAtTime(pitch, t, .5); SND.o2.frequency.setTargetAtTime(pitch*1.498, t, .5);
@@ -2303,7 +3152,7 @@ function route(){
   if (page){
     $('#home').classList.add('hidden'); $('#exp').classList.remove('hidden');
     document.title = page.title+' | 배움.fun';
-    scrollTo(0,0); build(page); if (page.reverse) scrollTo(0, document.documentElement.scrollHeight); fxStart();
+    scrollTo(0,0); build(page); if (page.reverse) scrollTo(0, document.documentElement.scrollHeight); setupReveal(); fxStart();
   } else {
     cur = null; fxStop(); if (SND.on) sndSet(false);
     $('#exp').classList.add('hidden'); $('#home').classList.remove('hidden');
