@@ -306,6 +306,8 @@ function ringBell(){ const b = $('#bell'); b.classList.remove('ring'); void b.ge
 /* ---------- 여행 입구 ---------- */
 const TRIPS = [['seoul','서울 아래로','#8B5A3A','#F4A62A'],['ai','AI의 크기','#1E1650','#8C7CF0'],['history','과거로','#E8DCC4','#8B6A4A'],['sea','바다 아래로','#1F7DBB','#08213F'],['sky','하늘 위로','#9FD6F0','#0B1030'],['artwork','그림과 기계','#8B5A2B','#2B1F4A'],['space','태양계 옆으로','#0B0A1E','#FF9A2A'],['life','누가 더 클까?','#DFF3E4','#2FA35A'],['cosmos','우주의 크기','#0C0A24','#E0502A']];
 const PORT = {x0:1340, y:1500, dx:115};
+const TRIP_FULL = {seoul:'서울 아래로', ai:'AI의 크기', history:'과거로 파고들기', sea:'바다 아래로', sky:'하늘 위로', artwork:'그림과 기계', space:'태양계 옆으로', life:'누가 더 클까?', cosmos:'우주의 크기'};
+
 (function(){ $('#portals').innerHTML = TRIPS.map(([k,t,c1,c2],i)=>`<a class="portal" data-trip="${k}" href="/#/${k}" style="left:${PORT.x0 + i*PORT.dx}px;top:${PORT.y}px" tabindex="-1"><div class="ring"><svg viewBox="0 0 100 100"><defs><radialGradient id="pg${i}"><stop offset="0" stop-color="${c2}"/><stop offset="1" stop-color="${c1}"/></radialGradient></defs><rect width="100" height="100" fill="url(#pg${i})"/><g fill="#fff" opacity=".7"><circle cx="30" cy="30" r="2"/><circle cx="70" cy="40" r="1.5"/><circle cx="50" cy="70" r="2"/></g></svg></div><div class="lb">${t}</div></a>`).join(''); })();
 const portalAt = (x,y) => { for (let i=0;i<TRIPS.length;i++){ const cx = PORT.x0 + i*PORT.dx, cy = PORT.y + 50; if (Math.hypot(x-cx, y-cy) < 52) return i; } return -1; };
 
@@ -592,7 +594,7 @@ function hitAction(x, y){
   const b = balloonAt(x,y); if (b >= 0) return () => { POPPED++; popBalloon(b, ME); send(['b', b]); };
   if (globeAt(x,y)) return () => { const d = (x < 2925 ? -1 : 1)*0.05; G.vel += d; SFX.whoosh(ME); send(['g', d]); };
   if (onMap(x,y)) return () => { const [mx,my] = toMap(x,y); addPin(mx, my, ME.color); SFX.pin(ME); send(['pin', Math.round(mx), Math.round(my)]); toast(nearest(mx,my)+'에 핀을 꽂았어요'); };
-  const pi = portalAt(x,y); if (pi >= 0) return () => { SFX.portal(); toast(`${TRIPS[pi][1]}(으)로 떠나요!`); setTimeout(()=>{ location.href = '/#/' + TRIPS[pi][0]; }, 650); };
+  const pi = portalAt(x,y); if (pi >= 0) return () => { SFX.portal(); toast(`‘${TRIP_FULL[TRIPS[pi][0]]}’ 여행을 떠나요!`); setTimeout(()=>{ location.href = '/#/' + TRIPS[pi][0]; }, 650); };
   return null;
 }
 addEventListener('pointermove', e => {
