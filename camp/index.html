@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <title>배움 운동장 | 배움.fun</title>
 <meta name="description" content="지금 접속한 사람들의 커서가 한곳에 모이는 넓은 운동장이에요. 같이 퀴즈를 풀고, 피아노와 종을 치고, 한반도 지도에 모여요.">
 <meta property="og:type" content="website"><meta property="og:site_name" content="배움.fun">
@@ -16,7 +16,7 @@
 <style>
 :root{--display:"Black Han Sans","Noto Sans KR",sans-serif;--ui:"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;--body:"Gowun Dodum","Noto Sans KR",sans-serif;--ink:#1D1B3A;box-sizing:border-box}
 *,*::before,*::after{box-sizing:inherit}
-html,body{margin:0;height:100%;overflow:hidden;background:#79B95C;font-family:var(--body);color:var(--ink);-webkit-font-smoothing:antialiased;touch-action:none;overscroll-behavior:none}
+html,body{-webkit-touch-callout:none;-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none;margin:0;height:100%;overflow:hidden;background:#79B95C;font-family:var(--body);color:var(--ink);-webkit-font-smoothing:antialiased;touch-action:none;overscroll-behavior:none}
 #view{position:fixed;inset:0;overflow:hidden}
 #world{position:absolute;left:0;top:0;width:3200px;height:2000px;transform-origin:0 0;cursor:none;user-select:none;-webkit-user-select:none;will-change:transform}
 #view.drag #world{cursor:grabbing}
@@ -103,6 +103,7 @@ svg{display:block}
 #intro small{display:block;margin-top:14px;color:#8A88A8;font-size:13px}
 @media (max-width:720px){#hint{display:none}#mini{width:136px;height:88px;bottom:calc(env(safe-area-inset-bottom,0px) + 84px)}#mini canvas{width:128px;height:80px}#bar{padding:6px 8px 6px 12px;gap:5px}#bar button{width:36px;height:36px;font-size:19px}#bar .who .nmTxt{display:none}#online small{display:none}}
 @media (prefers-reduced-motion: reduce){.tree,.flame,.wv,.foam{animation:none}}
+@media (pointer:coarse){.tree{animation:none}#world{will-change:auto}.wv{will-change:auto}.cur{will-change:auto}.cur svg{filter:none}}
 </style>
 </head>
 <body>
@@ -537,7 +538,7 @@ const SFX = (() => {
   function pianoNote(f, dest, t){ const parts = [[1,.5,1.6],[2,.22,1.0],[3,.1,.6],[4,.05,.4]]; for (const [h,a,d] of parts){ const o = A.createOscillator(), e = gain(0); o.type = h===1 ? 'triangle' : 'sine'; o.frequency.value = f*h*(1+ (h-1)*0.0015); e.gain.setValueAtTime(0,t); e.gain.linearRampToValueAtTime(a, t+.006); e.gain.exponentialRampToValueAtTime(.001, t+d*1.6); o.connect(e).connect(dest); o.start(t); o.stop(t+d*1.7); } }
   return {
     get on(){ return on; },
-    async toggle(){ if (!A) build(); on = !on; if (on){ await A.resume(); master.gain.setTargetAtTime(.9, A.currentTime, .15); mix(ME.x, ME.y); } else master.gain.setTargetAtTime(0, A.currentTime, .1); return on; },
+    async toggle(){ if (!A){ try { build(); } catch(err){ A = null; return false; } } on = !on; if (on){ await A.resume(); master.gain.setTargetAtTime(.9, A.currentTime, .15); mix(ME.x, ME.y); } else master.gain.setTargetAtTime(0, A.currentTime, .1); return on; },
     mix,
     piano(k, p){ if (!A||!on) return; pianoNote(NOTES[k], out(p), A.currentTime); },
     bell(p){ if (!A||!on) return; const t = A.currentTime, d = out(p); [[1,.35,5],[2.76,.18,3],[5.4,.1,2],[8.93,.06,1.2],[.5,.2,6]].forEach(([h,a,dd])=>{ const o = A.createOscillator(), e = gain(0); o.type='sine'; o.frequency.value = 220*h; e.gain.setValueAtTime(0,t); e.gain.linearRampToValueAtTime(a,t+.01); e.gain.exponentialRampToValueAtTime(.001,t+dd); o.connect(e).connect(d); o.start(t); o.stop(t+dd); }); },
@@ -599,17 +600,24 @@ function hitAction(x, y){
 }
 addEventListener('pointermove', e => {
   PTR.x = e.clientX; PTR.y = e.clientY; PTR.mouse = e.pointerType === 'mouse'; PTR.inside = true;
-  if (DRAG.on && e.pointerId === DRAG.id){ const dx = e.clientX - DRAG.sx, dy = e.clientY - DRAG.sy; DRAG.moved += Math.abs(dx) + Math.abs(dy); DRAG.sx = e.clientX; DRAG.sy = e.clientY; if (DRAG.moved > 8){ $('#view').classList.add('drag'); panBy(-dx, -dy); V.ox = V.tx; V.oy = V.ty; applyCam(); } }
+  if (DRAG.on && e.pointerId === DRAG.id){ const dx = e.clientX - DRAG.sx, dy = e.clientY - DRAG.sy; DRAG.moved += Math.abs(dx) + Math.abs(dy); DRAG.sx = e.clientX; DRAG.sy = e.clientY; if (DRAG.moved > 8){ if (!DRAG.cls){ DRAG.cls = 1; $('#view').classList.add('drag'); } panBy(-dx, -dy); DRAG.snap = 1; } }
 }, {passive:true});
 addEventListener('pointerleave', () => { PTR.inside = false; });
 document.addEventListener('mouseleave', () => { PTR.inside = false; });
 $('#view').addEventListener('pointerdown', e => {
   PTR.x = e.clientX; PTR.y = e.clientY; PTR.inside = true;
   const [x,y] = toWorld(e.clientX, e.clientY); ME.tx = x; ME.ty = y; if (e.pointerType !== 'mouse'){ ME.x = x; ME.y = y; }
-  const act = hitAction(x, y); if (act){ act(); return; }
+  const act = hitAction(x, y);
+  // 마우스는 누르는 순간 바로 작동, 손가락은 '톡' 떼었을 때만 작동 (끌기 시작한 곳이 피아노·입구여도 화면만 움직이게)
+  if (act && e.pointerType === 'mouse'){ act(); return; }
+  DRAG.pending = act || null;
   DRAG.on = true; DRAG.moved = 0; DRAG.sx = e.clientX; DRAG.sy = e.clientY; DRAG.id = e.pointerId; try { $('#view').setPointerCapture(e.pointerId); } catch(_){}
 });
-addEventListener('pointerup', () => { DRAG.on = false; $('#view').classList.remove('drag'); });
+addEventListener('pointerup', () => { if (DRAG.on && DRAG.pending && DRAG.moved < 12) DRAG.pending(); DRAG.pending = null; DRAG.on = false; DRAG.cls = 0; $('#view').classList.remove('drag'); });
+addEventListener('pointercancel', () => { DRAG.pending = null; DRAG.on = false; DRAG.cls = 0; $('#view').classList.remove('drag'); });
+['gesturestart','gesturechange','gestureend'].forEach(ev => document.addEventListener(ev, e => e.preventDefault(), {passive:false}));
+document.addEventListener('touchmove', e => { if (e.touches && e.touches.length > 1) e.preventDefault(); }, {passive:false});
+document.addEventListener('contextmenu', e => e.preventDefault());
 addEventListener('wheel', e => { e.preventDefault(); panBy(e.deltaX, e.deltaY); }, {passive:false});
 const KEYS = new Set();
 addEventListener('keydown', e => { const k = +e.key; if (k>=1 && k<=5){ showEmote(ME, k-1); send(['e', k-1]); } if (['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','a','d','w','s'].includes(e.key)){ KEYS.add(e.key); e.preventDefault(); } });
@@ -650,7 +658,8 @@ function frame(now){
     if (ex || ey) panBy(ex*sp, ey*sp);
   }
   if (KEYS.size){ const s = 16; panBy((KEYS.has('ArrowRight')||KEYS.has('d')?s:0) - (KEYS.has('ArrowLeft')||KEYS.has('a')?s:0), (KEYS.has('ArrowDown')||KEYS.has('s')?s:0) - (KEYS.has('ArrowUp')||KEYS.has('w')?s:0)); }
-  if (Math.abs(V.tx - V.ox) > .05 || Math.abs(V.ty - V.oy) > .05){ V.ox += (V.tx - V.ox)*0.2; V.oy += (V.ty - V.oy)*0.2; applyCam(); }
+  if (DRAG.snap){ DRAG.snap = 0; V.ox = V.tx; V.oy = V.ty; applyCam(); }   // 끌 때는 손가락을 바로 따라가되, 화면 반영은 한 프레임에 한 번만
+  else if (Math.abs(V.tx - V.ox) > .05 || Math.abs(V.ty - V.oy) > .05){ V.ox += (V.tx - V.ox)*0.2; V.oy += (V.ty - V.oy)*0.2; applyCam(); }
   if (PTR.mouse && PTR.inside){ const [x,y] = toWorld(PTR.x, PTR.y); ME.tx = x; ME.ty = y; }
   ME.x += (ME.tx - ME.x)*0.55; ME.y += (ME.ty - ME.y)*0.55;
   ME.el.style.transform = `translate(${ME.x.toFixed(1)}px,${ME.y.toFixed(1)}px)`;
