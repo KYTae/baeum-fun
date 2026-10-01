@@ -219,10 +219,15 @@ img,svg{max-width:100%}
 .fig.hasPhoto .art{position:relative;cursor:pointer}
 .fig .ph{position:absolute;left:50%;top:50%;width:122%;z-index:3;transform:translate(-50%,-50%) scale(.82);opacity:0;pointer-events:none;transition:opacity .25s ease, transform .3s cubic-bezier(.2,1.3,.4,1)}
 .fig.phOn .ph{opacity:1;transform:translate(-50%,-50%) scale(1)}
+/* 사진을 보는 동안에는 그 그림을 맨 위로 올리고, 아래 설명 글씨는 잠깐 숨겨 겹치지 않게 */
+.fig.phOn{z-index:40!important}
+.fig.phOn .art{position:relative;z-index:5}
+.fig figcaption{transition:opacity .2s}
+.fig.phOn figcaption{opacity:0}
 .fig .ph .frame{border-radius:18px;overflow:hidden;background:#E9EEF3 radial-gradient(circle,#fff 0 6px,transparent 7px) center/100% 100% no-repeat;border:5px solid #fff;box-shadow:0 10px 28px rgba(0,0,0,.35)}
 .fig .ph img{display:block;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .25s}
 .fig .ph.ready img{opacity:1}
-.fig .ph .cap{margin-top:6px;background:rgba(255,255,255,.95);color:#1D1B3A;border-radius:10px;padding:4px 8px;font-family:var(--ui);font-size:11px;line-height:1.35;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.2)}
+.fig .ph .cap{margin-top:6px;background:#fff;color:#1D1B3A;border-radius:10px;padding:4px 8px;font-family:var(--ui);font-size:11px;line-height:1.35;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.2)}
 .fig .ph .cap b{display:block;font-size:13px;color:#3355FF}
 .fig .ph .cap span{display:block;opacity:.75;word-break:break-all}
 .fig .phb{position:absolute;right:4%;top:2%;width:34px;height:34px;border-radius:50%;background:#FFD84D;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 8px rgba(0,0,0,.25);z-index:2;transition:opacity .2s;animation:phb 2.4s ease-in-out infinite}
