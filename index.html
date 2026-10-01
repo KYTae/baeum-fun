@@ -217,7 +217,7 @@ img,svg{max-width:100%}
 @keyframes zfloat{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-3px) rotate(1.5deg)}}
 @media (prefers-reduced-motion: reduce){.rv{opacity:1;translate:none;transition:none}.fig.rv .art{scale:none}.kc .kt svg,.zit .zg{animation:none}}
 .fig.hasPhoto .art{position:relative;cursor:pointer}
-.fig .ph{position:absolute;left:50%;top:50%;width:122%;z-index:3;transform:translate(-50%,-50%) scale(.82);opacity:0;pointer-events:none;transition:opacity .25s ease, transform .3s cubic-bezier(.2,1.3,.4,1)}
+.fig .ph{position:absolute;left:50%;top:var(--phy,40%);width:var(--phw,122%);z-index:8;transform:translate(-50%,-50%) scale(.82);opacity:0;pointer-events:none;transition:opacity .25s ease, transform .3s cubic-bezier(.2,1.3,.4,1)}
 .fig.phOn .ph{opacity:1;transform:translate(-50%,-50%) scale(1)}
 /* 사진을 보는 동안에는 그 그림을 맨 위로 올리고, 아래 설명 글씨는 잠깐 숨겨 겹치지 않게 */
 .fig.phOn{z-index:40!important}
@@ -230,6 +230,7 @@ img,svg{max-width:100%}
 .fig .ph .cap{margin-top:6px;background:#fff;color:#1D1B3A;border-radius:10px;padding:4px 8px;font-family:var(--ui);font-size:11px;line-height:1.35;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.2)}
 .fig .ph .cap b{display:block;font-size:13px;color:#3355FF}
 .fig .ph .cap span{display:block;opacity:.75;word-break:break-all}
+.fig .ph .cap i{display:block;font-style:normal;font-weight:700;font-size:12px;margin:1px 0 2px}
 .fig .phb{position:absolute;right:4%;top:2%;width:34px;height:34px;border-radius:50%;background:#FFD84D;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 8px rgba(0,0,0,.25);z-index:2;transition:opacity .2s;animation:phb 2.4s ease-in-out infinite}
 .fig .phb svg{width:22px;height:22px}
 .fig.phOn .phb{opacity:0}
@@ -2848,10 +2849,12 @@ function photoize(){
     const box = document.createElement('div'); box.className = 'ph';
     box.innerHTML = `<div class="frame" style="aspect-ratio:${ph.w||4}/${ph.h||3}"><img alt="${name} 실제 사진" decoding="async"></div><div class="cap"><b>실제 사진</b><span></span></div>`;
     box.querySelector('.cap span').textContent = ph.credit || '';
+    if (ph.note){ const nt = document.createElement('i'); nt.textContent = ph.note; box.querySelector('.cap b').after(nt); }
     const badge = document.createElement('span'); badge.className = 'phb'; badge.innerHTML = PH_ICON; badge.title = '실제 사진 보기';
-    art.appendChild(box); art.appendChild(badge);
+    fig.appendChild(box); art.appendChild(badge);
     const load = () => { const im = box.querySelector('img'); if (!im.src){ im.src = ph.src; im.onload = () => box.classList.add('ready'); } };
-    const show = on => { if (on){ load(); document.querySelectorAll('#track .fig.phOn').forEach(f => f !== fig && f.classList.remove('phOn')); } fig.classList.toggle('phOn', on); };
+    const place = () => { fig.style.setProperty('--phy', (art.offsetTop + art.offsetHeight/2)+'px'); fig.style.setProperty('--phw', Math.round(art.offsetWidth*1.22)+'px'); };
+    const show = on => { if (on){ place(); load(); document.querySelectorAll('#track .fig.phOn').forEach(f => f !== fig && f.classList.remove('phOn')); } fig.classList.toggle('phOn', on); };
     if (!PH_TOUCH){
       art.addEventListener('pointerenter', () => show(true));
       art.addEventListener('pointerleave', () => show(false));
