@@ -250,6 +250,14 @@ img,svg{max-width:100%}
 .zinfo .zph figcaption b{color:#3355FF}
 .zinfo .zph figcaption span{display:block;opacity:.8;word-break:break-all}
 .zoom.mobile .zinfo .zph img{max-height:110px}
+.toEqualD{display:inline-flex;align-items:center;gap:7px;white-space:nowrap;flex-shrink:0;padding:8px 14px 8px 12px;border-radius:999px;background:rgba(255,255,255,.7);border:1px solid #E4E1F3;color:#6A6890;text-decoration:none;font-family:var(--ui);font-weight:500;font-size:14px;letter-spacing:-.01em;transition:color .2s,border-color .2s,background .2s,box-shadow .2s}
+.toEqualD .eqDot{width:7px;height:7px;border-radius:50%;background:#3355FF;opacity:.55;transition:opacity .2s}
+.toEqualD .eqArr{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;transition:transform .2s}
+.toEqualD:hover{color:#3355FF;border-color:#C9D2FF;background:#fff;box-shadow:0 4px 14px rgba(51,85,255,.12)}
+.toEqualD:hover .eqDot{opacity:1}
+.toEqualD:hover .eqArr{transform:translateX(3px)}
+.toEqualD:focus-visible{outline:2px solid #3355FF;outline-offset:2px}
+@media (max-width:480px){.toEqualD .eqLong{display:none}.toEqualD{font-size:13px;padding:7px 12px 7px 10px}}
 .quiz{left:50%;transform:translateX(-50%);width:min(520px,90vw);background:#fff;color:#1D1B3A;border-radius:22px;padding:20px 22px 18px;box-shadow:0 10px 30px rgba(0,0,0,.18);text-align:center}
 .quiz .qt{font-family:var(--ui);font-weight:700;font-size:15px;color:#3355FF}
 .quiz .qq{font-size:19px;line-height:1.5;margin:6px 0 14px}
@@ -331,6 +339,7 @@ img,svg{max-width:100%}
     <button class="plant" id="plant" aria-label="화분에 물 주기">
       <span class="pot">🪴</span><span>오늘 물 준 횟수 <b id="waterN">0</b></span>
     </button>
+    <a class="toEqualD" href="https://equald.kr" aria-label="EqualD 홈페이지로 가기"><span class="eqDot" aria-hidden="true"></span>EqualD<span class="eqLong"> 홈페이지</span><svg class="eqArr" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h9M8.5 4.5 12 8l-3.5 3.5"/></svg></a>
   </div>
   <div class="wordmark"><h1 aria-label="배움.fun"><span>배</span><span>움</span><span>.</span><span>f</span><span>u</span><span>n</span></h1></div>
   <p class="tagline">스크롤로 배우는 크고, 깊고, 오래된 것들</p>
