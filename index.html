@@ -97,8 +97,11 @@ img,svg{max-width:100%}
 #track.horiz{position:fixed;top:0;left:0;height:100%;will-change:transform;z-index:1}
 #exp.is-h #mini,#exp.is-z #mini{display:none}
 #track.zoom{position:fixed;inset:0;z-index:1}
+/* 헤엄치는 그림이 화면 옆으로 살짝 나가도 휴대폰 화면이 좌우로 밀리지 않게 */
+#track:not(.horiz):not(.zoom){overflow-x:hidden}
+@supports (overflow:clip){#track:not(.horiz):not(.zoom){overflow-x:clip}}
 .zstage{position:absolute;inset:0;overflow:hidden}
-.zground{position:absolute;left:0;right:0;top:74%;height:2px;background:currentColor;opacity:.25}
+.zground{position:absolute;left:0;right:0;top:var(--gy,74%);height:2px;background:currentColor;opacity:.25}
 .zit{position:absolute;left:0;top:0;transform-origin:0 0;will-change:transform}
 .fig .art img.rast{display:block;margin:0 auto;height:auto;max-width:100%;filter:drop-shadow(0 8px 12px rgba(0,0,0,.2))}
 .zstage:not(.zfloat) .zit::after{content:'';position:absolute;left:8%;right:8%;bottom:-2.5%;height:6%;background:radial-gradient(closest-side,rgba(0,0,0,.22),transparent);z-index:-1;pointer-events:none}
@@ -118,17 +121,17 @@ img,svg{max-width:100%}
 #exp.is-z #hud .pill{width:240px;min-width:0;padding:10px 12px 9px}
 .zinfo .zk{position:absolute;right:16px;top:14px;font-family:var(--ui);font-weight:700;font-size:13px;color:#8A88A8}
 .zinfo{position:absolute}
-.zhills{position:absolute;left:0;right:0;top:calc(74% - 22vh);height:22vh;opacity:0;transition:opacity .3s}
+.zhills{position:absolute;left:0;right:0;top:calc(var(--gy,74%) - 22vh);height:22vh;opacity:0;transition:opacity .3s}
 .zhills svg{width:100%;height:100%;display:block}
-.zgrass{position:absolute;left:0;right:0;top:calc(74% - var(--gs,20px));height:var(--gs,20px);opacity:0;background:repeating-linear-gradient(100deg,transparent 0 calc(var(--gs,20px)*.45),rgba(90,160,80,.5) calc(var(--gs,20px)*.45) calc(var(--gs,20px)*.55));-webkit-mask:linear-gradient(to top,#000,transparent);mask:linear-gradient(to top,#000,transparent)}
-.zruler{position:absolute;left:24px;top:calc(74% + 44px);font-family:var(--ui);font-weight:700;font-size:13px;color:var(--xink)}
+.zgrass{position:absolute;left:0;right:0;top:calc(var(--gy,74%) - var(--gs,20px));height:var(--gs,20px);opacity:0;background:repeating-linear-gradient(100deg,transparent 0 calc(var(--gs,20px)*.45),rgba(90,160,80,.5) calc(var(--gs,20px)*.45) calc(var(--gs,20px)*.55));-webkit-mask:linear-gradient(to top,#000,transparent);mask:linear-gradient(to top,#000,transparent)}
+.zruler{position:absolute;left:24px;top:var(--ry,calc(74% + 44px));font-family:var(--ui);font-weight:700;font-size:13px;color:var(--xink)}
 .zrl{height:10px;border:2px solid currentColor;border-top:0;opacity:.7;margin-bottom:4px}
 .zprog{position:absolute;left:0;right:0;top:0;height:4px;background:rgba(0,0,0,.08)}
 .zprog i{display:block;height:100%;width:0;background:#3355FF}
-.zoom.mobile .zruler{left:14px;top:calc(74% + 40px)}
+.zoom.mobile .zruler{left:14px}
 .zfloat .zground{display:none}
 .zfloat ~ .zinfo{}
-.zfloat .zruler{top:auto;bottom:calc(env(safe-area-inset-bottom,0px) + 100px)}
+
 .znav button{width:56px;height:56px;border-radius:50%;border:0;background:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 3px 0 #1D1B3A;transition:transform .12s}
 .znav button:active{transform:translateY(2px);box-shadow:0 1px 0 #1D1B3A}
 .znav button:disabled{opacity:.35}
@@ -137,9 +140,56 @@ img,svg{max-width:100%}
 .zend .btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:18px}
 .zend button,.zend a.b{font:inherit;font-size:16px;border:0;cursor:pointer;background:#F3F0FF;color:#1D1B3A;padding:12px 18px;border-radius:999px;text-decoration:none}
 .zend small{display:block;margin-top:18px;opacity:.6;font-size:13px}
-.zoom.mobile .zinfo{left:12px;right:12px;width:auto;top:72px;padding:12px 14px}
+.zoom.mobile .zinfo{left:12px;right:12px;width:auto;padding:12px 14px}
 .zoom.mobile .zinfo p{font-size:14px}
+.zinfo .zth,.zinfo .zmore{display:none}
+.zinfo .zrow{margin-top:10px}
+.zinfo .zrow .zc{margin:0}
+.zoom.cpt .zinfo{padding:12px 14px;max-height:calc(100% - 84px - 120px - env(safe-area-inset-bottom,0px));overflow:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+.zoom.mobile .zinfo{top:68px}
+.zoom.cpt .zinfo .zhd{display:flex;gap:10px;align-items:center;min-height:52px;padding-right:40px}
+.zoom.cpt .zinfo .zth{display:block;flex:none;width:52px;height:52px;border-radius:12px;overflow:hidden;border:0;padding:0;background:#E9EEF3;cursor:pointer;box-shadow:inset 0 0 0 1px rgba(0,0,0,.06)}
+.zoom.cpt .zinfo .zth img{width:100%;height:100%;object-fit:cover;display:block}
+.zoom.cpt .zinfo .zn{font-size:19px;line-height:1.25;word-break:keep-all}
+.zoom.cpt .zinfo .zs{font-size:14px}
+.zoom.cpt .zinfo p{font-size:14px;line-height:1.5;margin-top:6px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.zoom.cpt .zinfo .zph,.zoom.cpt .zinfo .zf{display:none}
+.zoom.cpt .zinfo .zrow{display:flex;align-items:center;gap:8px;margin-top:8px;min-height:28px}
+.zoom.cpt .zinfo .zrow .zc{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:13px}
+.zoom.cpt .zinfo .zmore{display:block;flex:none;margin-left:auto;font-family:var(--ui);font-weight:700;font-size:13px;border:0;background:#EEF0FF;color:#3355FF;padding:6px 12px;border-radius:999px;cursor:pointer}
+.zoom.cpt .zinfo.open .zph,.zoom.cpt .zinfo.open .zf{display:block}
+.zoom.cpt .zinfo.open p{display:block;overflow:visible}
+.zoom.cpt .zinfo.open .zth{display:none}
+.zoom.cpt .zinfo.open .zhd{min-height:0}
+.zoom.cpt .zinfo.open .zrow .zc{white-space:normal}
+.zoom.cpt .zinfo.open{box-shadow:0 12px 40px rgba(0,0,0,.3)}
 .zoom.mobile .znav{width:calc(100vw - 24px);max-width:388px}
+.zoom.mobile .zend{top:calc(env(safe-area-inset-top,0px) + 66px);transform:translateX(-50%);max-height:calc(100% - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px) - 66px - 96px);overflow:auto;overscroll-behavior:contain;padding:22px 18px}
+.zoom.mobile .zend h2{font-size:30px;line-height:1.2}
+.zhero{padding:56px 20px 92px}
+.zoom.cpt:not(.mobile) .zend{top:calc(50% - 34px);max-height:calc(100% - 150px);padding:16px 20px}
+.zoom.cpt:not(.mobile) .zend h2{font-size:28px;margin-bottom:4px}
+.zoom.cpt:not(.mobile) .zend p{font-size:14px;margin:4px 0}
+.zoom.cpt:not(.mobile) .zend .btns{margin-top:10px}
+.zoom.cpt:not(.mobile) .zend button,.zoom.cpt:not(.mobile) .zend a.b{padding:8px 14px;font-size:14px}
+.zoom.cpt:not(.mobile) .zend small{margin-top:10px}
+/* 가로로 눕힌 휴대폰처럼 화면 높이가 낮을 때: 첫 화면 그림과 제목을 줄여요 */
+@media (max-height:560px){
+  .hero-art svg{width:clamp(80px,22vh,150px)}
+  .hero-art.zh-free svg{width:clamp(110px,30vh,200px)}
+  .zhero h1,.hero h1{font-size:clamp(34px,10vh,56px);margin:6px 0}
+  .zhero p,.hero p{font-size:15px}
+  .cue{margin-top:12px}
+  .zhero .cue{display:none}
+  .ending h2{font-size:28px;margin-bottom:4px}
+  .ending p{font-size:14px;margin:3px auto}
+  .ending .hero-art.small svg{width:70px;margin-bottom:4px}
+  .ending .btns{margin-top:10px;gap:8px}
+  .ending button,.ending a.b{padding:8px 14px;font-size:14px}
+  .ending small{margin-top:10px;font-size:12px}
+}
+.zoom.mobile .zend small{margin-top:14px}
+.zoom.cpt:not(.mobile) .zend{top:50%;max-height:calc(100% - 150px);overflow:auto}
 .horiz .decor{inset:auto;top:0;left:0;bottom:0}
 .horiz .hhero{position:absolute;left:0;top:0;padding:0 6vw}
 .horiz .it{transform:none}
@@ -217,7 +267,7 @@ img,svg{max-width:100%}
 @keyframes zfloat{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-3px) rotate(1.5deg)}}
 @media (prefers-reduced-motion: reduce){.rv{opacity:1;translate:none;transition:none}.fig.rv .art{scale:none}.kc .kt svg,.zit .zg{animation:none}}
 .fig.hasPhoto .art{position:relative;cursor:pointer}
-.fig .ph{position:absolute;left:50%;top:var(--phy,40%);width:var(--phw,122%);z-index:8;transform:translate(-50%,-50%) scale(.82);opacity:0;pointer-events:none;transition:opacity .25s ease, transform .3s cubic-bezier(.2,1.3,.4,1)}
+.fig .ph{position:absolute;left:calc(50% + var(--phx,0px));top:var(--phy,40%);width:var(--phw,122%);z-index:8;transform:translate(-50%,-50%) scale(.82);opacity:0;pointer-events:none;transition:opacity .25s ease, transform .3s cubic-bezier(.2,1.3,.4,1)}
 .fig.phOn .ph{opacity:1;transform:translate(-50%,-50%) scale(1)}
 /* 사진을 보는 동안에는 그 그림을 맨 위로 올리고, 아래 설명 글씨는 잠깐 숨겨 겹치지 않게 */
 .fig.phOn{z-index:40!important}
@@ -291,6 +341,9 @@ img,svg{max-width:100%}
 .zone div{font-size:17px;opacity:.75;margin-top:6px}
 .ending{position:absolute;left:0;right:0;text-align:center;padding:0 20px}
 .ending h2{font-family:var(--display);font-weight:400;font-size:44px;margin:0 0 10px}
+.mobile .ending h2{font-size:34px;line-height:1.2}
+.mobile .ending small{margin-top:20px}
+#hud{transition:opacity .3s}
 .ending p{max-width:520px;margin:6px auto;opacity:.85}
 .ending .btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:24px}
 .ending button,.ending a.b{font:inherit;font-size:16px;border:0;cursor:pointer;background:#fff;color:#1D1B3A;padding:12px 20px;border-radius:999px;text-decoration:none;box-shadow:0 3px 0 rgba(0,0,0,.35)}
@@ -2247,7 +2300,7 @@ function zPhoto(name){
 }
 function buildZ(page){
   cur = page; mobile = innerWidth < 720; HERO = 0;
-  const track = $('#track'); track.className = 'zoom' + (mobile?' mobile':''); track.innerHTML=''; track.style.width=''; track.style.transform='';
+  const track = $('#track'); Z.cpt = mobile || innerHeight < 600; track.className = 'zoom' + (mobile?' mobile':'') + (Z.cpt?' cpt':''); track.innerHTML=''; track.style.width=''; track.style.transform='';
   const T = page.things;
   const EX = t => t[1] * ((page.ext||{})[t[0]] || 1);
   Z.X=[0]; for (let i=1;i<T.length;i++) Z.X.push(Z.X[i-1] + EX(T[i-1])*0.62 + EX(T[i])*0.62);
@@ -2260,6 +2313,8 @@ function buildZ(page){
   hero.innerHTML = `<div class="hero-art${page.float?' zh-free':''}">${page.float ? `<svg viewBox="-50 -50 220 220" aria-hidden="true" style="overflow:visible">${uniqIds((ART[page.key]||{})[page.heroArt||T[0][0]]||'', 'hero')}</svg>` : art(page.key, page.heroArt||T[0][0])}</div><h1>${page.title}</h1><p>${page.sub}</p><div class="cue">아래로 스크롤하거나 ▶ 버튼을 눌러요</div>`;
   track.appendChild(hero);
   const info = document.createElement('aside'); info.className='zinfo'; info.setAttribute('aria-live','polite'); track.appendChild(info); Z.info = info;
+  // 휴대폰: 설명 카드는 짧게 접어 두고, '자세히'를 누르면 사진과 상식까지 펼쳐요 (그림을 가리지 않도록)
+  info.addEventListener('click', e=>{ if (!e.target.closest('.zmore,.zth')) return; const o = info.classList.toggle('open'); const b = info.querySelector('.zmore'); if (b){ b.textContent = o ? '접기 ▴' : '자세히 ▾'; b.setAttribute('aria-expanded', o); } if (o) info.scrollTop = 0; });
   const nav = document.createElement('div'); nav.className='znav';
   nav.innerHTML = `<button type="button" id="zPrev" aria-label="이전"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button><button type="button" id="zNext" aria-label="다음"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>`;
   track.appendChild(nav);
@@ -2274,7 +2329,7 @@ function buildZ(page){
   $('#toTop').addEventListener('click', ()=>scrollTo({top:0, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'}));
   $('#mini').querySelectorAll('button').forEach(b=>b.remove());
   stage.classList.toggle('zfloat', !!page.float);
-  Z.lastInfo = -1; Z.pos = null;
+  Z.lastInfo = -1; Z.pos = null; Z.cardB = 0; Z.hudH = 0; Z.gy = -1;
   updateZ();
 }
 addEventListener('keydown', e=>{ if (!cur||!cur.zoom) return; if (e.key==='ArrowRight'||e.key==='ArrowDown'&&e.altKey){ $('#zNext').click(); e.preventDefault(); } if (e.key==='ArrowLeft'){ $('#zPrev').click(); e.preventDefault(); } });
@@ -2286,9 +2341,39 @@ function renderZ(P){
   const heroK = Math.max(0, Math.min(1, -raw)); raw = Math.max(0, Math.min(T.length-1, raw));
   const i0 = Math.floor(raw), i1 = Math.min(T.length-1, i0+1), f = raw - i0;
   const e = f<.5 ? 4*f*f*f : 1 - Math.pow(-2*f+2,3)/2;
+  const ci = e < .5 ? i0 : i1, cardA = Math.max(0, Math.min(1, (Math.abs(e - .5)*2 - .3)/.5));
+  if (ci !== Z.lastInfo){ Z.els.forEach((el,k)=>el.classList.toggle('cur', k===ci)); if (!RM()){ Z.info.classList.remove('pop'); void Z.info.offsetWidth; Z.info.classList.add('pop'); } Z.lastInfo = ci; const th=T[ci], prev=T[ci-1];
+    const zp = zPhoto(th[0]), thumb = zp && (zp.match(/src="([^"]+)"/)||[])[1];
+    Z.info.classList.remove('open');
+    Z.info.innerHTML = `<div class="zk">${ci+1} / ${T.length}</div><div class="zhd">${thumb?`<button type="button" class="zth" aria-label="${th[0]} 실제 사진 크게 보기"><img src="${thumb}" alt="" loading="lazy"></button>`:''}<div><div class="zn">${th[0]}</div><div class="zs">${th[2]}</div></div></div>${zp}<p>${th[3]}</p>${th[4]?`<div class="zf"><b>알고 있나요?</b> ${th[4]}</div>`:''}<div class="zrow">${prev?`<div class="zc">${prev[0]}보다 약 ${(r=>r<10?Math.round(r*10)/10:fmt(r))(th[1]/prev[1])}배 커요</div>`:''}<button type="button" class="zmore" aria-expanded="false">자세히 ▾</button></div>`;
+    if (mobile){ const b = Z.info.offsetTop + Z.info.offsetHeight; if (b > Z.cardB) Z.cardB = b; }
+  }
   const L = Math.exp(lerp(Math.log(T[i0][1]), Math.log(T[i1][1]), e));
   const camX = lerp(Z.X[i0], Z.X[i1], e);
-  const ground = H*(cur.float?0.52:0.74), ppm = Math.min(H*(cur.float?0.36:0.42), W*0.42)/L, cx = W*(mobile?0.5:0.56);
+  // 그림이 들어갈 자리: 위로는 설명 카드(휴대폰) 아래, 아래로는 숫자판과 자 위
+  if (!Z.hudH){ const r = $('#hud').getBoundingClientRect(); if (r.height > 30) Z.hudH = Math.min(160, H - r.top); }
+  const hudTop = H - (Z.hudH || 104);
+  const top = mobile ? Math.max(Z.cardB || 220, 150) + 14 : 70;
+  let ground, S, rulerY;
+  if (cur.float){
+    const bot = hudTop - 44;                       // 아래 자 자리
+    S = Math.min(mobile ? W*0.66 : Math.min(H*0.36, W*0.42), bot - top - 30);
+    ground = Math.max(top + S/2, Math.min(mobile ? (top + bot - 26)/2 : H*0.52, bot - 30 - S/2));
+    rulerY = bot + 4;
+  } else {
+    ground = Math.min(H*0.74, hudTop - 66);
+    S = Math.min(mobile ? W*0.6 : Math.min(H*0.42, W*0.42), ground - top - 8);
+    rulerY = ground + 34;
+  }
+  let cx = W*0.5;
+  if (!mobile){   // 넓은 화면: 왼쪽 설명 카드와 겹치지 않게 오른쪽 빈자리에 그려요
+    const cardR = 24 + Math.min(340, W*0.4);
+    S = Math.min(S, (W - cardR - 40)*0.95);
+    cx = Math.max(W*0.56, cardR + 20 + S/2);
+  }
+  S = Math.max(60, S);
+  const ppm = S/L;
+  if (Math.abs(ground - Z.gy) > .5 || Z.ry !== rulerY){ Z.gy = ground; Z.ry = rulerY; const st = $('#track .zstage'); st.style.setProperty('--gy', ground.toFixed(1)+'px'); st.style.setProperty('--ry', rulerY.toFixed(1)+'px'); }
   for (let i=0;i<T.length;i++){
     const h = T[i][1]*ppm, sx = cx + (Z.X[i]-camX)*ppm;
     const el = Z.els[i], lab = Z.labels[i];
@@ -2312,20 +2397,16 @@ function renderZ(P){
   let c0=cur.stops[0][1], c1=c0, t=0;
   for (let k=1;k<cur.stops.length;k++){ if (lv<=cur.stops[k][0]){ c0=cur.stops[k-1][1]; c1=cur.stops[k][1]; t=(lv-cur.stops[k-1][0])/(cur.stops[k][0]-cur.stops[k-1][0]); break; } if (k===cur.stops.length-1){ c0=c1=cur.stops[k][1]; t=0; } }
   t=Math.max(0,Math.min(1,t));
-  $('#backdrop').style.background = cur.float ? `radial-gradient(ellipse at 50% 52%, ${mix(c0,c1,Math.min(1,t+.25))}, ${mix(c0,c1,t)} 70%)` : `linear-gradient(to bottom, transparent 74%, rgba(0,0,0,.1) 74%), ${mix(c0,c1,t)}`;
+  $('#backdrop').style.background = cur.float ? `radial-gradient(ellipse at 50% ${ground|0}px, ${mix(c0,c1,Math.min(1,t+.25))}, ${mix(c0,c1,t)} 70%)` : `linear-gradient(to bottom, transparent ${ground|0}px, rgba(0,0,0,.1) ${ground|0}px), ${mix(c0,c1,t)}`;
   const dark = lum(c0,c1,t) < 0.42;
   $('#exp').style.setProperty('--xink', dark ? '#F4F2FF' : '#1D1B3A');
-  const ci = e < .5 ? i0 : i1, cardA = Math.max(0, Math.min(1, (Math.abs(e - .5)*2 - .3)/.5));
-  if (ci !== Z.lastInfo){ Z.els.forEach((el,k)=>el.classList.toggle('cur', k===ci)); if (!RM()){ Z.info.classList.remove('pop'); void Z.info.offsetWidth; Z.info.classList.add('pop'); } Z.lastInfo = ci; const th=T[ci], prev=T[ci-1];
-    Z.info.innerHTML = `<div class="zk">${ci+1} / ${T.length}</div><div class="zn">${th[0]}</div><div class="zs">${th[2]}</div>${zPhoto(th[0])}<p>${th[3]}</p>${th[4]?`<div class="zf"><b>알고 있나요?</b> ${th[4]}</div>`:''}${prev?`<div class="zc">${prev[0]}보다 약 ${(r=>r<10?Math.round(r*10)/10:fmt(r))(th[1]/prev[1])}배 커요</div>`:''}`;
-  }
   const heroEl = $('#track .zhero'); heroEl.style.background = mix(c0,c1,t); heroEl.style.opacity = heroK; heroEl.style.pointerEvents = heroK>.5?'auto':'none';
   const endK = Math.max(0, Math.min(1, SY/Z.STEP - T.length + .2));
   Z.endEl.style.opacity = endK; Z.endEl.style.pointerEvents = endK>.5?'auto':'none';
   const heroGone = Math.max(0, Math.min(1, (.4 - heroK)/.4));   // 첫 화면이 거의 사라진 뒤에야 첫 설명이 나와요
   const infoA = heroGone * cardA * (1-endK);
   Z.info.style.opacity = infoA; Z.info.style.visibility = infoA < .02 ? 'hidden' : '';
-  $('#hud').style.opacity = heroGone;   // 첫 화면에서는 아래 숫자판도 숨겨요
+  $('#hud').style.opacity = heroGone * (1 - endK);   // 첫 화면과 끝 화면에서는 아래 숫자판을 숨겨요
   $('#track .zruler').style.opacity = 1-endK;
   $('#hudV').textContent = (cur.fmt||sizeText)(L); $('#hudS').textContent = (cur.cmp||vsHuman)(L);
   FX.cfg = PARTICLES[cur.key](L); FX.axis='y';
@@ -2878,7 +2959,19 @@ function photoize(){
     const badge = document.createElement('span'); badge.className = 'phb'; badge.innerHTML = PH_ICON; badge.title = '실제 사진 보기';
     fig.appendChild(box); art.appendChild(badge);
     const load = () => { const im = box.querySelector('img'); if (!im.src){ im.src = ph.src; im.onload = () => box.classList.add('ready'); } };
-    const place = () => { fig.style.setProperty('--phy', (art.offsetTop + art.offsetHeight/2)+'px'); fig.style.setProperty('--phw', Math.round(art.offsetWidth*1.22)+'px'); };
+    const place = () => {
+      // 사진 상자는 그림보다 조금 크게, 휴대폰에서는 화면 폭의 80% 정도로 크게 보여 주고, 화면 밖으로 나가지 않게 옆으로 밀어 줘요
+      const VW = document.documentElement.clientWidth, m = 10;
+      let w = art.offsetWidth*1.22; if (VW < 720) w = Math.max(w, VW*0.8);
+      w = Math.round(Math.min(w, VW - m*2));
+      fig.style.setProperty('--phy', (art.offsetTop + art.offsetHeight/2)+'px'); fig.style.setProperty('--phw', w+'px');
+      const fr = fig.getBoundingClientRect(), c = fr.left + fr.width/2;
+      const dx = Math.max(m + w/2, Math.min(VW - m - w/2, c)) - c;
+      fig.style.setProperty('--phx', Math.round(dx)+'px');
+      // 위아래도 화면 안에 (위쪽 버튼 줄은 피해서)
+      const bh = box.offsetHeight, y0 = art.offsetTop + art.offsetHeight/2, cy = fr.top + y0, lo = 66, hi = innerHeight - 12;
+      const ny = bh > hi - lo ? (lo + hi)/2 : Math.max(lo + bh/2, Math.min(hi - bh/2, cy));
+      fig.style.setProperty('--phy', Math.round(y0 + ny - cy)+'px'); };
     const show = on => { if (on){ place(); load(); document.querySelectorAll('#track .fig.phOn').forEach(f => f !== fig && f.classList.remove('phOn')); } fig.classList.toggle('phOn', on); };
     if (!PH_TOUCH){
       art.addEventListener('pointerenter', () => show(true));
@@ -2937,11 +3030,11 @@ let HX = 0;
 function buildH(page){
   cur = page; mobile = innerWidth < 720;
   const W = innerWidth, VH = innerHeight;
-  HERO = 0; HX = Math.round(W*0.95);
+  HERO = 0; HX = Math.round(mobile || VH < 560 ? W + 130 : W*0.95);   // 휴대폰: 첫 화면 글씨와 태양 그림이 겹치지 않게 조금 더 띄워요
   const track = $('#track');
   track.className = 'horiz' + (mobile ? ' mobile' : '');
   track.innerHTML = '';
-  const hero = document.createElement('section'); hero.className='hero hhero'; hero.style.width=HX+'px'; hero.style.height='100%';
+  const hero = document.createElement('section'); hero.className='hero hhero'; hero.style.width=Math.min(HX, W)+'px'; hero.style.height='100%';
   hero.innerHTML = `<div class="hero-art">${art(page.key, HERO_ART[page.key])}</div><h1>${page.title}</h1><p>${page.sub}</p><div class="cue hcue">아래로 스크롤하면 옆으로 가요 →</div>`;
   track.appendChild(hero);
   const els = page.items.map((it,i)=>{ const el=makeItemEl(page,it,i); el.style.left='0px'; el.style.top='0px'; el.dataset.x = page.scale.y(it[0]); track.appendChild(el); return el; });
@@ -3122,7 +3215,8 @@ function build(page){
 
   const contentEnd = HERO + Math.max(bottom, WARP.total) + 300;
   end.style.top = contentEnd+'px';
-  track.style.height = (contentEnd + end.offsetHeight + 200)+'px';
+  // 끝 화면이 위쪽 버튼에 가리지 않도록, 여유는 짧게 두고 아래 숫자판은 끝 화면에서 숨겨요
+  track.style.height = (contentEnd + end.offsetHeight + (page.reverse ? 84 : 48))+'px';
   $('#share').addEventListener('click', async e=>{
     const b=e.currentTarget;
     try { await navigator.clipboard.writeText(location.href); b.textContent='복사했어요!'; }
@@ -3175,6 +3269,14 @@ function update(){
   revealPassed();
   const H = !!cur.horizontal;
   if (H) $('#track').style.transform = `translate3d(${-Math.round(scrollY)}px,0,0)`;
+  { // 첫 화면(제목)과 끝 화면에서는 아래 숫자판을 숨겨 글씨·버튼과 겹치지 않게 해요
+    const en = $('#track .ending'), he = $('#track .hero'); let over = false, hv = 0;
+    if (en){ const r = en.getBoundingClientRect(), hy = innerHeight - 120;
+      over = cur.horizontal ? (r.left < innerWidth*0.75 && r.right > innerWidth*0.25) : (r.top < innerHeight - 20 && r.bottom > hy); }
+    if (he){ const r = he.getBoundingClientRect();
+      hv = cur.horizontal ? Math.max(0, Math.min(r.right, innerWidth) - Math.max(r.left, 0))/innerWidth : Math.max(0, Math.min(r.bottom, innerHeight) - Math.max(r.top, 0))/innerHeight; }
+    const hk = Math.max(0, Math.min(1, (0.8 - hv)/0.3));
+    $('#hud').style.opacity = over ? 0 : (hk >= 1 ? '' : hk.toFixed(2)); }
   FX.axis = H ? 'x' : 'y';
   const span = H ? innerWidth : innerHeight, base = H ? HX : HERO;
   const RV = !!cur.reverse, TH = RV ? parseFloat($('#track').style.height) : 0;
