@@ -157,6 +157,7 @@ img,svg{max-width:100%}
 .zoom.cpt .zinfo .zrow{display:flex;align-items:center;gap:8px;margin-top:8px;min-height:28px}
 .zoom.cpt .zinfo .zrow .zc{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:13px}
 .zoom.cpt .zinfo .zmore{display:block;flex:none;margin-left:auto;font-family:var(--ui);font-weight:700;font-size:13px;border:0;background:#EEF0FF;color:#3355FF;padding:6px 12px;border-radius:999px;cursor:pointer}
+.zoom.cpt .zinfo.nomore .zmore{visibility:hidden;pointer-events:none}
 .zoom.cpt .zinfo.open .zph,.zoom.cpt .zinfo.open .zf{display:block}
 .zoom.cpt .zinfo.open p{display:block;overflow:visible}
 .zoom.cpt .zinfo.open .zrow .zc{white-space:normal}
@@ -2366,6 +2367,9 @@ function renderZ(P){
     const zp = zPhoto(th[0]), thumb = zp && (zp.match(/src="([^"]+)"/)||[])[1];
     clearTimeout(Z.cardT); Z.info.classList.remove('open');
     Z.info.innerHTML = `<div class="zk">${ci+1} / ${T.length}</div><div class="zhd">${thumb?`<button type="button" class="zth" aria-label="${th[0]} 실제 사진 크게 보기"><img src="${thumb}" alt="" loading="lazy"></button>`:''}<div><div class="zn">${th[0]}</div><div class="zs">${th[2]}</div></div></div>${zp}<p>${th[3]}</p>${th[4]?`<div class="zf"><b>알고 있나요?</b> ${th[4]}</div>`:''}<div class="zrow">${prev?`<div class="zc">${prev[0]}보다 약 ${(r=>r<10?Math.round(r*10)/10:fmt(r))(th[1]/prev[1])}배 커요</div>`:''}<button type="button" class="zmore" aria-expanded="false">자세히 ▾</button></div>`;
+    // 펼쳐서 더 볼 것(사진, '알고 있나요?', 두 줄을 넘는 설명)이 있을 때만 '자세히' 버튼을 보여 줘요
+    { const pp = Z.info.querySelector('p'); const more = !!zp || !!th[4] || (pp && pp.scrollHeight > pp.clientHeight + 2);
+      Z.info.classList.toggle('nomore', !more); const mb = Z.info.querySelector('.zmore'); if (mb && !more){ mb.tabIndex = -1; mb.setAttribute('aria-hidden','true'); } }
     if (mobile){ const b = Z.info.offsetTop + Z.info.offsetHeight; if (b > Z.cardB) Z.cardB = b; }
   }
   const L = Math.exp(lerp(Math.log(T[i0][1]), Math.log(T[i1][1]), e));
