@@ -101,6 +101,20 @@ svg{display:block}
 #intro ul{text-align:left;margin:12px auto 0;padding-left:22px;font-size:15px;line-height:1.7;color:#4A4870;max-width:360px}
 #intro button{margin-top:18px;border:0;background:#3355FF;color:#fff;font-family:var(--ui);font-weight:900;font-size:20px;padding:15px 38px;border-radius:999px;cursor:pointer;box-shadow:0 4px 0 #1D1B3A}
 #intro small{display:block;margin-top:14px;color:#8A88A8;font-size:13px}
+#intro{align-items:safe center;overflow:auto;padding:max(12px,env(safe-area-inset-top)) 12px max(12px,env(safe-area-inset-bottom))}
+#intro .card{max-height:100%;overflow:auto;overscroll-behavior:contain;word-break:keep-all}
+@media (max-width:420px){#intro .card{padding:24px 20px}#intro h1{font-size:44px}}
+/* 휴대폰을 가로로 눕혔을 때처럼 화면이 낮으면: 안내를 두 줄로 나눠 한 화면에 모두 보이게 */
+@media (max-height:560px){
+  #intro .card{padding:14px 22px;max-width:640px}
+  #intro h1{font-size:32px;margin:0}
+  #intro p{font-size:15px;margin:2px 0}
+  #intro .me2{margin:6px 0 2px;font-size:16px;padding:6px 14px}
+  #intro ul{columns:2;column-gap:26px;max-width:none;font-size:13px;line-height:1.5;margin-top:6px}
+  #intro li{break-inside:avoid}
+  #intro button{margin-top:10px;padding:10px 30px;font-size:17px}
+  #intro small{margin-top:8px;font-size:12px}
+}
 @media (max-width:720px){#hint{display:none}#mini{width:136px;height:88px;bottom:calc(env(safe-area-inset-bottom,0px) + 84px)}#mini canvas{width:128px;height:80px}#bar{padding:6px 8px 6px 12px;gap:5px}#bar button{width:36px;height:36px;font-size:19px}#bar .who .nmTxt{display:none}#online small{display:none}}
 @media (prefers-reduced-motion: reduce){.tree,.flame,.wv,.foam{animation:none}}
 /* 휴대폰(손가락 화면): 운동장 안에서 따로 떼어 그리는 층이 생기지 않게 CSS 움직임을 모두 끄고 가볍게 */
