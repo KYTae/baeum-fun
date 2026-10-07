@@ -159,10 +159,11 @@ img,svg{max-width:100%}
 .zoom.cpt .zinfo .zmore{display:block;flex:none;margin-left:auto;font-family:var(--ui);font-weight:700;font-size:13px;border:0;background:#EEF0FF;color:#3355FF;padding:6px 12px;border-radius:999px;cursor:pointer}
 .zoom.cpt .zinfo.open .zph,.zoom.cpt .zinfo.open .zf{display:block}
 .zoom.cpt .zinfo.open p{display:block;overflow:visible}
-.zoom.cpt .zinfo.open .zth{display:none}
-.zoom.cpt .zinfo.open .zhd{min-height:0}
 .zoom.cpt .zinfo.open .zrow .zc{white-space:normal}
+.zoom.cpt .zinfo{transition:box-shadow .4s}
 .zoom.cpt .zinfo.open{box-shadow:0 12px 40px rgba(0,0,0,.3)}
+.zmore{transition:background .2s}
+.zinfo .zph img{transition:width .4s cubic-bezier(.22,.8,.24,1)}
 .zoom.mobile .znav{width:calc(100vw - 24px);max-width:388px}
 .zoom.mobile .zend{top:calc(env(safe-area-inset-top,0px) + 66px);transform:translateX(-50%);max-height:calc(100% - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px) - 66px - 96px);overflow:auto;overscroll-behavior:contain;padding:22px 18px}
 .zoom.mobile .zend h2{font-size:30px;line-height:1.2}
@@ -277,7 +278,7 @@ img,svg{max-width:100%}
 .fig .ph .frame{border-radius:18px;overflow:hidden;background:#E9EEF3 radial-gradient(circle,#fff 0 6px,transparent 7px) center/100% 100% no-repeat;border:5px solid #fff;box-shadow:0 10px 28px rgba(0,0,0,.35)}
 .fig .ph img{display:block;width:100%;height:100%;object-fit:contain;background:#F4F6F8;opacity:0;transition:opacity .25s}
 /* 세로로 긴 사진(측우기, 개미집 등)이 화면을 벗어나지 않게 높이 제한 */
-.fig .ph .frame{max-height:min(380px,58vh);margin:0 auto}
+.fig .ph .frame{width:min(100%, calc(min(380px,58vh) * var(--ar,1.333)));margin:0 auto}
 .fig .ph.ready img{opacity:1}
 .fig .ph .cap{margin-top:6px;background:#fff;color:#1D1B3A;border-radius:10px;padding:4px 8px;font-family:var(--ui);font-size:11px;line-height:1.35;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.2)}
 .fig .ph .cap b{display:block;font-size:13px;color:#3355FF}
@@ -293,13 +294,15 @@ img,svg{max-width:100%}
 .phCredits a{color:inherit}
 @media (prefers-reduced-motion: reduce){.fig .phb{animation:none}}
 .zinfo .zph{margin:10px 0 2px;cursor:zoom-in}
-.zinfo .zph img{display:block;width:100%;max-height:150px;object-fit:cover;border-radius:12px;background:#E9EEF3;transition:max-height .3s}
+.zinfo .zph{--mh:170px}
+.zinfo .zph img{display:block;width:min(100%, calc(var(--mh) * var(--ar,1.333)));height:auto;aspect-ratio:var(--ar,1.333);margin:0 auto;object-fit:contain;border-radius:12px;background:#E9EEF3}
 .zinfo .zph.big{cursor:zoom-out}
-.zinfo .zph.big img{max-height:60vh;object-fit:contain}
+.zinfo .zph.big{--mh:58vh !important}
 .zinfo .zph figcaption{font-family:var(--ui);font-size:11px;line-height:1.35;margin-top:4px;color:#6A6890}
 .zinfo .zph figcaption b{color:#3355FF}
 .zinfo .zph figcaption span{display:block;opacity:.8;word-break:break-all}
-.zoom.mobile .zinfo .zph img{max-height:110px}
+.zoom.mobile .zinfo .zph{--mh:200px}
+.zoom.cpt:not(.mobile) .zinfo .zph{--mh:120px}
 .toEqualD{display:inline-flex;align-items:center;gap:7px;white-space:nowrap;flex-shrink:0;padding:8px 14px 8px 12px;border-radius:999px;background:rgba(255,255,255,.7);border:1px solid #E4E1F3;color:#6A6890;text-decoration:none;font-family:var(--ui);font-weight:500;font-size:14px;letter-spacing:-.01em;transition:color .2s,border-color .2s,background .2s,box-shadow .2s}
 .toEqualD .eqDot{width:7px;height:7px;border-radius:50%;background:#3355FF;opacity:.55;transition:opacity .2s}
 .toEqualD .eqArr{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;transition:transform .2s}
@@ -2296,7 +2299,7 @@ const uniqIds = (svg, suf) => svg.replace(/id="([^"]+)"/g, `id="$1-${suf}"`).rep
 function zPhoto(name){
   const ph = window.PHOTOS && PHOTOS[cur.key] && PHOTOS[cur.key][name]; if (!ph) return '';
   const esc = t => String(t||'').replace(/[<>&"]/g, '');
-  return `<figure class="zph" onclick="this.classList.toggle('big')"><img src="${esc(ph.src)}" alt="${esc(name)} 실제 사진" loading="lazy" style="aspect-ratio:${ph.w||4}/${ph.h||3}"><figcaption><b>실제 사진</b>${ph.note?` · ${esc(ph.note)}`:''}<span>${esc(ph.credit)}</span></figcaption></figure>`;
+  return `<figure class="zph" onclick="this.classList.toggle('big')"><img src="${esc(ph.src)}" alt="${esc(name)} 실제 사진" loading="lazy" style="--ar:${((ph.w||4)/(ph.h||3)).toFixed(4)}"><figcaption><b>실제 사진</b>${ph.note?` · ${esc(ph.note)}`:''}<span>${esc(ph.credit)}</span></figcaption></figure>`;
 }
 function buildZ(page){
   cur = page; mobile = innerWidth < 720; HERO = 0;
@@ -2314,7 +2317,7 @@ function buildZ(page){
   track.appendChild(hero);
   const info = document.createElement('aside'); info.className='zinfo'; info.setAttribute('aria-live','polite'); track.appendChild(info); Z.info = info;
   // 휴대폰: 설명 카드는 짧게 접어 두고, '자세히'를 누르면 사진과 상식까지 펼쳐요 (그림을 가리지 않도록)
-  info.addEventListener('click', e=>{ if (!e.target.closest('.zmore,.zth')) return; const o = info.classList.toggle('open'); const b = info.querySelector('.zmore'); if (b){ b.textContent = o ? '접기 ▴' : '자세히 ▾'; b.setAttribute('aria-expanded', o); } if (o) info.scrollTop = 0; });
+  info.addEventListener('click', e=>{ if (!e.target.closest('.zmore,.zth')) return; zCardOpen(!info.classList.contains('open')); });
   const nav = document.createElement('div'); nav.className='znav';
   nav.innerHTML = `<button type="button" id="zPrev" aria-label="이전"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button><button type="button" id="zNext" aria-label="다음"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>`;
   track.appendChild(nav);
@@ -2333,6 +2336,23 @@ function buildZ(page){
   updateZ();
 }
 addEventListener('keydown', e=>{ if (!cur||!cur.zoom) return; if (e.key==='ArrowRight'||e.key==='ArrowDown'&&e.altKey){ $('#zNext').click(); e.preventDefault(); } if (e.key==='ArrowLeft'){ $('#zPrev').click(); e.preventDefault(); } });
+// 설명 카드 펼치기/접기: 사진·설명·'알고 있나요?'가 각각 부드럽게 접히고 펼쳐져요 (카드 아래 줄은 함께 따라 움직여요)
+function zCardOpen(o){
+  const info = Z.info; if (!info) return;
+  const els = [...info.querySelectorAll('.zph, p, .zf')];
+  const clear = () => els.forEach(e=>{ e.style.cssText = ''; });
+  clearTimeout(Z.cardT); clear();
+  const b = info.querySelector('.zmore'); if (b){ b.textContent = o ? '접기 ▴' : '자세히 ▾'; b.setAttribute('aria-expanded', o); }
+  if (RMZ()){ info.classList.toggle('open', o); info.scrollTop = 0; return; }
+  const read = () => els.map(e=>{ const c = getComputedStyle(e); return c.display === 'none' ? {h:0, mt:0, mb:0, pt:0, pb:0, op:0} : {h:e.offsetHeight, mt:parseFloat(c.marginTop), mb:parseFloat(c.marginBottom), pt:parseFloat(c.paddingTop), pb:parseFloat(c.paddingBottom), op:1}; });
+  const A = read(); info.classList.toggle('open', o); const B = read();   // 바뀌기 전과 후의 크기를 재요
+  info.classList.add('open'); info.scrollTop = 0;                          // 움직이는 동안은 모두 보이게 두고
+  els.forEach((e,k)=>{ Object.assign(e.style, {boxSizing:'border-box', height:A[k].h+'px', marginTop:A[k].mt+'px', marginBottom:A[k].mb+'px', paddingTop:A[k].pt+'px', paddingBottom:A[k].pb+'px', opacity:A[k].op, overflow:'hidden', display:'block', WebkitLineClamp:'unset'}); });
+  void info.offsetHeight;
+  els.forEach((e,k)=>{ e.style.transition = 'height .42s cubic-bezier(.22,.8,.24,1), margin .42s cubic-bezier(.22,.8,.24,1), padding .42s cubic-bezier(.22,.8,.24,1), opacity ' + (o ? '.38s ease .08s' : '.24s ease');
+    Object.assign(e.style, {height:B[k].h+'px', marginTop:B[k].mt+'px', marginBottom:B[k].mb+'px', paddingTop:B[k].pt+'px', paddingBottom:B[k].pb+'px', opacity:B[k].op}); });
+  Z.cardT = setTimeout(()=>{ clear(); info.classList.toggle('open', o); }, 450);
+}
 function renderZ(P){
   const SY = P*Z.STEP;
   const T = cur.things, W = innerWidth, H = innerHeight;
@@ -2344,7 +2364,7 @@ function renderZ(P){
   const ci = e < .5 ? i0 : i1, cardA = Math.max(0, Math.min(1, (Math.abs(e - .5)*2 - .3)/.5));
   if (ci !== Z.lastInfo){ Z.els.forEach((el,k)=>el.classList.toggle('cur', k===ci)); if (!RM()){ Z.info.classList.remove('pop'); void Z.info.offsetWidth; Z.info.classList.add('pop'); } Z.lastInfo = ci; const th=T[ci], prev=T[ci-1];
     const zp = zPhoto(th[0]), thumb = zp && (zp.match(/src="([^"]+)"/)||[])[1];
-    Z.info.classList.remove('open');
+    clearTimeout(Z.cardT); Z.info.classList.remove('open');
     Z.info.innerHTML = `<div class="zk">${ci+1} / ${T.length}</div><div class="zhd">${thumb?`<button type="button" class="zth" aria-label="${th[0]} 실제 사진 크게 보기"><img src="${thumb}" alt="" loading="lazy"></button>`:''}<div><div class="zn">${th[0]}</div><div class="zs">${th[2]}</div></div></div>${zp}<p>${th[3]}</p>${th[4]?`<div class="zf"><b>알고 있나요?</b> ${th[4]}</div>`:''}<div class="zrow">${prev?`<div class="zc">${prev[0]}보다 약 ${(r=>r<10?Math.round(r*10)/10:fmt(r))(th[1]/prev[1])}배 커요</div>`:''}<button type="button" class="zmore" aria-expanded="false">자세히 ▾</button></div>`;
     if (mobile){ const b = Z.info.offsetTop + Z.info.offsetHeight; if (b > Z.cardB) Z.cardB = b; }
   }
@@ -2953,7 +2973,7 @@ function photoize(){
     fig.classList.add('hasPhoto');
     const art = fig.querySelector('.art');
     const box = document.createElement('div'); box.className = 'ph';
-    box.innerHTML = `<div class="frame" style="aspect-ratio:${ph.w||4}/${ph.h||3}"><img alt="${name} 실제 사진" decoding="async"></div><div class="cap"><b>실제 사진</b><span></span></div>`;
+    box.innerHTML = `<div class="frame" style="aspect-ratio:${ph.w||4}/${ph.h||3};--ar:${((ph.w||4)/(ph.h||3)).toFixed(4)}"><img alt="${name} 실제 사진" decoding="async"></div><div class="cap"><b>실제 사진</b><span></span></div>`;
     box.querySelector('.cap span').textContent = ph.credit || '';
     if (ph.note){ const nt = document.createElement('i'); nt.textContent = ph.note; box.querySelector('.cap b').after(nt); }
     const badge = document.createElement('span'); badge.className = 'phb'; badge.innerHTML = PH_ICON; badge.title = '실제 사진 보기';
